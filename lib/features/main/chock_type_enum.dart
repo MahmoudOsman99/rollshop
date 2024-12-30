@@ -4,7 +4,7 @@ enum ChockTypes {
   TDS,
   BDS,
   TopThurstChock,
-  BottomThurstChock,
+  bottom_thurst_chock,
   Piston,
 }
 

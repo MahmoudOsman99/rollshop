@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
 import 'package:rollshop/core/router/routers.dart';
-import 'package:rollshop/core/theme/styles.dart';
 import 'package:rollshop/features/main/widgets/work_type_button.dart';
 
 class DriveOrOperatorScreen extends StatelessWidget {

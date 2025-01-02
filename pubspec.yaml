@@ -14,6 +14,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_bloc:
   flutter_screenutil: 
+  flutter_image_slideshow:
+  shared_preferences: 
 
 dev_dependencies:
   flutter_test:
@@ -29,7 +31,7 @@ flutter:
   assets:
     - assets/
     # - assets/images/
-    # - assets/images/chock_types/
+    - assets/images/chock_types/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

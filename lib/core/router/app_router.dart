@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:rollshop/core/theme/styles.dart';
-import 'package:rollshop/features/main/model/chock_type_model.dart';
-import 'package:rollshop/features/main/screens/chock_detailes_screen.dart';
-import 'package:rollshop/references/images_path.dart';
+import 'package:rollshop/features/assembly_steps_feature/models/chock_type_model.dart';
+import 'package:rollshop/features/assembly_steps_feature/screens/chock_detailes_screen.dart';
 
-import '../../features/main/main_screen.dart';
-import '../../features/main/screens/drive_or_operator_screen.dart';
+import '../../features/assembly_steps_feature/screens/all_chocks_screen.dart';
 import 'routers.dart';
 
 class AppRouter {
@@ -13,7 +10,7 @@ class AppRouter {
     switch (settings.name) {
       case Routes.mainScreen:
         return MaterialPageRoute(
-          builder: (context) => MainScreen(),
+          builder: (context) => AllChocksScreen(),
         );
       case Routes.chockDetailesScreen:
         // print(settings.arguments);
@@ -45,11 +42,6 @@ class AppRouter {
       //         "assemblyStepssccccccccccccccccccccccccccccccccccccccccccccccccccccccfegfbgtbhtrhbtrbbbbbbbbbbbbbbbbbbbbbbbbbb",
       //   ),
       // ),
-
-      case Routes.driveOrOperatorScreen:
-        return MaterialPageRoute(
-          builder: (context) => const DriveOrOperatorScreen(),
-        );
 
       // case Routes.loginScreen:
       //   return MaterialPageRoute(

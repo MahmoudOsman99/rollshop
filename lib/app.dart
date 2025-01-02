@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rollshop/core/router/app_router.dart';
 import 'package:rollshop/core/router/routers.dart';
 import 'package:rollshop/core/theme/theme.dart';
-import 'package:rollshop/features/main/main_screen.dart';
+import 'package:rollshop/features/assembly_steps_feature/screens/all_chocks_screen.dart';
 
 class RollshopApp extends StatelessWidget {
   final AppRouter appRouter;
@@ -19,7 +19,7 @@ class RollshopApp extends StatelessWidget {
         onGenerateRoute: appRouter.generateRoute,
         initialRoute: Routes.mainScreen,
         debugShowCheckedModeBanner: false,
-        home: MainScreen(),
+        home: AllChocksScreen(),
         theme: AppTheme.darkTheme,
       ),
     );

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "291690579387",
+    "project_id": "rollshop-583a3",
+    "storage_bucket": "rollshop-583a3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:291690579387:android:531f64ab02470625a3f09e",
+        "android_client_info": {
+          "package_name": "com.osman.rollshop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVZ7YDKDL2YtieR9q-bzqplZ7tWYINiCU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

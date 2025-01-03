@@ -1,23 +1,23 @@
 import 'package:equatable/equatable.dart';
 import 'package:rollshop/features/assembly_steps_feature/models/chock_type_model.dart';
 
-abstract class ChocksState extends Equatable {
-  const ChocksState();
+abstract class ChockState extends Equatable {
+  const ChockState();
 
   @override
   List<Object> get props => [];
 }
 
-class ChocksInitial extends ChocksState {}
+class ChocksInitialState extends ChockState {}
 
-class ChocksLoadingState extends ChocksState {}
+class ChocksLoadingState extends ChockState {}
 
-class ChockAddedSuccessfullyState extends ChocksState {}
+class ChockAddedSuccessfullyState extends ChockState {}
 
-class ChocksLoadedState extends ChocksState {
+class ChocksLoadedSuccessfullyState extends ChockState {
   final List<ChockTypesModel> chocks;
 
-  const ChocksLoadedState({
+  const ChocksLoadedSuccessfullyState({
     required this.chocks,
   });
 }

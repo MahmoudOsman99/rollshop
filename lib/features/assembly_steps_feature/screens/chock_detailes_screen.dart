@@ -13,41 +13,91 @@ class ChockDetailesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(chock.name),
-        titleTextStyle: MyTextStyles.font32WhiteBold,
-        centerTitle: true,
-        backgroundColor: ColorsManager.darkModeColor,
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(20.sp),
-        child: Column(
-          children: [
-            Expanded(
-              flex: 1,
-              child: Image.asset(
-                chock.chockImagePath,
-                fit: BoxFit.fill,
+      // appBar: AppBar(
+      //   title: Text(chock.name),
+      //   titleTextStyle: MyTextStyles.font32WhiteBold,
+      //   centerTitle: true,
+      //   backgroundColor: ColorsManager.darkModeColor,
+      // ),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(20.sp),
+          child: Column(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: SizedBox(
+                  height: size.height / 4,
+                  width: size.width,
+                  child: Image.asset(
+                    chock.chockImagePath,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
-            ),
-            Text(
-              chock.name,
-              style: MyTextStyles.font32WhiteBold,
-            ),
-            Expanded(
-              child: Text(
-                chock.assemblySteps.first.description,
+              Text(
+                "خطوات التجميع",
                 style: MyTextStyles.font32WhiteBold,
               ),
-            ),
-            // Expanded(
-            //   child: Text(
-            //     chock.notes,
-            //     style: MyTextStyles.font32WhiteBold,
-            //   ),
-            // ),
-          ],
+              SizedBox(
+                height: size.height / 3,
+                child: ListView.builder(
+                  itemCount: chock.assemblySteps.length,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        Text(
+                          chock.assemblySteps[index].description,
+                          style: MyTextStyles.font16WhiteWeight500,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                          height: 200,
+                          width: size.width,
+                          child: ListView.separated(
+                            separatorBuilder: (context, index) {
+                              return SizedBox(
+                                width: 10,
+                              );
+                            },
+                            scrollDirection: Axis.horizontal,
+                            itemCount:
+                                chock.assemblySteps[index].imagesPath.length,
+                            itemBuilder: (context, indexImage) => ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Image.asset(
+                                chock.assemblySteps[index]
+                                    .imagesPath[indexImage],
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                spacing: 10.sp,
+                children: [
+                  Text(
+                    chock.notes,
+                    style: MyTextStyles.font32WhiteBold,
+                  ),
+                  Text(
+                    ":ملاحظات",
+                    style: MyTextStyles.font32WhiteBold,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,38 +1,48 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rollshop/core/helpers/images_path.dart';
 import 'package:rollshop/features/assembly_steps_feature/models/assembly_steps_model.dart';
 import 'package:rollshop/features/assembly_steps_feature/models/chock_type_model.dart';
 import 'package:rollshop/features/assembly_steps_feature/models/data/remote_data_source.dart';
 
 import 'chock_state.dart';
 
-class ChockCubit extends Cubit<ChocksState> {
+class ChockCubit extends Cubit<ChockState> {
   ChockCubit(super.initialState);
+  static ChockCubit get(context) => BlocProvider.of(context);
 
-  // Future<List<ChockTypesModel>> loadAllChocks() async {
-  //   emit(state.copyWith(status: ChockStatus.loading));
-  //   try {} catch (e) {
-  //     emit(state.copyWith(
-  //         status: ChockStatus.failure, errorMessage: e.toString()));
-  //   }
-  // }
+  Future<void> loadAllChocks() async {
+    emit(ChocksLoadingState());
 
-  void addOneChock(ChockTypesModel newChock) {
+    final loadedChocks = await ChockRemoteDataSource().getAllChocks();
+
+    emit(ChocksLoadedSuccessfullyState(chocks: loadedChocks));
+  }
+
+  void addOneChock({required ChockTypesModel newChock}) {
     // Create a new list with the added chock
     ChockRemoteDataSource().addChock(
       ChockTypesModel(
-        name: "BDM Bottom Chock",
-        chockImagePath: "assets/images/chock_types/bds.jpg",
-        notes: "efefefefef",
+        name: "Piston",
+        chockImagePath: ,
+        notes: "notes",
         assemblySteps: [
           AssemblyStepsModel(
-            description: description,
-            stepsDetailes: stepsDetailes,
-            notes: notes,
-          ),
+              description: "description", imagesPath: [""], notes: "notes")
         ],
       ),
     );
     emit(ChockAddedSuccessfullyState());
   }
+  // void addOneChock({required ChockTypesModel newChock}) {
+  //   // Create a new list with the added chock
+  //   ChockRemoteDataSource().addChock(newChock);
+  //   emit(ChockAddedSuccessfullyState());
+  // }
+
+  // void getAllChocks() {
+  //   // Create a new list with the added chock
+  //   ChockRemoteDataSource().getAllChocks();
+  //   emit(ChockAddedSuccessfullyState());
+  // }
 }

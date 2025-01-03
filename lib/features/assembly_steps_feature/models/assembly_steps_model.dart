@@ -3,6 +3,7 @@ class AssemblyStepsModel {
   String description;
   String notes;
   List<String> imagesPath;
+  // Map<String, dynamic> _data;
   // List<StepsDetailesModel> stepsDetailes;
 
   AssemblyStepsModel({
@@ -10,12 +11,21 @@ class AssemblyStepsModel {
     required this.description,
     required this.imagesPath,
     required this.notes,
+
     // required this.stepsDetailes,
   });
+  //  : _data = {
+  //         "description": description,
+  //         "notes": notes,
+  //       };
+
+  // dynamic operator [](String key) => _data[key];
 
   // Factory constructor to create a StepsDetailesModel from a JSON map
-  factory AssemblyStepsModel.fromJson(Map<String, dynamic> json) {
+  factory AssemblyStepsModel.fromJson(
+      {required Map<String, dynamic> json, idFromFirebase}) {
     return AssemblyStepsModel(
+      id: idFromFirebase ?? json['description'] as String,
       description: json['description'] as String,
       notes: json['notes'] as String,
       imagesPath: List<String>.from(json['imagesPath'] as List),
@@ -26,7 +36,7 @@ class AssemblyStepsModel {
   Map<String, dynamic> toJson() {
     return {
       'description': description,
-      'imagesPath': imagesPath,
+      'imagesPath': imagesPath.toList(),
       'notes': notes,
     };
   }

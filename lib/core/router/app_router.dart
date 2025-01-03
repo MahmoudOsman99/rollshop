@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rollshop/features/assembly_steps_feature/models/chock_type_model.dart';
 import 'package:rollshop/features/assembly_steps_feature/screens/chock_detailes_screen.dart';
+import 'package:rollshop/features/assembly_steps_feature/view_model/chock_cubit.dart';
+import 'package:rollshop/features/assembly_steps_feature/view_model/chock_state.dart';
 
 import '../../features/assembly_steps_feature/screens/all_chocks_screen.dart';
 import 'routers.dart';
@@ -8,9 +11,13 @@ import 'routers.dart';
 class AppRouter {
   Route generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case Routes.mainScreen:
+      case Routes.allChocksScreen:
         return MaterialPageRoute(
-          builder: (context) => AllChocksScreen(),
+          builder: (context) => BlocProvider(
+            create: (context) =>
+                ChockCubit(ChocksInitialState())..loadAllChocks(),
+            child: AllChocksScreen(),
+          ),
         );
       case Routes.chockDetailesScreen:
         // print(settings.arguments);

@@ -17,9 +17,9 @@ class RollshopApp extends StatelessWidget {
       designSize: const Size(375, 812),
       child: MaterialApp(
         onGenerateRoute: appRouter.generateRoute,
-        initialRoute: Routes.mainScreen,
+        initialRoute: Routes.allChocksScreen,
         debugShowCheckedModeBanner: false,
-        home: AllChocksScreen(),
+        // home: AllChocksScreen(),
         theme: AppTheme.darkTheme,
       ),
     );

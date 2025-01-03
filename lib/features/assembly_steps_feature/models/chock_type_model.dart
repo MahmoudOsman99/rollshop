@@ -16,13 +16,18 @@ class ChockTypesModel {
     required this.assemblySteps,
   });
 
-  factory ChockTypesModel.fromJson(Map<String, dynamic> json) {
+  factory ChockTypesModel.fromJson(
+      {required Map<String, dynamic> json, idFromFirebase}) {
     return ChockTypesModel(
-      // id: json['id'] as String,
+      id: idFromFirebase ?? json['id'] as String ?? [0],
       name: json['name'] as String,
       chockImagePath: json['chockImagePath'] as String,
       notes: json['notes'] as String,
-      assemblySteps: json['assemblySteps'] as List<AssemblyStepsModel>,
+      assemblySteps: (json['assemblySteps'] as List<dynamic>?)
+              ?.map((step) => AssemblyStepsModel.fromJson(
+                  json: step as Map<String, dynamic>))
+              .toList() ??
+          [],
     );
   }
 
@@ -31,7 +36,7 @@ class ChockTypesModel {
       'name': name,
       'chockImagePath': chockImagePath,
       'notes': notes,
-      'assemblySteps': assemblySteps,
+      'assemblySteps': assemblySteps.map((step) => step.toJson()).toList(),
     };
   }
 }

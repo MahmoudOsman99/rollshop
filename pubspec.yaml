@@ -23,6 +23,7 @@ dependencies:
   image_picker:
   equatable: 
   dartz: 
+  conditional_builder_null_safety: 
 
 dev_dependencies:
   flutter_test:

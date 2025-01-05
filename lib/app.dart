@@ -20,7 +20,7 @@ class RollshopApp extends StatelessWidget {
         initialRoute: Routes.allChocksScreen,
         debugShowCheckedModeBanner: false,
         // home: AllChocksScreen(),
-        theme: AppTheme.darkTheme,
+        theme: AppTheme.lightTheme,
       ),
     );
   }

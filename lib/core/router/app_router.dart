@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rollshop/features/assembly_steps_feature/models/chock_type_model.dart';
+import 'package:rollshop/features/assembly_steps_feature/screens/add_chock_screen.dart';
+import 'package:rollshop/features/parts_with_material_number/screens/add_parts_with_material_number_screen.dart';
 import 'package:rollshop/features/assembly_steps_feature/screens/chock_detailes_screen.dart';
 import 'package:rollshop/features/assembly_steps_feature/view_model/chock_cubit.dart';
 import 'package:rollshop/features/assembly_steps_feature/view_model/chock_state.dart';
@@ -18,6 +20,14 @@ class AppRouter {
                 ChockCubit(ChocksInitialState())..loadAllChocks(),
             child: AllChocksScreen(),
           ),
+        );
+      case Routes.addChockScreen:
+        return MaterialPageRoute(
+          builder: (context) => AddChockScreen(),
+        );
+      case Routes.addPartWithMaterialNumberScreen:
+        return MaterialPageRoute(
+          builder: (context) => AddPartWithMaterialNumberScreen(),
         );
       case Routes.chockDetailesScreen:
         // print(settings.arguments);

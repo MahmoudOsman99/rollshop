@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rollshop/core/router/app_router.dart';
 import 'package:rollshop/core/router/routers.dart';
@@ -17,10 +18,31 @@ class RollshopApp extends StatelessWidget {
       designSize: const Size(375, 812),
       child: MaterialApp(
         onGenerateRoute: appRouter.generateRoute,
-        initialRoute: Routes.allChocksScreen,
+        initialRoute: Routes.mainScreenScreen,
         debugShowCheckedModeBanner: false,
         // home: AllChocksScreen(),
         theme: AppTheme.lightTheme,
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('en'), // English
+          Locale('ar'), // Arabic
+        ],
+        localeResolutionCallback: (locale, supportedLocales) {
+          // if (supportedLocales != null) {
+          for (var supportedLocale in supportedLocales) {
+            if (supportedLocale.languageCode == locale?.languageCode &&
+                supportedLocale.countryCode == locale?.countryCode) {
+              return supportedLocale;
+            }
+            // }
+          }
+          return supportedLocales.first;
+        },
+        locale: const Locale('ar'),
       ),
     );
   }

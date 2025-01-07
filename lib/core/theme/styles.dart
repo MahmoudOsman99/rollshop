@@ -46,6 +46,11 @@ class MyTextStyles {
     fontWeight: FontWeight.bold,
     color: Colors.black,
   );
+  static TextStyle font12BlackeBold = TextStyle(
+    fontSize: 14.sp,
+    fontWeight: FontWeight.bold,
+    color: Colors.black,
+  );
   static TextStyle lable18OrangeBold = TextStyle(
     fontSize: 18.sp,
     fontWeight: FontWeight.bold,

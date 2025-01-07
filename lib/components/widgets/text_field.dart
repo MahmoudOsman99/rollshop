@@ -10,6 +10,7 @@ class CustomTextField extends StatelessWidget {
   int? maxLines = 5;
   TextInputAction? inputAction = TextInputAction.next;
   TextInputType? keyboardType;
+  bool? autofocus;
   // TextDirection? textDirection = TextDirection.rtl;
   CustomTextField({
     super.key,
@@ -17,20 +18,27 @@ class CustomTextField extends StatelessWidget {
     this.hintText,
     this.inputAction,
     this.maxLines,
+    this.autofocus,
     // this.textDirection,
     this.keyboardType,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: textFieldController,
       textDirection: TextDirection.rtl,
       textInputAction: inputAction,
       keyboardType: keyboardType,
       maxLines: maxLines,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "Please enter $hintText";
+        }
+      },
+      autofocus: autofocus ?? false,
       decoration: InputDecoration(
-        hintText: hintText,
+        // hintText: hintText,
         label: Padding(
           padding: EdgeInsets.only(top: 10.sp),
           child: Text(

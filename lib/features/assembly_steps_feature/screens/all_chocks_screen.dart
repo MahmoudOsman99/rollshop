@@ -22,12 +22,15 @@ class AllChocksScreen extends StatelessWidget {
     return BlocConsumer<ChockCubit, ChockState>(
       listener: (context, state) {
         // TODO: implement listener
-        if (state is ChocksLoadedSuccessfullyState) {
-          chocks = state.chocks;
-          debugPrint(chocks.first.name);
-        }
+        // if (state is ChocksLoadedSuccessfullyState) {
+        //   // chocks = state.chocks;
+        //   // debugPrint(chocks.first.name);
+        // }
       },
       builder: (context, state) {
+        if (state is ChocksLoadedSuccessfullyState) {
+          chocks = state.chocks;
+        }
         return Scaffold(
           appBar: AppBar(
             title: Text(

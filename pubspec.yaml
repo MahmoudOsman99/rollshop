@@ -20,6 +20,8 @@ dependencies:
   flutter_screenutil: 
   flutter_image_slideshow:
   flutter_image_compress: 
+  flutter_localizations:
+    sdk: flutter
   path_provider: 
   get_it:
   shared_preferences:

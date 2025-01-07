@@ -12,7 +12,6 @@ class PartsRemoteDataSource {
     try {
       final remoteParts =
           await db.collection(CollectionsPaths.partsWithMaterialNumber).get();
-      // print(parts.length);
       if (remoteParts.docs.isNotEmpty) {
         for (var p in remoteParts.docs) {
           parts.add(PartsWithMaterialNumberModel.fromJson(
@@ -20,10 +19,6 @@ class PartsRemoteDataSource {
             idFromFirebase: p.id,
           ));
         }
-        // debugPrint(remoteParts.docs.first['name']);
-        // debugPrint(remoteParts.docs.first['drawingPartNumber']);
-        // debugPrint(remoteParts.docs.first['imagePath']);
-        // print(parts.length);
       }
       return parts;
     } catch (e) {
@@ -65,26 +60,64 @@ class PartsRemoteDataSource {
     // }
   }
 
-  Future<Unit> deletePart({required String id}) async {
+  Future<bool> deletePart({required String id}) async {
+    try {
+      await db
+          .collection(CollectionsPaths.partsWithMaterialNumber)
+          .doc(id)
+          .delete()
+          .then((onValue) {
+        debugPrint("Part with id: $id deleted successfully!");
+        return true;
+      });
+      return true;
+    } catch (error) {
+      debugPrint("Error: $error");
+      return false;
+    }
+
     // try {
     // final p = part.toJson();
 
     // final steps = c
     // debugPrint("${c['assemblySteps'][0]['description']}");
-    await db
-        .collection(CollectionsPaths.partsWithMaterialNumber)
-        .doc(id)
-        .delete()
-        .then(
-      (value) {
-        debugPrint("$unit");
-        debugPrint("Part deleted successfully");
-      },
-    );
     // debugPrint("$unit");
-    return Future.value(unit);
+    // return Future.value(unit);
     // } catch (e) {
     //   debugPrint(e.toString());
     // }
+  }
+
+  Future<bool> isPartExistByMaterialNumber(
+      {required String materialNumber}) async {
+    try {
+      final founded = await db
+          .collection(CollectionsPaths.partsWithMaterialNumber)
+          .where("materialNumber", isEqualTo: materialNumber.trim())
+          .get();
+
+      // debugPrint("${founded.docs.isNotEmpty}");
+      // debugPrint("${founded.docs}");
+      return founded.docs.isNotEmpty;
+    } catch (error) {
+      debugPrint(error.toString());
+      return false;
+    }
+  }
+
+  Future<bool> isPartExistById({required String id}) async {
+    // try {
+    // final p = part.toJson();
+
+    // final steps = c
+    // debugPrint("${c['assemblySteps'][0]['description']}");
+    final founded = await db
+        .collection(CollectionsPaths.partsWithMaterialNumber)
+        .doc(id)
+        .get();
+    debugPrint("${founded.exists}");
+    return true;
+    // if (founded.count()) {}
+    // debugPrint("$unit");
   }
 }

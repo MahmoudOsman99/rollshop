@@ -30,77 +30,88 @@ class AllPartsScreen extends StatelessWidget {
         // }
       },
       builder: (context, state) {
-        // if (state is PartsLoadedSuccessfullyState) {
-        //   parts = state.parts;
-        // }
-        // return Scaffold();
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(
-              'Parts Section ${partCubit.parts.length}',
-              // 'Parts Section ${parts.length}',
-              style: MyTextStyles.font32WhiteBold,
+        if (state is PartsLoadingState || state is PartsInitialState) {
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
             ),
-            centerTitle: true,
-            backgroundColor: ColorsManager.mainTeal,
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              context.pushNamed(Routes.addPartWithMaterialNumberScreen);
-              // context.pushNamed(Routes.addPartsScreen);
-              // context.read<PartsCubit>().addOneParts(newParts: null);
-              // context.read<PartsCubit>().loadAllChocks();
-            },
-            backgroundColor: ColorsManager.orangeColor,
-            child: Icon(Icons.add),
-          ),
-          body: ConditionalBuilder(
-            fallback: (context) {
-              if (partCubit.parts.isEmpty) {
-                return Center(
-                  child: Text(
-                    "No parts yet",
-                    style: MyTextStyles.font32OrangeBold,
-                  ),
-                );
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            },
-            condition: partCubit.parts.isNotEmpty,
-            builder: (context) {
-              return ListView.separated(
-                itemBuilder: (context, index) {
-                  return BuildPartItem(
-                    part: partCubit.parts[index],
+          );
+        } else if (state is PartsLoadedSuccessfullyState) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(
+                'Parts Section ${partCubit.parts.length}',
+                // 'Parts Section ${parts.length}',
+                style: MyTextStyles.font32WhiteBold,
+              ),
+              centerTitle: true,
+              backgroundColor: ColorsManager.mainTeal,
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                context.pushNamed(Routes.addPartWithMaterialNumberScreen);
+                // context.pushNamed(Routes.addPartsScreen);
+                // context.read<PartsCubit>().addOneParts(newParts: null);
+                // context.read<PartsCubit>().loadAllChocks();
+              },
+              backgroundColor: ColorsManager.orangeColor,
+              child: Icon(Icons.add),
+            ),
+            body: ConditionalBuilder(
+              fallback: (context) {
+                if (partCubit.parts.isEmpty) {
+                  return Center(
+                    child: Text(
+                      "No parts yet",
+                      style: MyTextStyles.font32OrangeBold,
+                    ),
                   );
-                },
-                separatorBuilder: (context, index) {
-                  return SizedBox(
-                    width: 10,
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
                   );
-                },
-                itemCount: partCubit.parts.length,
-              );
+                }
+              },
+              condition: partCubit.parts.isNotEmpty,
+              builder: (context) {
+                return ListView.separated(
+                  itemBuilder: (context, index) {
+                    return BuildPartItem(
+                      part: partCubit.parts[index],
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return SizedBox(
+                      width: 10,
+                    );
+                  },
+                  itemCount: partCubit.parts.length,
+                );
 
-              // return GridView.builder(
-              //   scrollDirection: Axis.vertical,
-              //   itemCount: parts.length,
-              //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              //     crossAxisCount: 1,
-              //   ),
-              //   itemBuilder: (context, index) {
-              //     debugPrint(parts[index].id);
-              //     return BuildPartItem(
-              //       part: parts[index],
-              //     );
-              //   },
-              // );
-            },
-          ),
-        );
+                // return GridView.builder(
+                //   scrollDirection: Axis.vertical,
+                //   itemCount: parts.length,
+                //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                //     crossAxisCount: 1,
+                //   ),
+                //   itemBuilder: (context, index) {
+                //     debugPrint(parts[index].id);
+                //     return BuildPartItem(
+                //       part: parts[index],
+                //     );
+                //   },
+                // );
+              },
+            ),
+          );
+        } else {
+          return Center(
+            child: Text(
+              "No parts yet",
+              style: MyTextStyles.font32OrangeBold,
+            ),
+          );
+        }
       },
     );
   }
@@ -147,14 +158,22 @@ class BuildPartItem extends StatelessWidget {
               height: 120.sp,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
-                child: BuildImageWithErrorHandler(
-                  imageType: ImageType.network,
-                  // path: parts[index].imagePath,
-                  path: part.imagePath,
-                  boxFit: BoxFit.cover,
-                ),
+                child: part.imagePath.isNotEmpty
+                    ? BuildImageWithErrorHandler(
+                        imageType: ImageType.network,
+                        // path: parts[index].imagePath,
+                        path: part.imagePath,
+                        boxFit: BoxFit.cover,
+                      )
+                    : SizedBox(
+                        child: Center(
+                          child: Text(
+                            "No Image",
+                          ),
+                        ),
+                      ),
               ),
-            )
+            ),
           ],
         ),
       ),

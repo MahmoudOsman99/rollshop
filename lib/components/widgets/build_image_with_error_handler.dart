@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:rollshop/core/helpers/images_path.dart';
+import 'package:rollshop/core/theme/colors.dart';
 
 class BuildImageWithErrorHandler extends StatelessWidget {
   BuildImageWithErrorHandler({
@@ -47,11 +48,26 @@ class BuildImageWithErrorHandler extends StatelessWidget {
 }
 
 Widget errorImage() {
-  return Image.asset(
-    ImagesPath.topDriveSideImagePath,
-    fit: BoxFit.cover,
+  return Center(
+    child: Icon(
+      Icons.upload,
+      size: 100,
+      color: ColorsManager.orangeColor,
+    ),
   );
 }
+// Widget errorImage() {
+//   return Image.network(
+//     "https://i.imgur.com/lYTA2Kq.jpg",
+//     fit: BoxFit.cover,
+//   );
+// }
+// Widget errorImage() {
+//   return Image.asset(
+//     ImagesPath.topDriveSideImagePath,
+//     fit: BoxFit.cover,
+//   );
+// }
 
 enum ImageType {
   asset,

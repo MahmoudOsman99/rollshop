@@ -44,11 +44,11 @@ class _AddChockScreenState extends State<AddChockScreen> {
             child: Column(
               spacing: 20,
               children: [
-                CustomTextField(
+                CustomTextFormField(
                   textFieldController: chockNameController,
                   hintText: "أسم الكرسي",
                 ),
-                CustomTextField(
+                CustomTextFormField(
                   textFieldController: chockNotesController,
                   hintText: "ملاحظات",
                   keyboardType: TextInputType.multiline,
@@ -96,7 +96,7 @@ class _AddChockScreenState extends State<AddChockScreen> {
                         images: pickedImages,
                       )
                     : SizedBox(),
-                CustomTextField(
+                CustomTextFormField(
                   textFieldController: chockDescriptionController,
                   hintText: "شرح طريقة التجميع",
                   keyboardType: TextInputType.multiline,

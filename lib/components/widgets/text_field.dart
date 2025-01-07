@@ -4,15 +4,16 @@ import 'package:rollshop/core/theme/styles.dart';
 
 import '../../core/theme/colors.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomTextFormField extends StatelessWidget {
   final TextEditingController textFieldController;
   String? hintText;
   int? maxLines = 5;
   TextInputAction? inputAction = TextInputAction.next;
   TextInputType? keyboardType;
   bool? autofocus;
+  bool? isRequired;
   // TextDirection? textDirection = TextDirection.rtl;
-  CustomTextField({
+  CustomTextFormField({
     super.key,
     required this.textFieldController,
     this.hintText,
@@ -21,6 +22,7 @@ class CustomTextField extends StatelessWidget {
     this.autofocus,
     // this.textDirection,
     this.keyboardType,
+    this.isRequired = true,
   });
 
   @override
@@ -31,11 +33,13 @@ class CustomTextField extends StatelessWidget {
       textInputAction: inputAction,
       keyboardType: keyboardType,
       maxLines: maxLines,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return "Please enter $hintText";
-        }
-      },
+      validator: isRequired!
+          ? (value) {
+              if (value == null || value.isEmpty) {
+                return "برجاء ادخال $hintText";
+              }
+            }
+          : null,
       autofocus: autofocus ?? false,
       decoration: InputDecoration(
         // hintText: hintText,

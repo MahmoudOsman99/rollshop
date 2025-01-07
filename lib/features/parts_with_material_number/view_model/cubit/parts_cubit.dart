@@ -2,33 +2,54 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rollshop/features/parts_with_material_number/model/data/remote/parts_remote_data_source.dart';
+import 'package:rollshop/features/parts_with_material_number/model/data/repository/parts_repository.dart';
 import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
 import 'package:rollshop/features/parts_with_material_number/view_model/cubit/parts_state.dart';
 
 class PartsCubit extends Cubit<PartsState> {
-  PartsCubit(super.initialState);
+  // PartsWithMaterialNumberViewModel partViewModel;
+  PartsRepository partsRepository;
+  PartsCubit(
+    super.initialState, {
+    required this.partsRepository,
+  });
 
   static PartsCubit get(context) => BlocProvider.of(context);
   List<PartsWithMaterialNumberModel> parts = [];
 
   Future<void> getAllParts() async {
     emit(PartsLoadingState());
+    parts = await partsRepository.getParts();
+    emit(PartsLoadedSuccessfullyState(parts: parts));
+  }
 
-    await PartsRemoteDataSource().getAllParts().then((value) {
-      parts = value;
-      debugPrint("${parts.length}");
-    });
+  deletePart({required String id}) async {
+    parts.removeWhere(
+      (element) => element.id == id,
+    );
 
+    // debugPrint("${}");
+    await partsRepository.deletePart(id: id);
     emit(PartsLoadedSuccessfullyState(parts: parts));
   }
 
   Future addOnePart({required PartsWithMaterialNumberModel part}) async {
     emit(PartWatingState());
-    debugPrint("${part.imagePath} imageUrl in cubit");
+    await partsRepository.addPart(part: part);
+    // await getAllParts();
+    parts.add(part);
+    emit(PartsLoadedSuccessfullyState(parts: parts));
+    // emit(PartAddeddSuccessfullyState());
+  }
 
-    await PartsRemoteDataSource().addPart(part: part);
-    await getAllParts();
-    emit(PartAddeddSuccessfullyState());
+  Future<bool> searchOnePartByMaterialNumber(
+      {required String materialNumber}) async {
+    // emit(PartWatingState());
+
+    return await partsRepository.isPartExistByMaterialNumber(
+        materialNumber: materialNumber);
+    // await getAllParts();
+    // emit(PartAddeddSuccessfullyState());
   }
 
   Future<void> updatePart(
@@ -69,23 +90,22 @@ class PartsCubit extends Cubit<PartsState> {
   //   emit(PartUpdatedSuccessfullyState());
   // }
 
-  Future deletePart({required String id}) async {
-    // emit(PartWatingState());
-    // debugPrint("${part.imagePath} imageUrl in cubit");
-    debugPrint("${parts.length}");
-    final p = parts
-        .where(
-          (element) => element.id == id,
-        )
-        .firstOrNull;
+  // Future deletePart({required String id}) async {
+  //   // emit(PartWatingState());
+  //   // debugPrint("${part.imagePath} imageUrl in cubit");
+  //   debugPrint("${parts.length}");
+  //   final p = parts.where(
+  //     (element) => element.id != id,
+  //   );
 
-    // debugPrint("$p ");
-    // debugPrint("${p!.id}");
-    debugPrint("$id");
+  //   // debugPrint("$p ");
+  //   // debugPrint("${p!.id}");
+  //   debugPrint("$id");
 
-    // await PartsRemoteDataSource().deletePart(id: id);
-    // await PartsRemoteDataSource().updatePart(part: part, id: id);
-    // getAllParts();
-    emit(PartDeletedSuccessfullyState());
-  }
+  //   // await PartsRemoteDataSource().deletePart(id: id);
+  //   // await PartsRemoteDataSource().updatePart(part: part, id: id);
+  //   // getAllParts();
+  //   emit(PartDeletedSuccessfullyState());
+  //   emit(PartsLoadedSuccessfullyState(parts: p.toList()));
+  // }
 }

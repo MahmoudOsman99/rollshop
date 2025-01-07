@@ -15,7 +15,6 @@ class PartDetailesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Scaffold(
       // appBar: AppBar(
       //   title: Text(chock.name),
@@ -44,8 +43,8 @@ class PartDetailesScreen extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(15),
                   child: SizedBox(
-                    height: size.height / 4,
-                    width: size.width,
+                    height: context.height / 4,
+                    width: context.width,
                     child: Image.asset(
                       chock.chockImagePath,
                       fit: BoxFit.cover,
@@ -58,7 +57,7 @@ class PartDetailesScreen extends StatelessWidget {
                 ),
                 if (chock.assemblySteps.isNotEmpty)
                   SizedBox(
-                    height: size.height / 2,
+                    height: context.height / 2,
                     child: ListView.builder(
                       itemCount: chock.assemblySteps.length,
                       itemBuilder: (context, index) {
@@ -72,8 +71,8 @@ class PartDetailesScreen extends StatelessWidget {
                               height: 10,
                             ),
                             SizedBox(
-                              height: size.height / 3,
-                              width: size.width,
+                              height: context.height / 3,
+                              width: context.width,
                               child: ListView.separated(
                                 separatorBuilder: (context, index) {
                                   return SizedBox(

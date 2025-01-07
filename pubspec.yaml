@@ -12,12 +12,17 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
-  bloc:
-  flutter_bloc:
   firebase_core:
   cloud_firestore:
+  firebase_storage: 
+  bloc:
+  flutter_bloc:
   flutter_screenutil: 
   flutter_image_slideshow:
+  flutter_image_compress: 
+  flutter_localizations:
+    sdk: flutter
+  path_provider: 
   get_it:
   shared_preferences:
   image_picker:

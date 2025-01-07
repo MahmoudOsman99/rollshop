@@ -5,40 +5,32 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
 import 'package:rollshop/core/router/routers.dart';
 import 'package:rollshop/core/theme/colors.dart';
-import 'package:rollshop/features/assembly_steps_feature/models/assembly_steps_model.dart';
+import 'package:rollshop/features/assembly_steps_feature/screens/add_chock_screen.dart';
 import 'package:rollshop/features/assembly_steps_feature/view_model/chock_cubit.dart';
 import 'package:rollshop/features/assembly_steps_feature/view_model/chock_state.dart';
-import 'package:rollshop/features/main/chock_type_enum.dart';
 import 'package:rollshop/features/assembly_steps_feature/models/chock_type_model.dart';
-import 'package:rollshop/core/helpers/images_path.dart';
 
 import '../../../core/theme/styles.dart';
 
 class AllChocksScreen extends StatelessWidget {
   AllChocksScreen({super.key});
-  List<String> sectionsName = [
-    "BDM",
-    "TDM",
-    "Vertical",
-    "Straightener",
-  ];
-  List chockTypesNames = ChockTypeEnumDetailes.getNames();
-  List chockTypes = ChockTypes.values;
+
   List<ChockTypesModel> chocks = [];
 
   @override
   Widget build(BuildContext context) {
-    // debugPrint(
-    //     'assets/images/chock_types/${ChockTypes.BDS.name.toLowerCase()}.jpg');
     return BlocConsumer<ChockCubit, ChockState>(
       listener: (context, state) {
         // TODO: implement listener
-        if (state is ChocksLoadedSuccessfullyState) {
-          chocks = state.chocks;
-          debugPrint(chocks.first.name);
-        }
+        // if (state is ChocksLoadedSuccessfullyState) {
+        //   // chocks = state.chocks;
+        //   // debugPrint(chocks.first.name);
+        // }
       },
       builder: (context, state) {
+        if (state is ChocksLoadedSuccessfullyState) {
+          chocks = state.chocks;
+        }
         return Scaffold(
           appBar: AppBar(
             title: Text(
@@ -46,15 +38,17 @@ class AllChocksScreen extends StatelessWidget {
               style: MyTextStyles.font32WhiteBold,
             ),
             centerTitle: true,
-            backgroundColor: ColorsManager.mainBlue,
+            backgroundColor: ColorsManager.mainTeal,
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
+              context.pushNamed(Routes.addPartWithMaterialNumberScreen);
+              // context.pushNamed(Routes.addChockScreen);
               // context.read<ChockCubit>().addOneChock(newChock: null);
-              context.read<ChockCubit>().loadAllChocks();
+              // context.read<ChockCubit>().loadAllChocks();
             },
-            backgroundColor: ColorsManager.mainBlue,
-            child: Icon(Icons.abc),
+            backgroundColor: ColorsManager.orangeColor,
+            child: Icon(Icons.add),
           ),
           body: ConditionalBuilder(
             fallback: (context) {
@@ -91,7 +85,6 @@ class AllChocksScreen extends StatelessWidget {
                                     padding: EdgeInsets.all(10.sp),
                                     child: Image.asset(
                                       chocks[index].chockImagePath,
-                                      // 'assets/images/chock_types/${chockTypes[index]}.jpg',
                                       fit: BoxFit.cover,
                                     ),
                                   ),

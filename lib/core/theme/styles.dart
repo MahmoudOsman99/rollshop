@@ -9,10 +9,10 @@ class MyTextStyles {
     color: Colors.black,
   );
 
-  static TextStyle font32BlueBold = TextStyle(
+  static TextStyle font32OrangeBold = TextStyle(
     fontSize: 32.sp,
     fontWeight: FontWeight.bold,
-    color: ColorsManager.mainBlue,
+    color: ColorsManager.orangeColor,
   );
   static TextStyle font32WhiteBold = TextStyle(
     fontSize: 32.sp,
@@ -30,5 +30,30 @@ class MyTextStyles {
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
     color: Colors.white,
+  );
+  static TextStyle font16WhiteBold = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+  );
+  static TextStyle font16BlackeWeight500 = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
+  );
+  static TextStyle font16BlackeBold = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeight.bold,
+    color: Colors.black,
+  );
+  static TextStyle font12BlackeBold = TextStyle(
+    fontSize: 14.sp,
+    fontWeight: FontWeight.bold,
+    color: Colors.black,
+  );
+  static TextStyle lable18OrangeBold = TextStyle(
+    fontSize: 18.sp,
+    fontWeight: FontWeight.bold,
+    color: ColorsManager.orangeColor,
   );
 }

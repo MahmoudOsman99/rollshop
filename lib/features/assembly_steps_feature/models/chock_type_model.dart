@@ -1,11 +1,14 @@
 import 'package:rollshop/features/assembly_steps_feature/models/assembly_steps_model.dart';
+import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
 
 class ChockTypesModel {
   final String? id;
   final String name;
   final String chockImagePath;
   final String notes;
+  // final String? howTocalcBearingShim;
   final List<AssemblyStepsModel> assemblySteps;
+  final List<PartsWithMaterialNumberModel>? parts;
   // final String assemblySteps;
 
   ChockTypesModel({
@@ -14,6 +17,8 @@ class ChockTypesModel {
     required this.chockImagePath,
     required this.notes,
     required this.assemblySteps,
+    // this.howTocalcBearingShim,
+    this.parts,
   });
 
   factory ChockTypesModel.fromJson(
@@ -23,6 +28,7 @@ class ChockTypesModel {
       name: json['name'] as String,
       chockImagePath: json['chockImagePath'] as String,
       notes: json['notes'] as String,
+      // howTocalcBearingShim: json['howTocalcBearingShim'] as String,
       assemblySteps: (json['assemblySteps'] as List<dynamic>?)
               ?.map((step) => AssemblyStepsModel.fromJson(
                   json: step as Map<String, dynamic>))

@@ -1,4 +1,4 @@
-import 'package:rollshop/features/assembly_steps_feature/models/assembly_steps_model.dart';
+import 'package:rollshop/features/chock_feature/models/assembly_steps_model.dart';
 import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
 
 class ChockTypesModel {

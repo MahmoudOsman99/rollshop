@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:rollshop/features/assembly_steps_feature/models/chock_type_model.dart';
-import 'package:rollshop/features/assembly_steps_feature/screens/add_chock_screen.dart';
+import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
+import 'package:rollshop/features/chock_feature/screens/add_chock_screen.dart';
 import 'package:rollshop/features/main/main_screen.dart';
 import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
 import 'package:rollshop/features/parts_with_material_number/screens/add_parts_with_material_number_screen.dart';
-import 'package:rollshop/features/assembly_steps_feature/screens/chock_detailes_screen.dart';
-import 'package:rollshop/features/assembly_steps_feature/view_model/chock_cubit.dart';
-import 'package:rollshop/features/assembly_steps_feature/view_model/chock_state.dart';
+import 'package:rollshop/features/chock_feature/screens/chock_detailes_screen.dart';
+import 'package:rollshop/features/chock_feature/view_model/chock_cubit.dart';
+import 'package:rollshop/features/chock_feature/view_model/chock_state.dart';
 import 'package:rollshop/features/parts_with_material_number/screens/all_parts_screen.dart';
 import 'package:rollshop/features/parts_with_material_number/view_model/cubit/parts_cubit.dart';
 import 'package:rollshop/features/parts_with_material_number/view_model/cubit/parts_state.dart';
 
-import '../../features/assembly_steps_feature/screens/all_chocks_screen.dart';
+import '../../features/chock_feature/screens/all_chocks_screen.dart';
 import 'routers.dart';
 
 final sl = GetIt.instance;
@@ -27,36 +27,25 @@ class AppRouter {
         );
       case Routes.allPartsScreen:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider.value(
-            value: sl<PartsCubit>()..getAllParts(),
-            child: AllPartsScreen(),
-          ),
+          builder: (context) => AllPartsScreen(),
         );
       case Routes.addPartWithMaterialNumberScreen:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider(
-              create: (context) =>
-                  PartsCubit(PartsInitialState(), partsRepository: sl()),
-              child: AddPartWithMaterialNumberScreen(
-                isEdit: false,
-              )),
+          builder: (context) => AddPartWithMaterialNumberScreen(
+            isEdit: false,
+          ),
         );
       case Routes.editPartScreen:
         return MaterialPageRoute(builder: (context) {
-          return BlocProvider(
-            create: (context) =>
-                PartsCubit(PartsInitialState(), partsRepository: sl()),
-            child: AddPartWithMaterialNumberScreen.edit(
-              isEdit: true,
-              partModel: settings.arguments as PartsWithMaterialNumberModel,
-            ),
+          return AddPartWithMaterialNumberScreen.edit(
+            isEdit: true,
+            partModel: settings.arguments as PartsWithMaterialNumberModel,
           );
         });
       case Routes.allChocksScreen:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) =>
-                ChockCubit(ChocksInitialState())..loadAllChocks(),
+          builder: (context) => BlocProvider<ChockCubit>(
+            create: (context) => sl<ChockCubit>(),
             child: AllChocksScreen(),
           ),
         );
@@ -102,11 +91,7 @@ class AppRouter {
 
       default:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) =>
-                ChockCubit(ChocksInitialState())..loadAllChocks(),
-            child: AllChocksScreen(),
-          ),
+          builder: (context) => AllChocksScreen(),
         );
     }
   }

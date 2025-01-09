@@ -4,7 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:rollshop/core/helpers/collections_paths.dart';
 
-import 'package:rollshop/features/assembly_steps_feature/models/chock_type_model.dart';
+import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
 
 class ChockRemoteDataSource {
   final db = FirebaseFirestore.instance;

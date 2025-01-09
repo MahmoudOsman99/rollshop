@@ -12,6 +12,7 @@ import 'package:rollshop/core/theme/styles.dart';
 import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
 import 'package:rollshop/features/parts_with_material_number/view_model/cubit/parts_cubit.dart';
 import 'package:rollshop/features/parts_with_material_number/view_model/cubit/parts_state.dart';
+import 'package:rollshop/injection_container.dart';
 
 class AllPartsScreen extends StatelessWidget {
   AllPartsScreen({super.key});
@@ -20,27 +21,23 @@ class AllPartsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final partCubit = PartsCubit.get(context);
-    return BlocConsumer<PartsCubit, PartsState>(
-      listener: (context, state) {
-        // TODO: implement listener
-        // if (state is PartsLoadedSuccessfullyState) {
-        //   parts = state.parts;
-        //   debugPrint(parts.first.name);
-        // }
-      },
+    // final partCubit = PartsCubit.get(context);
+    return BlocBuilder<PartsCubit, PartsState>(
+      bloc: sl<PartsCubit>()..getAllParts(),
       builder: (context, state) {
-        if (state is PartsLoadingState || state is PartsInitialState) {
+        if (state is PartsLoadingState ||
+            state is PartsInitialState ||
+            state is PartWatingState) {
           return Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),
           );
-        } else if (state is PartsLoadedSuccessfullyState) {
+        } else {
           return Scaffold(
             appBar: AppBar(
               title: Text(
-                'Parts Section ${partCubit.parts.length}',
+                'Parts Section ${context.read<PartsCubit>().parts.length}',
                 // 'Parts Section ${parts.length}',
                 style: MyTextStyles.font32WhiteBold,
               ),
@@ -58,59 +55,101 @@ class AllPartsScreen extends StatelessWidget {
               child: Icon(Icons.add),
             ),
             body: ConditionalBuilder(
+              condition: sl<PartsCubit>().parts.isNotEmpty,
               fallback: (context) {
-                if (partCubit.parts.isEmpty) {
-                  return Center(
+                return Scaffold(
+                  body: Center(
                     child: Text(
                       "No parts yet",
                       style: MyTextStyles.font32OrangeBold,
                     ),
-                  );
-                } else {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
-              condition: partCubit.parts.isNotEmpty,
-              builder: (context) {
-                return ListView.separated(
-                  itemBuilder: (context, index) {
-                    return BuildPartItem(
-                      part: partCubit.parts[index],
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return SizedBox(
-                      width: 10,
-                    );
-                  },
-                  itemCount: partCubit.parts.length,
+                  ),
                 );
-
-                // return GridView.builder(
-                //   scrollDirection: Axis.vertical,
-                //   itemCount: parts.length,
-                //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                //     crossAxisCount: 1,
-                //   ),
-                //   itemBuilder: (context, index) {
-                //     debugPrint(parts[index].id);
-                //     return BuildPartItem(
-                //       part: parts[index],
-                //     );
-                //   },
-                // );
               },
+              builder: (context) => ListView.separated(
+                itemBuilder: (context, index) {
+                  return BuildPartItem(
+                    part: sl<PartsCubit>().parts[index],
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return SizedBox(
+                    width: 10,
+                  );
+                },
+                itemCount: sl<PartsCubit>().parts.length,
+              ),
             ),
+            //     body: ConditionalBuilder(
+            //       fallback: (context) {
+            //         if (context.read<PartsCubit>().parts.isEmpty) {
+            //           return Scaffold(
+            //             body: Center(
+            //               child: Text(
+            //                 "No parts yet",
+            //                 style: MyTextStyles.font32OrangeBold,
+            //               ),
+            //             ),
+            //           );
+            //         } else {
+            //           return Center(
+            //             child: CircularProgressIndicator(),
+            //           );
+            //         }
+            //       },
+            //       condition: context.read<PartsCubit>().parts.isNotEmpty,
+            //       builder: (context) {
+            //         return ListView.separated(
+            //           itemBuilder: (context, index) {
+            //             return BuildPartItem(
+            //               part: context.read<PartsCubit>().parts[index],
+            //             );
+            //           },
+            //           separatorBuilder: (context, index) {
+            //             return SizedBox(
+            //               width: 10,
+            //             );
+            //           },
+            //           itemCount: context.read<PartsCubit>().parts.length,
+            //         );
+
+            //         // return GridView.builder(
+            //         //   scrollDirection: Axis.vertical,
+            //         //   itemCount: parts.length,
+            //         //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            //         //     crossAxisCount: 1,
+            //         //   ),
+            //         //   itemBuilder: (context, index) {
+            //         //     debugPrint(parts[index].id);
+            //         //     return BuildPartItem(
+            //         //       part: parts[index],
+            //         //     );
+            //         //   },
+            //         // );
+            //       },
+            //     ),
+            //   );
+            // } else {
+            //   return Scaffold(
+            //     body: Center(
+            //       child: Text(
+            //         "No parts yet",
+            //         style: MyTextStyles.font32OrangeBold,
+            //       ),
+            //     ),
+            //   );
+            // }
           );
-        } else {
-          return Center(
-            child: Text(
-              "No parts yet",
-              style: MyTextStyles.font32OrangeBold,
-            ),
-          );
+          // } else {
+          //   return Scaffold(
+          //     body: Center(
+          //       child: Text(
+          //         "No parts yet",
+          //         style: MyTextStyles.font32OrangeBold,
+          //       ),
+          //     ),
+          //   );
+          // }
         }
       },
     );

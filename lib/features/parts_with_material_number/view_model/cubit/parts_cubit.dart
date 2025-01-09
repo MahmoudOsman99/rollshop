@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rollshop/core/router/app_router.dart';
 import 'package:rollshop/features/parts_with_material_number/model/data/remote/parts_remote_data_source.dart';
 import 'package:rollshop/features/parts_with_material_number/model/data/repository/parts_repository.dart';
 import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
@@ -8,32 +9,34 @@ import 'package:rollshop/features/parts_with_material_number/view_model/cubit/pa
 
 class PartsCubit extends Cubit<PartsState> {
   // PartsWithMaterialNumberViewModel partViewModel;
-  PartsRepository partsRepository;
-  PartsCubit(
-    super.initialState, {
-    required this.partsRepository,
-  });
+  PartsRepository partsRepository = sl<PartsRepository>();
+  PartsCubit(this.partsRepository) : super(PartsInitialState());
 
   static PartsCubit get(context) => BlocProvider.of(context);
   List<PartsWithMaterialNumberModel> parts = [];
 
   Future<void> getAllParts() async {
+    if (isClosed) return;
+    parts = [];
     emit(PartsLoadingState());
     parts = await partsRepository.getParts();
     emit(PartsLoadedSuccessfullyState(parts: parts));
   }
 
   deletePart({required String id}) async {
+    if (isClosed) return;
+    debugPrint(id);
     parts.removeWhere(
       (element) => element.id == id,
     );
 
-    // debugPrint("${}");
     await partsRepository.deletePart(id: id);
-    emit(PartsLoadedSuccessfullyState(parts: parts));
+    // emit(PartDeletedSuccessfullyState());
+    getAllParts();
   }
 
   Future addOnePart({required PartsWithMaterialNumberModel part}) async {
+    if (isClosed) return;
     emit(PartWatingState());
     await partsRepository.addPart(part: part);
     // await getAllParts();
@@ -42,7 +45,7 @@ class PartsCubit extends Cubit<PartsState> {
     // emit(PartAddeddSuccessfullyState());
   }
 
-  Future<bool> searchOnePartByMaterialNumber(
+  Future<bool> isPartExistByMaterialNumber(
       {required String materialNumber}) async {
     // emit(PartWatingState());
 
@@ -54,32 +57,13 @@ class PartsCubit extends Cubit<PartsState> {
 
   Future<void> updatePart(
       {required PartsWithMaterialNumberModel part, required String id}) async {
+    if (isClosed) return;
     emit(PartWatingState());
-
-    await PartsRemoteDataSource()
-        .updatePart(part: part, id: id)
-        .then((onValue) async {
-      // result.fold(
-      //   (failure) => emit(PartsErrorState(error: failure.message)),
-      // (r) async {
-      // Find the index of the part to replace
-      final index = parts.indexWhere(
-          (part) => part.id == id); // Assuming your model has an 'id' property
-
-      if (index != -1) {
-        // Check if the part was found
-        parts.replaceRange(index, index + 1, [part]); // Replace the part
-      } else {
-        // Handle the case where the part is not found (optional)
-        emit(PartsErrorState(error: "Part with ID $id not found"));
-        return; // Important: Exit the function if the part is not found
-      }
-      await getAllParts();
-      emit(PartUpdatedSuccessfullyState());
-    });
-    // };
-    // );
+    partsRepository.updatePart(part: part, id: id);
+    await getAllParts();
+    emit(PartUpdatedSuccessfullyState());
   }
+
   // Future updatePart(
   //     {required PartsWithMaterialNumberModel part, required String id}) async {
   //   // emit(PartWatingState());

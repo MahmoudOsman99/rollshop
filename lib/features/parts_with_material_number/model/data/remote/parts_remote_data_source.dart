@@ -7,7 +7,7 @@ import 'package:rollshop/features/parts_with_material_number/model/parts_with_ma
 class PartsRemoteDataSource {
   final db = FirebaseFirestore.instance;
 
-  Future<List<PartsWithMaterialNumberModel>> getAllParts() async {
+  Future<List<PartsWithMaterialNumberModel>> getAllPartsFromFirebase() async {
     List<PartsWithMaterialNumberModel> parts = [];
     try {
       final remoteParts =
@@ -36,7 +36,7 @@ class PartsRemoteDataSource {
     await db
         .collection(CollectionsPaths.partsWithMaterialNumber)
         .doc(id)
-        .set(p);
+        .update(p);
     debugPrint("$unit");
     debugPrint("Part Updated successfully");
     return Future.value(unit);
@@ -61,6 +61,7 @@ class PartsRemoteDataSource {
   }
 
   Future<bool> deletePart({required String id}) async {
+    debugPrint("Part with id: $id ");
     try {
       await db
           .collection(CollectionsPaths.partsWithMaterialNumber)

@@ -3,7 +3,7 @@ import 'package:rollshop/core/helpers/extensions.dart';
 import 'package:rollshop/core/router/routers.dart';
 import 'package:rollshop/core/theme/colors.dart';
 import 'package:rollshop/core/theme/styles.dart';
-import 'package:rollshop/features/assembly_steps_feature/models/chock_type_model.dart';
+import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PartDetailesScreen extends StatelessWidget {

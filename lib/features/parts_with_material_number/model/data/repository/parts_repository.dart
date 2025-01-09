@@ -5,5 +5,7 @@ abstract class PartsRepository {
   Future<List<PartsWithMaterialNumberModel>> getParts();
   Future<bool> deletePart({required String id});
   Future<Unit> addPart({required PartsWithMaterialNumberModel part});
+  Future<Unit> updatePart(
+      {required PartsWithMaterialNumberModel part, required String id});
   Future<bool> isPartExistByMaterialNumber({required String materialNumber});
 }

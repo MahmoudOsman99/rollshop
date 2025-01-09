@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
+import 'package:rollshop/core/router/app_router.dart';
 import 'package:rollshop/core/router/routers.dart';
 import 'package:rollshop/core/theme/colors.dart';
-import 'package:rollshop/features/assembly_steps_feature/screens/add_chock_screen.dart';
-import 'package:rollshop/features/assembly_steps_feature/view_model/chock_cubit.dart';
-import 'package:rollshop/features/assembly_steps_feature/view_model/chock_state.dart';
-import 'package:rollshop/features/assembly_steps_feature/models/chock_type_model.dart';
+import 'package:rollshop/features/chock_feature/screens/add_chock_screen.dart';
+import 'package:rollshop/features/chock_feature/view_model/chock_cubit.dart';
+import 'package:rollshop/features/chock_feature/view_model/chock_state.dart';
+import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
 
 import '../../../core/theme/styles.dart';
 
@@ -19,14 +20,8 @@ class AllChocksScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ChockCubit, ChockState>(
-      listener: (context, state) {
-        // TODO: implement listener
-        // if (state is ChocksLoadedSuccessfullyState) {
-        //   // chocks = state.chocks;
-        //   // debugPrint(chocks.first.name);
-        // }
-      },
+    return BlocBuilder<ChockCubit, ChockState>(
+      bloc: sl<ChockCubit>()..loadAllChocks(),
       builder: (context, state) {
         if (state is ChocksLoadedSuccessfullyState) {
           chocks = state.chocks;
@@ -42,8 +37,8 @@ class AllChocksScreen extends StatelessWidget {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              context.pushNamed(Routes.addPartWithMaterialNumberScreen);
-              // context.pushNamed(Routes.addChockScreen);
+              // context.pushNamed(Routes.addPartWithMaterialNumberScreen);
+              context.pushNamed(Routes.addChockScreen);
               // context.read<ChockCubit>().addOneChock(newChock: null);
               // context.read<ChockCubit>().loadAllChocks();
             },

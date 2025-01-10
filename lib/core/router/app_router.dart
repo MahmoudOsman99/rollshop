@@ -44,10 +44,7 @@ class AppRouter {
         });
       case Routes.allChocksScreen:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider<ChockCubit>(
-            create: (context) => sl<ChockCubit>(),
-            child: AllChocksScreen(),
-          ),
+          builder: (context) => AllChocksScreen(),
         );
       case Routes.addChockScreen:
         return MaterialPageRoute(

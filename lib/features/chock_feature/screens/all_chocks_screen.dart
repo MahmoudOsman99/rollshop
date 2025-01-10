@@ -13,52 +13,65 @@ import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
 
 import '../../../core/theme/styles.dart';
 
-class AllChocksScreen extends StatelessWidget {
+class AllChocksScreen extends StatefulWidget {
   AllChocksScreen({super.key});
 
-  List<ChockTypesModel> chocks = [];
+  @override
+  State<AllChocksScreen> createState() => _AllChocksScreenState();
+}
+
+class _AllChocksScreenState extends State<AllChocksScreen> {
+  @override
+  void initState() {
+    sl<ChockCubit>().loadAllChocks();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ChockCubit, ChockState>(
-      bloc: sl<ChockCubit>()..loadAllChocks(),
-      builder: (context, state) {
-        if (state is ChocksLoadedSuccessfullyState) {
-          chocks = state.chocks;
-        }
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(
-              'BDM Section',
-              style: MyTextStyles.font32WhiteBold,
-            ),
-            centerTitle: true,
-            backgroundColor: ColorsManager.mainTeal,
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              // context.pushNamed(Routes.addPartWithMaterialNumberScreen);
-              context.pushNamed(Routes.addChockScreen);
-              // context.read<ChockCubit>().addOneChock(newChock: null);
-              // context.read<ChockCubit>().loadAllChocks();
-            },
-            backgroundColor: ColorsManager.orangeColor,
-            child: Icon(Icons.add),
-          ),
-          body: ConditionalBuilder(
-            fallback: (context) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            },
-            condition: chocks.isNotEmpty,
-            builder: (context) {
-              return Padding(
-                padding: EdgeInsets.all(10.sp),
-                child: PageView(
-                  children: [
-                    GridView.builder(
-                      itemCount: chocks.length,
+        bloc: sl<ChockCubit>(),
+        builder: (context, state) {
+          // if (state is ChocksLoadedSuccessfullyState) {
+          //   chocks = state.chocks;
+          // }
+          if (state is ChocksLoadingState || state is ChocksInitialState) {
+            return Scaffold(body: Center(child: CircularProgressIndicator()));
+          } else if (state is ChocksLoadedFailedState) {
+            // Handle error state, e.g., display an error message
+            return Center(child: Text('Error: ${state.error}'));
+          } else if (state is ChocksLoadedSuccessfullyState) {
+            return Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  'BDM Section',
+                  style: MyTextStyles.font32WhiteBold,
+                ),
+                centerTitle: true,
+                backgroundColor: ColorsManager.mainTeal,
+              ),
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  // context.pushNamed(Routes.addPartWithMaterialNumberScreen);
+                  context.pushNamed(Routes.addChockScreen);
+                  // context.read<ChockCubit>().addOneChock(newChock: null);
+                  // context.read<ChockCubit>().loadAllChocks();
+                },
+                backgroundColor: ColorsManager.orangeColor,
+                child: Icon(Icons.add),
+              ),
+              body: ConditionalBuilder(
+                fallback: (context) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+                condition: sl<ChockCubit>().chocks.isNotEmpty,
+                builder: (context) {
+                  return Padding(
+                    padding: EdgeInsets.all(10.sp),
+                    child: GridView.builder(
+                      itemCount: sl<ChockCubit>().chocks.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         childAspectRatio: .7,
@@ -68,7 +81,7 @@ class AllChocksScreen extends StatelessWidget {
                           onTap: () {
                             context.pushNamed(
                               Routes.chockDetailesScreen,
-                              arguments: chocks[index],
+                              arguments: sl<ChockCubit>().chocks[index],
                             );
                           },
                           child: Card(
@@ -79,7 +92,9 @@ class AllChocksScreen extends StatelessWidget {
                                   child: Padding(
                                     padding: EdgeInsets.all(10.sp),
                                     child: Image.asset(
-                                      chocks[index].chockImagePath,
+                                      sl<ChockCubit>()
+                                          .chocks[index]
+                                          .chockImagePath,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -88,7 +103,8 @@ class AllChocksScreen extends StatelessWidget {
                                   flex: 1,
                                   child: Padding(
                                     padding: const EdgeInsets.all(15),
-                                    child: Text(chocks.first.name),
+                                    child: Text(
+                                        sl<ChockCubit>().chocks.first.name),
                                   ),
                                 ),
                               ],
@@ -97,29 +113,13 @@ class AllChocksScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Text(
-                      "TDM",
-                      style: MyTextStyles.font32WhiteBold,
-                    ),
-                    Text(
-                      "Vertical",
-                      style: MyTextStyles.font32WhiteBold,
-                    ),
-                    Text(
-                      "Straightener",
-                      style: MyTextStyles.font32WhiteBold,
-                    ),
-                    Text(
-                      "Guides",
-                      style: MyTextStyles.font32WhiteBold,
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        );
-      },
-    );
+                  );
+                },
+              ),
+            );
+          } else {
+            return Text("unexpected error founded");
+          }
+        });
   }
 }

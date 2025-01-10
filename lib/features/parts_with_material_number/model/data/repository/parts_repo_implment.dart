@@ -23,13 +23,13 @@ class PartsRepoImplment extends PartsRepository {
   }
 
   @override
-  Future<Unit> addPart({required PartsWithMaterialNumberModel part}) async {
+  Future<bool> addPart({required PartsWithMaterialNumberModel part}) async {
     return await partsRemoteDataSource.addPart(part: part);
   }
 
   @override
   Future<bool> isPartExistByMaterialNumber(
-      {required String materialNumber}) async {
+      {required int materialNumber}) async {
     return await partsRemoteDataSource.isPartExistByMaterialNumber(
         materialNumber: materialNumber);
   }

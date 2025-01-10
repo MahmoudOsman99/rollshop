@@ -14,16 +14,26 @@ import 'package:rollshop/features/parts_with_material_number/view_model/cubit/pa
 import 'package:rollshop/features/parts_with_material_number/view_model/cubit/parts_state.dart';
 import 'package:rollshop/injection_container.dart';
 
-class AllPartsScreen extends StatelessWidget {
+class AllPartsScreen extends StatefulWidget {
   AllPartsScreen({super.key});
 
-  // List<PartsWithMaterialNumberModel> parts = [];
+  @override
+  State<AllPartsScreen> createState() => _AllPartsScreenState();
+}
 
+class _AllPartsScreenState extends State<AllPartsScreen> {
+  @override
+  void initState() {
+    sl<PartsCubit>().getAllParts();
+    super.initState();
+  }
+
+  // List<PartsWithMaterialNumberModel> parts = [];
   @override
   Widget build(BuildContext context) {
     // final partCubit = PartsCubit.get(context);
     return BlocBuilder<PartsCubit, PartsState>(
-      bloc: sl<PartsCubit>()..getAllParts(),
+      bloc: sl<PartsCubit>(),
       builder: (context, state) {
         if (state is PartsLoadingState ||
             state is PartsInitialState ||

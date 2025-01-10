@@ -55,7 +55,7 @@ class _AddChockScreenState extends State<AddChockScreen> {
                   maxLines: 5,
                 ),
                 SizedBox(
-                  width: context.width * 0.8,
+                  width: context.width,
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       color: ColorsManager.orangeColor,
@@ -84,7 +84,7 @@ class _AddChockScreenState extends State<AddChockScreen> {
                         }
                       },
                       child: Text(
-                        "Choose assembly pictures",
+                        "اختار صور خطوات التجميع",
                         style: MyTextStyles.font16WhiteBold,
                       ),
                     ),

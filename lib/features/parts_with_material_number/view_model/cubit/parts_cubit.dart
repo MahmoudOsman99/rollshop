@@ -12,7 +12,7 @@ class PartsCubit extends Cubit<PartsState> {
   PartsRepository partsRepository = sl<PartsRepository>();
   PartsCubit(this.partsRepository) : super(PartsInitialState());
 
-  static PartsCubit get(context) => BlocProvider.of(context);
+  // static PartsCubit get(context) => BlocProvider.of(context);
   List<PartsWithMaterialNumberModel> parts = [];
 
   Future<void> getAllParts() async {
@@ -35,18 +35,31 @@ class PartsCubit extends Cubit<PartsState> {
     getAllParts();
   }
 
-  Future addOnePart({required PartsWithMaterialNumberModel part}) async {
-    if (isClosed) return;
+  Future<bool> addOnePart({required PartsWithMaterialNumberModel part}) async {
+    // if (isClosed) return;
     emit(PartWatingState());
-    await partsRepository.addPart(part: part);
+    if (await isPartExistByMaterialNumber(
+        materialNumber: part.materialNumber)) {
+      return false;
+    } else {
+      if (await partsRepository.addPart(part: part)) {
+        // parts.add(part);
+        emit(PartsLoadedSuccessfullyState(parts: parts));
+        debugPrint("Part added success cubit message");
+        return true;
+      } else {
+        emit(PartAddeddFailureState(error: "Error while adding the part"));
+
+        debugPrint("Part added failure cubit message");
+        return false;
+      }
+    }
     // await getAllParts();
-    parts.add(part);
-    emit(PartsLoadedSuccessfullyState(parts: parts));
     // emit(PartAddeddSuccessfullyState());
   }
 
   Future<bool> isPartExistByMaterialNumber(
-      {required String materialNumber}) async {
+      {required int materialNumber}) async {
     // emit(PartWatingState());
 
     return await partsRepository.isPartExistByMaterialNumber(

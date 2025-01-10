@@ -12,6 +12,13 @@ class ChocksInitialState extends ChockState {}
 
 class ChocksLoadingState extends ChockState {}
 
+class ChocksLoadedFailedState extends ChockState {
+  final String error;
+  const ChocksLoadedFailedState({
+    required this.error,
+  });
+}
+
 class ChockAddedSuccessfullyState extends ChockState {}
 
 class ChocksLoadedSuccessfullyState extends ChockState {

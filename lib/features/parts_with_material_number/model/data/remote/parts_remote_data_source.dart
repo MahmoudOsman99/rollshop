@@ -45,23 +45,41 @@ class PartsRemoteDataSource {
     // }
   }
 
-  Future<Unit> addPart({required PartsWithMaterialNumberModel part}) async {
+  Future<bool> addPart({required PartsWithMaterialNumberModel part}) async {
+    try {
+      final p = part.toJson();
+      // if (await isPartExistByMaterialNumber(
+      //     materialNumber: part.materialNumber)) {
+      //   return false;
+      // } else {
+      await db.collection(CollectionsPaths.partsWithMaterialNumber).add(p);
+      debugPrint("Part Added successfully");
+      return true;
+      // }
+    } catch (e) {
+      debugPrint("Error while add the part in remote data");
+      return false;
+    }
     // try {
-    final p = part.toJson();
+    // final p = part.toJson();
 
     // final steps = c
     // debugPrint("${c['assemblySteps'][0]['description']}");
-    await db.collection(CollectionsPaths.partsWithMaterialNumber).add(p);
-    debugPrint("$unit");
-    debugPrint("Part Added successfully");
-    return Future.value(unit);
+    // await db.collection(CollectionsPaths.partsWithMaterialNumber).add(p);
+    // debugPrint("$unit");
+    // debugPrint("Part Added successfully");
+    // return Future.value(unit);
     // } catch (e) {
     //   debugPrint(e.toString());
     // }
   }
 
   Future<bool> deletePart({required String id}) async {
-    debugPrint("Part with id: $id ");
+    if (id == null || id.isEmpty) {
+      debugPrint("Id is null");
+      return false;
+    }
+    // debugPrint("Part with id: $id ");
     try {
       await db
           .collection(CollectionsPaths.partsWithMaterialNumber)
@@ -90,15 +108,15 @@ class PartsRemoteDataSource {
   }
 
   Future<bool> isPartExistByMaterialNumber(
-      {required String materialNumber}) async {
+      {required int materialNumber}) async {
     try {
       final founded = await db
           .collection(CollectionsPaths.partsWithMaterialNumber)
-          .where("materialNumber", isEqualTo: materialNumber.trim())
+          .where("materialNumber", isEqualTo: materialNumber)
           .get();
 
       // debugPrint("${founded.docs.isNotEmpty}");
-      // debugPrint("${founded.docs}");
+      debugPrint("${founded.docs.length} is found with same material number");
       return founded.docs.isNotEmpty;
     } catch (error) {
       debugPrint(error.toString());

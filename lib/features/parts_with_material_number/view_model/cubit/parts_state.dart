@@ -14,6 +14,12 @@ class PartWatingState extends PartsState {}
 
 class PartAddeddSuccessfullyState extends PartsState {}
 
+class PartAddeddFailureState extends PartsState {
+  final String error;
+
+  PartAddeddFailureState({required this.error});
+}
+
 class PartDeletedSuccessfullyState extends PartsState {}
 
 //Update

@@ -12,46 +12,49 @@ class ChockCubit extends Cubit<ChockState> {
   ChockCubit({required this.chockRepo}) : super(ChocksInitialState());
   ChockRepository chockRepo;
   // static ChockCubit get(context) => BlocProvider.of(context);
+  List<ChockTypesModel> chocks = [];
 
   Future<void> loadAllChocks() async {
     emit(ChocksLoadingState());
-
-    final loadedChocks = await ChockRemoteDataSource().getAllChocks();
-
-    emit(ChocksLoadedSuccessfullyState(chocks: loadedChocks));
+    try {
+      chocks = await chockRepo.getAllChocks();
+      emit(ChocksLoadedSuccessfullyState(chocks: chocks));
+    } catch (e) {
+      emit(ChocksLoadedFailedState(error: e.toString()));
+    }
   }
 
   void addOneChock({required ChockTypesModel newChock}) {
     // Create a new list with the added chock
-    ChockRemoteDataSource().addChock(
-      ChockTypesModel(
-        name: "Piston",
-        chockImagePath: "",
-        notes: "notes",
-        assemblySteps: [
-          AssemblyStepsModel(
-            description: "description",
-            imagesPath: [""],
-            notes: "notes",
-          ),
-          AssemblyStepsModel(
-            description: "الخطوة الاولي",
-            imagesPath: [""],
-            notes: "notes",
-          ),
-          AssemblyStepsModel(
-            description: "description",
-            imagesPath: [""],
-            notes: "notes",
-          ),
-          AssemblyStepsModel(
-            description: "description",
-            imagesPath: [""],
-            notes: "notes",
-          ),
-        ],
-      ),
-    );
+    // ChockRemoteDataSource().addChock(
+    //   ChockTypesModel(
+    //     name: "Piston",
+    //     chockImagePath: "",
+    //     notes: "notes",
+    //     assemblySteps: [
+    //       AssemblyStepsModel(
+    //         description: "description",
+    //         imagesPath: [""],
+    //         notes: "notes",
+    //       ),
+    //       AssemblyStepsModel(
+    //         description: "الخطوة الاولي",
+    //         imagesPath: [""],
+    //         notes: "notes",
+    //       ),
+    //       AssemblyStepsModel(
+    //         description: "description",
+    //         imagesPath: [""],
+    //         notes: "notes",
+    //       ),
+    //       AssemblyStepsModel(
+    //         description: "description",
+    //         imagesPath: [""],
+    //         notes: "notes",
+    //       ),
+    //     ],
+    //   ),
+    // );
     emit(ChockAddedSuccessfullyState());
   }
   // void addOneChock({required ChockTypesModel newChock}) {

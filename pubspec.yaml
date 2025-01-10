@@ -15,7 +15,6 @@ dependencies:
   firebase_core:
   cloud_firestore:
   firebase_storage: 
-  bloc:
   flutter_bloc:
   flutter_screenutil: 
   flutter_image_slideshow:

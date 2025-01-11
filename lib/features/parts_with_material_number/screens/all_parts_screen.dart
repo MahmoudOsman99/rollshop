@@ -22,11 +22,11 @@ class AllPartsScreen extends StatefulWidget {
 }
 
 class _AllPartsScreenState extends State<AllPartsScreen> {
-  @override
-  void initState() {
-    sl<PartsCubit>().getAllParts();
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   sl<PartsCubit>().getAllParts();
+  //   super.initState();
+  // }
 
   // List<PartsWithMaterialNumberModel> parts = [];
   @override
@@ -35,121 +35,115 @@ class _AllPartsScreenState extends State<AllPartsScreen> {
     return BlocBuilder<PartsCubit, PartsState>(
       bloc: sl<PartsCubit>(),
       builder: (context, state) {
-        if (state is PartsLoadingState ||
-            state is PartsInitialState ||
-            state is PartWatingState) {
+        if (state is PartsInitialState) {
+          context.read<PartsCubit>().getAllParts();
           return Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),
           );
-        } else {
+        } else if (state is PartsLoadingState || state is PartWatingState) {
           return Scaffold(
-            appBar: AppBar(
-              title: Text(
-                'Parts Section ${context.read<PartsCubit>().parts.length}',
-                // 'Parts Section ${parts.length}',
-                style: MyTextStyles.font32WhiteBold,
-              ),
-              centerTitle: true,
-              backgroundColor: ColorsManager.mainTeal,
+            body: Center(
+              child: CircularProgressIndicator(),
             ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                context.pushNamed(Routes.addPartWithMaterialNumberScreen);
-                // context.pushNamed(Routes.addPartsScreen);
-                // context.read<PartsCubit>().addOneParts(newParts: null);
-                // context.read<PartsCubit>().loadAllChocks();
-              },
-              backgroundColor: ColorsManager.orangeColor,
-              child: Icon(Icons.add),
-            ),
-            body: ConditionalBuilder(
-              condition: sl<PartsCubit>().parts.isNotEmpty,
-              fallback: (context) {
-                return Scaffold(
-                  body: Center(
-                    child: Text(
-                      "No parts yet",
-                      style: MyTextStyles.font32OrangeBold,
-                    ),
-                  ),
-                );
-              },
-              builder: (context) => ListView.separated(
-                itemBuilder: (context, index) {
-                  return BuildPartItem(
-                    part: sl<PartsCubit>().parts[index],
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return SizedBox(
-                    width: 10,
-                  );
-                },
-                itemCount: sl<PartsCubit>().parts.length,
-              ),
-            ),
-            //     body: ConditionalBuilder(
-            //       fallback: (context) {
-            //         if (context.read<PartsCubit>().parts.isEmpty) {
-            //           return Scaffold(
-            //             body: Center(
-            //               child: Text(
-            //                 "No parts yet",
-            //                 style: MyTextStyles.font32OrangeBold,
-            //               ),
-            //             ),
-            //           );
-            //         } else {
-            //           return Center(
-            //             child: CircularProgressIndicator(),
-            //           );
-            //         }
-            //       },
-            //       condition: context.read<PartsCubit>().parts.isNotEmpty,
-            //       builder: (context) {
-            //         return ListView.separated(
-            //           itemBuilder: (context, index) {
-            //             return BuildPartItem(
-            //               part: context.read<PartsCubit>().parts[index],
-            //             );
-            //           },
-            //           separatorBuilder: (context, index) {
-            //             return SizedBox(
-            //               width: 10,
-            //             );
-            //           },
-            //           itemCount: context.read<PartsCubit>().parts.length,
-            //         );
-
-            //         // return GridView.builder(
-            //         //   scrollDirection: Axis.vertical,
-            //         //   itemCount: parts.length,
-            //         //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            //         //     crossAxisCount: 1,
-            //         //   ),
-            //         //   itemBuilder: (context, index) {
-            //         //     debugPrint(parts[index].id);
-            //         //     return BuildPartItem(
-            //         //       part: parts[index],
-            //         //     );
-            //         //   },
-            //         // );
-            //       },
-            //     ),
-            //   );
-            // } else {
-            //   return Scaffold(
-            //     body: Center(
-            //       child: Text(
-            //         "No parts yet",
-            //         style: MyTextStyles.font32OrangeBold,
-            //       ),
-            //     ),
-            //   );
-            // }
           );
+        } else if (state is PartsLoadedSuccessfullyState) {
+          return Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  'Parts Section ${state.parts.length}',
+                  // 'Parts Section ${parts.length}',
+                  style: MyTextStyles.font32WhiteBold,
+                ),
+                centerTitle: true,
+                backgroundColor: ColorsManager.mainTeal,
+              ),
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  context.pushNamed(Routes.addPartWithMaterialNumberScreen);
+                  // context.pushNamed(Routes.addPartsScreen);
+                  // state.addOneParts(newParts: null);
+                  // state.loadAllChocks();
+                },
+                backgroundColor: ColorsManager.orangeColor,
+                child: Icon(Icons.add),
+              ),
+              body: ConditionalBuilder(
+                condition: state.parts.isNotEmpty,
+                fallback: (context) {
+                  return Scaffold(
+                    body: Center(
+                      child: Text(
+                        "No parts yet",
+                        style: MyTextStyles.font32OrangeBold,
+                      ),
+                    ),
+                  );
+                },
+                builder: (context) => ListView.separated(
+                  itemBuilder: (context, index) {
+                    return BuildPartItem(
+                      part: state.parts[index],
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return SizedBox(
+                      width: 10,
+                    );
+                  },
+                  itemCount: state.parts.length,
+                ),
+              ));
+          //     body: ConditionalBuilder(
+          //       fallback: (context) {
+          //         if (state.parts.isEmpty) {
+          //           return Scaffold(
+          //             body: Center(
+          //               child: Text(
+          //                 "No parts yet",
+          //                 style: MyTextStyles.font32OrangeBold,
+          //               ),
+          //             ),
+          //           );
+          //         } else {
+          //           return Center(
+          //             child: CircularProgressIndicator(),
+          //           );
+          //         }
+          //       },
+          //       condition: state.parts.isNotEmpty,
+          //       builder: (context) {
+          //         return ListView.separated(
+          //           itemBuilder: (context, index) {
+          //             return BuildPartItem(
+          //               part: state.parts[index],
+          //             );
+          //           },
+          //           separatorBuilder: (context, index) {
+          //             return SizedBox(
+          //               width: 10,
+          //             );
+          //           },
+          //           itemCount: state.parts.length,
+          //         );
+
+          //         // return GridView.builder(
+          //         //   scrollDirection: Axis.vertical,
+          //         //   itemCount: parts.length,
+          //         //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          //         //     crossAxisCount: 1,
+          //         //   ),
+          //         //   itemBuilder: (context, index) {
+          //         //     debugPrint(parts[index].id);
+          //         //     return BuildPartItem(
+          //         //       part: parts[index],
+          //         //     );
+          //         //   },
+          //         // );
+          //       },
+          //     ),
+          //   );
           // } else {
           //   return Scaffold(
           //     body: Center(
@@ -160,6 +154,22 @@ class _AllPartsScreenState extends State<AllPartsScreen> {
           //     ),
           //   );
           // }
+          // } else {
+          //   return Scaffold(
+          //     body: Center(
+          //       child: Text(
+          //         "No parts yet",
+          //         style: MyTextStyles.font32OrangeBold,
+          //       ),
+          //     ),
+          //   );
+          // }
+        } else {
+          return Scaffold(
+            body: Center(
+              child: Text("No data found"),
+            ),
+          );
         }
       },
     );

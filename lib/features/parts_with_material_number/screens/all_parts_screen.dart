@@ -81,18 +81,24 @@ class _AllPartsScreenState extends State<AllPartsScreen> {
                     ),
                   );
                 },
-                builder: (context) => ListView.separated(
-                  itemBuilder: (context, index) {
-                    return BuildPartItem(
-                      part: state.parts[index],
-                    );
+                builder: (context) => RefreshIndicator(
+                  onRefresh: () async {
+                    await context.read<PartsCubit>().getAllParts();
                   },
-                  separatorBuilder: (context, index) {
-                    return SizedBox(
-                      width: 10,
-                    );
-                  },
-                  itemCount: state.parts.length,
+                  child: ListView.separated(
+                    itemBuilder: (context, index) {
+                      return BuildPartItem(
+                        part: state.parts[index],
+                        allowEdit: true,
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return SizedBox(
+                        width: 10,
+                      );
+                    },
+                    itemCount: state.parts.length,
+                  ),
                 ),
               ));
         } else {
@@ -111,14 +117,17 @@ class BuildPartItem extends StatelessWidget {
   const BuildPartItem({
     super.key,
     required this.part,
+    required this.allowEdit,
   });
 
   final PartsWithMaterialNumberModel part;
+  final bool allowEdit;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        if (!allowEdit) return;
         debugPrint("Pressed");
         context.pushNamed(Routes.editPartScreen, arguments: part);
       },
@@ -144,8 +153,8 @@ class BuildPartItem extends StatelessWidget {
               ),
             ),
             SizedBox(
-              width: 120.sp,
-              height: 120.sp,
+              width: 120.w,
+              height: 120.h,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
                 child: part.imagePath.isNotEmpty

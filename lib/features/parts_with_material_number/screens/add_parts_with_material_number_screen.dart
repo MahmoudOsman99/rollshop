@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,13 +10,11 @@ import 'package:rollshop/core/helpers/extensions.dart';
 import 'package:rollshop/core/helpers/image_handler.dart';
 import 'package:rollshop/core/router/app_router.dart';
 import 'package:rollshop/core/theme/styles.dart';
-import 'package:rollshop/features/chock_feature/widgets/build_selected_images.dart';
 import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
 import 'package:rollshop/features/parts_with_material_number/view_model/cubit/parts_cubit.dart';
 import 'package:rollshop/features/parts_with_material_number/view_model/cubit/parts_state.dart';
-import 'package:rollshop/features/parts_with_material_number/widgets/build_image.dart';
 
-import '../../../components/widgets/text_field.dart';
+import '../../../components/widgets/custom_text_field.dart';
 import '../../../core/theme/colors.dart';
 
 class AddPartWithMaterialNumberScreen extends StatefulWidget {
@@ -25,9 +22,11 @@ class AddPartWithMaterialNumberScreen extends StatefulWidget {
   AddPartWithMaterialNumberScreen.edit({
     required this.isEdit,
     required this.partModel,
+    // required this.isViewOnly,
   });
 
   bool isEdit = false;
+  // bool isViewOnly = false;
   PartsWithMaterialNumberModel? partModel;
 
   @override
@@ -57,7 +56,8 @@ class _AddPartWithMaterialNumberScreenState
   // String type = "";
   String? imageUrl;
 
-  bool isLoading = false;
+  bool isSaveLoading = false;
+  bool isDeleteLoading = false;
 
   @override
   void initState() {
@@ -117,6 +117,7 @@ class _AddPartWithMaterialNumberScreenState
                     children: [
                       GestureDetector(
                         onTap: () async {
+                          // if (widget.isViewOnly) return;
                           try {
                             XFile? pickedImage = await _imagePicker.pickImage(
                                 source: ImageSource.gallery);
@@ -203,22 +204,26 @@ class _AddPartWithMaterialNumberScreenState
                       CustomTextFormField(
                         textFieldController: partNameController,
                         hintText: "أسم القطعة",
+                        // isReadOnly: widget.isViewOnly,
                       ),
                       CustomTextFormField(
                         textFieldController: materialNumberController,
                         hintText: "رقم ماتريال",
                         keyboardType: TextInputType.number,
+                        // isReadOnly: widget.isViewOnly,
                       ),
                       CustomTextFormField(
                         textFieldController: drawingPartNumberController,
                         hintText: "رقم القطعة في الرسمة",
                         keyboardType: TextInputType.number,
+                        // isReadOnly: widget.isViewOnly,
                       ),
                       DropdownMenu(
                         controller: dropDownTypeController,
                         initialSelection:
                             widget.isEdit ? widget.partModel!.type : "Part",
                         width: context.width,
+                        // enabled: !widget.isViewOnly,
                         leadingIcon: Icon(Icons.settings_suggest_outlined),
                         inputDecorationTheme: InputDecorationTheme(
                           enabledBorder: OutlineInputBorder(
@@ -237,6 +242,8 @@ class _AddPartWithMaterialNumberScreenState
                           menuEntry("Seal"),
                           menuEntry("Bearing"),
                           menuEntry("Chock"),
+                          menuEntry("Guide"),
+                          menuEntry("Roll"),
 
                           // DropdownMenuEntry(value: "Part", label: "Part"),
                           // DropdownMenuEntry(value: "Seal", label: "Seal"),
@@ -267,10 +274,12 @@ class _AddPartWithMaterialNumberScreenState
                       CustomTextFormField(
                         textFieldController: sizesController,
                         hintText: "المقاسات",
+                        // isReadOnly: widget.isViewOnly,
                       ),
                       CustomTextFormField(
                         textFieldController: usageController,
                         hintText: "الأستخدام",
+                        // isReadOnly: widget.isViewOnly,
                       ),
                       CustomTextFormField(
                         textFieldController: partNotesController,
@@ -278,8 +287,9 @@ class _AddPartWithMaterialNumberScreenState
                         keyboardType: TextInputType.multiline,
                         maxLines: 4,
                         isRequired: false,
+                        // isReadOnly: widget.isViewOnly,
                       ),
-                      isLoading
+                      isSaveLoading
                           ? CircularProgressIndicator()
                           : CustomButton(
                               buttonName: 'حفظ',
@@ -302,15 +312,16 @@ class _AddPartWithMaterialNumberScreenState
                                       return;
                                     }
                                     setState(() {
-                                      isLoading = true;
+                                      isSaveLoading = true;
                                     });
-                                    if (await sl<PartsCubit>()
+                                    if (await context
+                                        .read<PartsCubit>()
                                         .isPartExistByMaterialNumber(
                                             materialNumber: int.parse(
                                                 materialNumberController
                                                     .text))) {
                                       setState(() {
-                                        isLoading = false;
+                                        isSaveLoading = false;
                                       });
                                       showCustomSnackBar(
                                         context: context,
@@ -332,7 +343,7 @@ class _AddPartWithMaterialNumberScreenState
                                     }
                                     // CircularProgressIndicator();
                                     setState(() {
-                                      isLoading = true;
+                                      isSaveLoading = true;
                                     });
                                     sl<PartsCubit>().addOnePart(
                                       part: PartsWithMaterialNumberModel(
@@ -353,7 +364,7 @@ class _AddPartWithMaterialNumberScreenState
                                       ),
                                     );
                                     setState(() {
-                                      isLoading = false;
+                                      isSaveLoading = false;
                                     });
                                     showCustomSnackBar(
                                       context: context,
@@ -404,60 +415,69 @@ class _AddPartWithMaterialNumberScreenState
                               },
                             ),
                       widget.isEdit
-                          ? CustomButton(
-                              buttonName: 'حذف هذا العنصر',
-                              color: ColorsManager.redColor,
-                              onPressed: () async {
-                                debugPrint(widget.partModel!.id.toString());
-
-                                await sl<PartsCubit>().deletePart(
-                                    id: widget.partModel!.id.toString());
-                                context.pop();
-                                return;
-                                // final result = await showDialog<bool>(
-                                //   context: context,
-                                //   builder: (context) {
-                                //     return AlertDialog(
-                                //       title: const Text('تأكيد الحذف'),
-                                //       content: Text(
-                                //           'هل تريد حذف هذا العنصر ${partNameController.text}?'),
-                                //       actions: <Widget>[
-                                //         TextButton(
-                                //           onPressed: () => Navigator.of(context)
-                                //               .pop(false), // Return false
-                                //           child: const Text('الغاء'),
-                                //         ),
-                                //         TextButton(
-                                //           onPressed: () => Navigator.of(context)
-                                //               .pop(true), // Return true
-                                //           child: const Text(
-                                //             'تأكيد',
-                                //             style: TextStyle(
-                                //               color: ColorsManager.redColor,
-                                //             ),
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     );
-                                //   },
-                                // );
-                                // if (result == true) {
-                                //   await PartsCubit.get(context).deletePart(
-                                //       id: widget.partModel!.id.toString());
-                                //   showCustomSnackBar(
-                                //     context: context,
-                                //     message: "تم حذف العنصر بنجاح",
-                                //     color: ColorsManager.redColor,
-                                //   );
-                                //   context.pop();
-                                // } else {
-                                //   showCustomSnackBar(
-                                //     context: context,
-                                //     message: "لم يتم الحذف",
-                                //     color: ColorsManager.mainTeal,
-                                //   );
-                                // }
-                              })
+                          ? !isDeleteLoading
+                              ? CustomButton(
+                                  buttonName: 'حذف هذا العنصر',
+                                  color: ColorsManager.redColor,
+                                  onPressed: () async {
+                                    setState(() {
+                                      isDeleteLoading = true;
+                                    });
+                                    final result = await showDialog<bool>(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: const Text('تأكيد الحذف'),
+                                          content: Text(
+                                              'هل تريد حذف هذا العنصر ${partNameController.text}?'),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              onPressed: () => context
+                                                  .pop(), // Return false//////////////////////////
+                                              child: const Text('الغاء'),
+                                            ),
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.of(context)
+                                                      .pop(true), // Return true
+                                              child: const Text(
+                                                'تأكيد',
+                                                style: TextStyle(
+                                                  color: ColorsManager.redColor,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                    if (result == true) {
+                                      await context
+                                          .read<PartsCubit>()
+                                          .deletePart(
+                                            id: widget.partModel!.id!,
+                                          );
+                                      showCustomSnackBar(
+                                        context: context,
+                                        message: "تم حذف العنصر بنجاح",
+                                        color: ColorsManager.redColor,
+                                      );
+                                      setState(() {
+                                        isDeleteLoading = false;
+                                      });
+                                      context.pop();
+                                    } else {
+                                      showCustomSnackBar(
+                                        context: context,
+                                        message: "لم يتم الحذف",
+                                        color: ColorsManager.mainTeal,
+                                      );
+                                      setState(() {
+                                        isDeleteLoading = false;
+                                      });
+                                    }
+                                  })
+                              : CircularProgressIndicator()
                           : SizedBox(),
                     ],
                   ),

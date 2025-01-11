@@ -44,7 +44,8 @@ class PartsCubit extends Cubit<PartsState> {
     } else {
       if (await partsRepository.addPart(part: part)) {
         // parts.add(part);
-        emit(PartsLoadedSuccessfullyState(parts: parts));
+        // emit(PartsLoadedSuccessfullyState(parts: parts));
+        getAllParts();
         debugPrint("Part added success cubit message");
         return true;
       } else {

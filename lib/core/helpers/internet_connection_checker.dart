@@ -26,7 +26,5 @@ Future<void> checkInternetConnectivity() async {
   } else if (connectivityResult == ConnectivityResult.none) {
     // I am not connected to any network.
     debugPrint('No internet connection');
-  } else {
-    debugPrint("no connection found");
   }
 }

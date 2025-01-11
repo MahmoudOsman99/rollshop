@@ -3,39 +3,39 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
-import 'package:rollshop/core/router/app_router.dart';
+
 import 'package:rollshop/core/router/routers.dart';
 import 'package:rollshop/core/theme/colors.dart';
-import 'package:rollshop/features/chock_feature/screens/add_chock_screen.dart';
+
 import 'package:rollshop/features/chock_feature/view_model/chock_cubit.dart';
 import 'package:rollshop/features/chock_feature/view_model/chock_state.dart';
-import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
 
 import '../../../core/theme/styles.dart';
 
 class AllChocksScreen extends StatefulWidget {
-  AllChocksScreen({super.key});
+  const AllChocksScreen({super.key});
 
   @override
   State<AllChocksScreen> createState() => _AllChocksScreenState();
 }
 
 class _AllChocksScreenState extends State<AllChocksScreen> {
-  @override
-  void initState() {
-    sl<ChockCubit>().loadAllChocks();
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   sl<ChockCubit>().loadAllChocks();
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ChockCubit, ChockState>(
-        bloc: sl<ChockCubit>(),
+        bloc: context.read<ChockCubit>(),
         builder: (context, state) {
           // if (state is ChocksLoadedSuccessfullyState) {
           //   chocks = state.chocks;
           // }
-          if (state is ChocksLoadingState || state is ChocksInitialState) {
+          if (state is ChocksInitialState) {
+            context.read<ChockCubit>().loadAllChocks();
             return Scaffold(body: Center(child: CircularProgressIndicator()));
           } else if (state is ChocksLoadedFailedState) {
             // Handle error state, e.g., display an error message
@@ -66,12 +66,12 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
                     child: CircularProgressIndicator(),
                   );
                 },
-                condition: sl<ChockCubit>().chocks.isNotEmpty,
+                condition: state.chocks.isNotEmpty,
                 builder: (context) {
                   return Padding(
                     padding: EdgeInsets.all(10.sp),
                     child: GridView.builder(
-                      itemCount: sl<ChockCubit>().chocks.length,
+                      itemCount: state.chocks.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         childAspectRatio: .7,
@@ -81,7 +81,7 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
                           onTap: () {
                             context.pushNamed(
                               Routes.chockDetailesScreen,
-                              arguments: sl<ChockCubit>().chocks[index],
+                              arguments: state.chocks[index],
                             );
                           },
                           child: Card(
@@ -92,9 +92,7 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
                                   child: Padding(
                                     padding: EdgeInsets.all(10.sp),
                                     child: Image.asset(
-                                      sl<ChockCubit>()
-                                          .chocks[index]
-                                          .chockImagePath,
+                                      state.chocks[index].chockImagePath,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -103,8 +101,7 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
                                   flex: 1,
                                   child: Padding(
                                     padding: const EdgeInsets.all(15),
-                                    child: Text(
-                                        sl<ChockCubit>().chocks.first.name),
+                                    child: Text(state.chocks.first.name),
                                   ),
                                 ),
                               ],

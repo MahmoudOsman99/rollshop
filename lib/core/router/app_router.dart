@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
 import 'package:rollshop/features/chock_feature/screens/add_chock_screen.dart';
+import 'package:rollshop/features/chock_feature/screens/all_chocks_screen.dart';
 import 'package:rollshop/features/main/main_screen.dart';
 import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
 import 'package:rollshop/features/parts_with_material_number/screens/add_parts_with_material_number_screen.dart';
 import 'package:rollshop/features/chock_feature/screens/chock_detailes_screen.dart';
-import 'package:rollshop/features/chock_feature/view_model/chock_cubit.dart';
-import 'package:rollshop/features/chock_feature/view_model/chock_state.dart';
 import 'package:rollshop/features/parts_with_material_number/screens/all_parts_screen.dart';
-import 'package:rollshop/features/parts_with_material_number/view_model/cubit/parts_cubit.dart';
-import 'package:rollshop/features/parts_with_material_number/view_model/cubit/parts_state.dart';
-
-import '../../features/chock_feature/screens/all_chocks_screen.dart';
 import 'routers.dart';
 
 final sl = GetIt.instance;
@@ -58,33 +52,6 @@ class AppRouter {
             builder: (context) => ChockDetailesScreen(
                   chock: chockData,
                 ));
-      // } else {
-      //   return MaterialPageRoute(
-      //     builder: (context) => Scaffold(
-      //       body: Center(
-      //         child: Text(
-      //           'No Chock found by this data',
-      //           style: MyTextStyles.font32WhiteBold,
-      //         ),
-      //       ),
-      //     ),
-      //   );
-      // }
-      // builder: (context) => ChockDetailesScreen(
-      //   chock: ChockTypesModel(
-      //     id: "1",
-      //     name: "Bottom Operator Side Chock",
-      //     imagePath: ImagesPath.bottomDriveSideImagePath,
-      //     positionInTheStand: "positionInTheStand",
-      //     assemblySteps:
-      //         "assemblyStepssccccccccccccccccccccccccccccccccccccccccccccccccccccccfegfbgtbhtrhbtrbbbbbbbbbbbbbbbbbbbbbbbbbb",
-      //   ),
-      // ),
-
-      // case Routes.loginScreen:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const LoginScreen(),
-      //   );
 
       default:
         return MaterialPageRoute(

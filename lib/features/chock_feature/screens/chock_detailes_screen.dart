@@ -6,8 +6,6 @@ import 'package:rollshop/core/theme/styles.dart';
 import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../view_model/chock_cubit.dart';
-
 class ChockDetailesScreen extends StatelessWidget {
   ChockTypesModel chock;
   ChockDetailesScreen({

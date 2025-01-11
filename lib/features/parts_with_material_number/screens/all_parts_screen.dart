@@ -33,7 +33,7 @@ class _AllPartsScreenState extends State<AllPartsScreen> {
   Widget build(BuildContext context) {
     // final partCubit = PartsCubit.get(context);
     return BlocBuilder<PartsCubit, PartsState>(
-      bloc: sl<PartsCubit>(),
+      bloc: context.read<PartsCubit>(),
       builder: (context, state) {
         if (state is PartsInitialState) {
           context.read<PartsCubit>().getAllParts();
@@ -95,75 +95,6 @@ class _AllPartsScreenState extends State<AllPartsScreen> {
                   itemCount: state.parts.length,
                 ),
               ));
-          //     body: ConditionalBuilder(
-          //       fallback: (context) {
-          //         if (state.parts.isEmpty) {
-          //           return Scaffold(
-          //             body: Center(
-          //               child: Text(
-          //                 "No parts yet",
-          //                 style: MyTextStyles.font32OrangeBold,
-          //               ),
-          //             ),
-          //           );
-          //         } else {
-          //           return Center(
-          //             child: CircularProgressIndicator(),
-          //           );
-          //         }
-          //       },
-          //       condition: state.parts.isNotEmpty,
-          //       builder: (context) {
-          //         return ListView.separated(
-          //           itemBuilder: (context, index) {
-          //             return BuildPartItem(
-          //               part: state.parts[index],
-          //             );
-          //           },
-          //           separatorBuilder: (context, index) {
-          //             return SizedBox(
-          //               width: 10,
-          //             );
-          //           },
-          //           itemCount: state.parts.length,
-          //         );
-
-          //         // return GridView.builder(
-          //         //   scrollDirection: Axis.vertical,
-          //         //   itemCount: parts.length,
-          //         //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          //         //     crossAxisCount: 1,
-          //         //   ),
-          //         //   itemBuilder: (context, index) {
-          //         //     debugPrint(parts[index].id);
-          //         //     return BuildPartItem(
-          //         //       part: parts[index],
-          //         //     );
-          //         //   },
-          //         // );
-          //       },
-          //     ),
-          //   );
-          // } else {
-          //   return Scaffold(
-          //     body: Center(
-          //       child: Text(
-          //         "No parts yet",
-          //         style: MyTextStyles.font32OrangeBold,
-          //       ),
-          //     ),
-          //   );
-          // }
-          // } else {
-          //   return Scaffold(
-          //     body: Center(
-          //       child: Text(
-          //         "No parts yet",
-          //         style: MyTextStyles.font32OrangeBold,
-          //       ),
-          //     ),
-          //   );
-          // }
         } else {
           return Scaffold(
             body: Center(

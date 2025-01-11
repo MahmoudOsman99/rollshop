@@ -7,7 +7,6 @@ import 'package:rollshop/features/parts_with_material_number/model/data/remote/p
 import 'package:rollshop/features/parts_with_material_number/model/data/repository/parts_repo_implment.dart';
 import 'package:rollshop/features/parts_with_material_number/model/data/repository/parts_repository.dart';
 import 'package:rollshop/features/parts_with_material_number/view_model/cubit/parts_cubit.dart';
-import 'package:rollshop/features/parts_with_material_number/view_model/cubit/parts_state.dart';
 
 final sl = GetIt.instance;
 

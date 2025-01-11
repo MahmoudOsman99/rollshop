@@ -12,6 +12,7 @@ class CustomTextFormField extends StatelessWidget {
   TextInputType? keyboardType;
   bool? autofocus;
   bool? isRequired;
+  bool? isReadOnly;
   // TextDirection? textDirection = TextDirection.rtl;
   CustomTextFormField({
     super.key,
@@ -23,6 +24,7 @@ class CustomTextFormField extends StatelessWidget {
     // this.textDirection,
     this.keyboardType,
     this.isRequired = true,
+    this.isReadOnly = false,
   });
 
   @override
@@ -33,6 +35,7 @@ class CustomTextFormField extends StatelessWidget {
       textInputAction: inputAction,
       keyboardType: keyboardType,
       maxLines: maxLines,
+      readOnly: isReadOnly ?? false,
       validator: isRequired!
           ? (value) {
               if (value == null || value.isEmpty) {

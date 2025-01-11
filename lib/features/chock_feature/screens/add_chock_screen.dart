@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rollshop/components/widgets/custom_button.dart';
 import 'package:rollshop/components/widgets/snack_bar.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
 import 'package:rollshop/core/theme/colors.dart';
-import 'package:rollshop/core/theme/styles.dart';
+import 'package:rollshop/features/chock_feature/view_model/chock_cubit.dart';
+import 'package:rollshop/features/chock_feature/view_model/chock_state.dart';
+import 'package:rollshop/features/chock_feature/widgets/select_parts_list.dart';
+import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
+import 'package:rollshop/features/parts_with_material_number/view_model/cubit/parts_cubit.dart';
 
-import '../../../components/widgets/text_field.dart';
-import '../widgets/build_selected_images.dart';
+import '../../../components/widgets/custom_text_field.dart';
 
 class AddChockScreen extends StatefulWidget {
   const AddChockScreen({super.key});
@@ -25,93 +29,179 @@ class _AddChockScreenState extends State<AddChockScreen> {
   List<XFile> pickedImages = [];
 
   final ImagePicker _imagePicker = ImagePicker();
+  bool isEmpty = false;
+
+  // final _controller = MultiSelectController<PartsWithMaterialNumberModel>();
+  // var items = [
+  //   DropdownItem(
+  //       label: sl<PartsCubit>().parts[0].name,
+  //       value: sl<PartsCubit>().parts[0]),
+  // ];
+
+  List<PartsWithMaterialNumberModel> _selectedParts = [];
+
+  // @override
+  // void initState() {
+  //   if (context.read<PartsCubit>().parts.isEmpty) {
+  //     context.read<PartsCubit>().getAllParts();
+  //   }
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    // final size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: 50.sp,
-            left: 10.sp,
-            right: 10.sp,
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              spacing: 20,
-              children: [
-                CustomTextFormField(
-                  textFieldController: chockNameController,
-                  hintText: "أسم الكرسي",
-                ),
-                CustomTextFormField(
-                  textFieldController: chockNotesController,
-                  hintText: "ملاحظات",
-                  keyboardType: TextInputType.multiline,
-                  maxLines: 5,
-                ),
-                SizedBox(
-                  width: context.width,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: ColorsManager.orangeColor,
-                      borderRadius: BorderRadius.circular(15),
+    return BlocBuilder<ChockCubit, ChockState>(
+      bloc: context.read<ChockCubit>(),
+      builder: (context, state) {
+        return Scaffold(
+          body: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.only(
+                top: 50.sp,
+                left: 10.sp,
+                right: 10.sp,
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  spacing: 20,
+                  children: [
+                    CustomTextFormField(
+                      textFieldController: chockNameController,
+                      hintText: "أسم الكرسي",
                     ),
-                    child: TextButton(
-                      onPressed: () async {
-                        try {
-                          List<XFile>? images =
-                              await _imagePicker.pickMultiImage();
-                          if (images.isNotEmpty) {
+                    CustomTextFormField(
+                      textFieldController: chockNotesController,
+                      hintText: "ملاحظات",
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 5,
+                    ),
+                    SizedBox(
+                      width: context.width.w,
+                      height: context.height * 0.5,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: isEmpty
+                                ? ColorsManager.redColor
+                                : ColorsManager.orangeColor,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: SelectPartsList(
+                          allParts: context.read<PartsCubit>().parts,
+                          //  context
+                          //     .read<PartsCubit>()
+                          //     .parts
+                          //     .where((part) =>
+                          //         part.type.trim().toLowerCase() ==
+                          //         "part".trim())
+                          //     .toList(),
+                          onPartsSelected: (selectedParts) {
                             setState(() {
-                              pickedImages = images;
+                              _selectedParts = selectedParts;
                             });
-                          }
-                        } catch (e) {
-                          debugPrint('Error picking images: $e');
-                          // Handle the error, e.g., show a snackbar
-                          showCustomSnackBar(
-                            context: context,
-                            message: "Error picking images: $e",
-                            color: ColorsManager.orangeColor,
-                          );
-                          // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          //     content: Text('Error picking images: $e')));
-                        }
-                      },
-                      child: Text(
-                        "اختار صور خطوات التجميع",
-                        style: MyTextStyles.font16WhiteBold,
+                          },
+                        ),
                       ),
                     ),
-                  ),
+                    CustomButton(
+                      buttonName: "حفظ",
+                      onPressed: () {
+                        if (_selectedParts.isEmpty) {
+                          setState(() {
+                            isEmpty = true;
+                          });
+                          showCustomSnackBar(
+                            context: context,
+                            message: "يجب اختيار عنصر واحد علي الاقل",
+                            color: ColorsManager.redColor,
+                          );
+                          return;
+                        }
+                      },
+                      color: ColorsManager.orangeColor,
+                    ),
+                    // ElevatedButton(
+                    //   child: const Text('Add Chock'),
+                    //   onPressed: () {
+                    //     debugPrint("${_selectedParts.first.name}");
+                    // final selectPartsListState = context
+                    //     .findAncestorStateOfType<_SelectPartsListState>();
+                    // if (selectPartsListState != null) {
+                    //   final allParts = context.read<PartsCubit>().parts;
+                    //   _selectedParts =
+                    //       selectPartsListState.getSelectedParts(allParts);
+                    //   // print(
+                    //   //     'Selected Parts: ${_selectedParts.map((p) => p.name).toList()}');
+                    //   // Now you have the selected parts in _selectedParts
+                    //   // You can use them to create and save the Chock
+                    // }
+                    //   },
+                    // ),
+                    // SizedBox(
+                    //   width: context.width,
+                    //   child: DecoratedBox(
+                    //     decoration: BoxDecoration(
+                    //       color: ColorsManager.orangeColor,
+                    //       borderRadius: BorderRadius.circular(15),
+                    //     ),
+                    //     child: TextButton(
+                    //       onPressed: () async {
+                    //         try {
+                    //           List<XFile>? images =
+                    //               await _imagePicker.pickMultiImage();
+                    //           if (images.isNotEmpty) {
+                    //             setState(() {
+                    //               pickedImages = images;
+                    //             });
+                    //           }
+                    //         } catch (e) {
+                    //           debugPrint('Error picking images: $e');
+                    //           // Handle the error, e.g., show a snackbar
+                    //           showCustomSnackBar(
+                    //             context: context,
+                    //             message: "Error picking images: $e",
+                    //             color: ColorsManager.orangeColor,
+                    //           );
+                    //           // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    //           //     content: Text('Error picking images: $e')));
+                    //         }
+                    //       },
+                    //       child: Text(
+                    //         "اختار صور خطوات التجميع",
+                    //         style: MyTextStyles.font16WhiteBold,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    // pickedImages.isNotEmpty
+                    //     ? BuildSelectedImages(
+                    //         itemCount: pickedImages.length,
+                    //         images: pickedImages,
+                    //       )
+                    //     : SizedBox(),
+                    // CustomTextFormField(
+                    //   textFieldController: chockDescriptionController,
+                    //   hintText: "شرح طريقة التجميع",
+                    //   keyboardType: TextInputType.multiline,
+                    //   maxLines: 10,
+                    // ),
+                    // CustomButton(
+                    //   buttonName: 'Upload',
+                    //   color: ColorsManager.orangeColor,
+                    //   onPressed: () {
+                    //     debugPrint(chockNameController.text);
+                    //     debugPrint(chockNotesController.text);
+                    //   },
+                    // ),
+                  ],
                 ),
-                pickedImages.isNotEmpty
-                    ? BuildSelectedImages(
-                        itemCount: pickedImages.length,
-                        images: pickedImages,
-                      )
-                    : SizedBox(),
-                CustomTextFormField(
-                  textFieldController: chockDescriptionController,
-                  hintText: "شرح طريقة التجميع",
-                  keyboardType: TextInputType.multiline,
-                  maxLines: 10,
-                ),
-                CustomButton(
-                  buttonName: 'Upload',
-                  color: ColorsManager.orangeColor,
-                  onPressed: () {
-                    debugPrint(chockNameController.text);
-                    debugPrint(chockNotesController.text);
-                  },
-                ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

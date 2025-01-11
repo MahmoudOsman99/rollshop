@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,7 +11,7 @@ import '../../../components/widgets/text_field.dart';
 import '../widgets/build_selected_images.dart';
 
 class AddChockScreen extends StatefulWidget {
-  AddChockScreen({super.key});
+  const AddChockScreen({super.key});
 
   @override
   State<AddChockScreen> createState() => _AddChockScreenState();

@@ -29,7 +29,7 @@ dependencies:
   dartz: 
   conditional_builder_null_safety: 
   internet_connection_checker_plus: 
-  # multiselect_dropdown_flutter:
+  cached_network_image: 
 
 dev_dependencies:
   flutter_test:

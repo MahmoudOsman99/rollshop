@@ -5,6 +5,7 @@ import 'package:rollshop/core/helpers/extensions.dart';
 import 'package:rollshop/core/theme/colors.dart';
 import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
 import 'package:rollshop/features/parts_with_material_number/screens/all_parts_screen.dart';
+import 'package:rollshop/features/parts_with_material_number/widgets/build_part_item.dart';
 // ... other imports
 
 class SelectPartsList extends StatefulWidget {

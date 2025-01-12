@@ -9,6 +9,7 @@ import 'package:rollshop/core/theme/colors.dart';
 
 import 'package:rollshop/features/chock_feature/view_model/chock_cubit.dart';
 import 'package:rollshop/features/chock_feature/view_model/chock_state.dart';
+import 'package:rollshop/features/parts_with_material_number/view_model/cubit/parts_cubit.dart';
 
 import '../../../core/theme/styles.dart';
 
@@ -51,8 +52,11 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
                 backgroundColor: ColorsManager.mainTeal,
               ),
               floatingActionButton: FloatingActionButton(
-                onPressed: () {
+                onPressed: () async {
                   // context.pushNamed(Routes.addPartWithMaterialNumberScreen);
+                  if (context.read<PartsCubit>().parts.isEmpty) {
+                    await context.read<PartsCubit>().getAllParts();
+                  }
                   context.pushNamed(Routes.addChockScreen);
                   // context.read<ChockCubit>().addOneChock(newChock: null);
                   // context.read<ChockCubit>().loadAllChocks();

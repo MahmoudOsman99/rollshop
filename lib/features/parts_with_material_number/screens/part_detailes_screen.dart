@@ -70,33 +70,33 @@ class PartDetailesScreen extends StatelessWidget {
                             SizedBox(
                               height: 10,
                             ),
-                            SizedBox(
-                              height: context.height / 3,
-                              width: context.width,
-                              child: ListView.separated(
-                                separatorBuilder: (context, index) {
-                                  return SizedBox(
-                                    width: 10,
-                                    height: 20,
-                                  );
-                                },
-                                scrollDirection: Axis.vertical,
-                                itemCount: chock
-                                    .assemblySteps[index].imagesPath.length,
-                                itemBuilder: (context, indexImage) => ClipRRect(
-                                  borderRadius: BorderRadius.circular(15),
-                                  child: InteractiveViewer(
-                                    minScale: 1.0,
-                                    maxScale: 4.0,
-                                    child: Image.asset(
-                                      chock.assemblySteps[index]
-                                          .imagesPath[indexImage],
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                            // SizedBox(
+                            //   height: context.height / 3,
+                            //   width: context.width,
+                            //   child: ListView.separated(
+                            //     separatorBuilder: (context, index) {
+                            //       return SizedBox(
+                            //         width: 10,
+                            //         height: 20,
+                            //       );
+                            //     },
+                            //     scrollDirection: Axis.vertical,
+                            //     itemCount: chock
+                            //         .assemblySteps[index].imagesPath.length,
+                            //     itemBuilder: (context, indexImage) => ClipRRect(
+                            //       borderRadius: BorderRadius.circular(15),
+                            //       child: InteractiveViewer(
+                            //         minScale: 1.0,
+                            //         maxScale: 4.0,
+                            //         child: Image.asset(
+                            //           chock.assemblySteps[index]
+                            //               .imagesPath[indexImage],
+                            //           fit: BoxFit.cover,
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         );
                       },

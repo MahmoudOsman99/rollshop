@@ -44,7 +44,7 @@ flutter:
 
   assets:
     - assets/
-    # - assets/images/
+    - assets/images/
     - assets/images/chock_types/
 
   # An image asset can refer to one or more resolution-specific "variants", see

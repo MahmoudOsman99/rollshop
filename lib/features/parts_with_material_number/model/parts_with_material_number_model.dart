@@ -30,10 +30,10 @@ class PartsWithMaterialNumberModel {
       name: json["name"] ?? "",
       type: json["type"] ?? "",
       imagePath: json["imagePath"] ?? "",
-      materialNumber: json["materialNumber"] ?? "",
+      materialNumber: json["materialNumber"] ?? 0,
       usage: json["usage"] ?? "",
       areaOfUsage: json["areaOfUsage"] ?? "",
-      drawingPartNumber: json["drawingPartNumber"] ?? "",
+      drawingPartNumber: json["drawingPartNumber"] ?? 0,
       sizes: json["sizes"] ?? "",
       notes: json["notes"] ?? "",
     );

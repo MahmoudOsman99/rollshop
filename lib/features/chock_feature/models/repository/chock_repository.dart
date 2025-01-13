@@ -4,7 +4,7 @@ import 'package:rollshop/features/parts_with_material_number/model/parts_with_ma
 
 abstract class ChockRepository {
   Future<List<ChockTypesModel>> getAllChocks();
-  Future<Unit> addChock();
+  Future<Unit> addChock({required ChockTypesModel chock});
   Future<Unit> updateChock();
   Future<List<PartsWithMaterialNumberModel>> getAllParts();
   // Future<bool> deletePart({required String id});

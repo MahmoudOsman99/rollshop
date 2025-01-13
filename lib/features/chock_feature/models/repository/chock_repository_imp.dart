@@ -14,7 +14,7 @@ class ChockRepositoryImp implements ChockRepository {
   }
 
   @override
-  Future<Unit> addChock() {
+  Future<Unit> addChock({required ChockTypesModel chock}) {
     debugPrint("Add chock");
     return Future.value(unit);
   }

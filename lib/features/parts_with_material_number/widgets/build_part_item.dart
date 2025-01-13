@@ -1,10 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rollshop/components/widgets/build_image_with_error_handler.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
+import 'package:rollshop/core/helpers/images_path.dart';
 import 'package:rollshop/core/router/routers.dart';
 import 'package:rollshop/core/theme/styles.dart';
 import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
+import 'package:rollshop/features/parts_with_material_number/widgets/build_image.dart';
 
 class BuildPartItem extends StatelessWidget {
   const BuildPartItem({
@@ -53,10 +56,14 @@ class BuildPartItem extends StatelessWidget {
                 child: part.imagePath.isNotEmpty
                     ? CachedNetworkImage(
                         imageUrl: part.imagePath,
+                        fit: BoxFit.cover,
                         placeholder: (context, url) =>
                             Center(child: CircularProgressIndicator()),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
-                        fit: BoxFit.cover,
+                        errorWidget: (context, url, error) =>
+                            BuildImageWithErrorHandler(
+                          imageType: ImageType.asset,
+                          path: ImagesPath.errorImagePath,
+                        ),
                       )
                     : SizedBox(
                         child: Center(

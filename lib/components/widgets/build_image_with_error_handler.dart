@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:rollshop/core/helpers/images_path.dart';
 import 'package:rollshop/core/theme/colors.dart';
@@ -28,13 +29,20 @@ class BuildImageWithErrorHandler extends StatelessWidget {
           },
         );
       case ImageType.network:
-        return Image.network(
-          path.toString(),
-          fit: boxFit,
-          errorBuilder: (context, error, stackTrace) {
+        return CachedNetworkImage(
+          imageUrl: path,
+          errorWidget: (context, url, error) {
             return errorImage();
           },
+          // fit: BoxFit.cover,
         );
+      // return Image.network(
+      //   path.toString(),
+      //   fit: boxFit,
+      //   errorBuilder: (context, error, stackTrace) {
+      //     return errorImage();
+      //   },
+      // );
       case ImageType.file:
         return Image.file(
           File(path.path),
@@ -49,10 +57,9 @@ class BuildImageWithErrorHandler extends StatelessWidget {
 
 Widget errorImage() {
   return Center(
-    child: Icon(
-      Icons.upload,
-      size: 100,
-      color: ColorsManager.orangeColor,
+    child: Image.asset(
+      ImagesPath.errorImagePath,
+      fit: BoxFit.cover,
     ),
   );
 }

@@ -6,31 +6,41 @@ class ChockTypesModel {
   final String name;
   final String chockImagePath;
   final String notes;
-  // final String? howTocalcBearingShim;
-  final List<AssemblyStepsModel> assemblySteps;
+  final String bearingType;
+  final String? howTocalcBearingShim;
+  final List<AssemblyStepModel> assemblySteps;
   final List<PartsWithMaterialNumberModel>? parts;
   // final String assemblySteps;
 
   ChockTypesModel({
     this.id,
+    required this.bearingType,
     required this.name,
     required this.chockImagePath,
     required this.notes,
     required this.assemblySteps,
-    // this.howTocalcBearingShim,
+    this.howTocalcBearingShim,
     this.parts,
   });
 
   factory ChockTypesModel.fromJson(
       {required Map<String, dynamic> json, idFromFirebase}) {
     return ChockTypesModel(
-      id: idFromFirebase ?? json['id'] as String ?? [0],
-      name: json['name'] as String,
-      chockImagePath: json['chockImagePath'] as String,
-      notes: json['notes'] as String,
-      // howTocalcBearingShim: json['howTocalcBearingShim'] as String,
+      id: idFromFirebase ?? json['id'],
+      bearingType: json['bearingType'] ?? "",
+      name: json['name'] ?? "",
+      chockImagePath: json['chockImagePath'] ?? "",
+      notes: json['notes'] ?? "",
+      howTocalcBearingShim: json['howTocalcBearingShim'] ?? "",
+      parts: (json["parts"] as List<dynamic>?)
+              ?.map((part) => PartsWithMaterialNumberModel.fromJson(
+                    json: part as Map<String, dynamic>,
+                    // idFromFirebase: part["id"],
+                  ))
+              .toList() ??
+          [],
       assemblySteps: (json['assemblySteps'] as List<dynamic>?)
-              ?.map((step) => AssemblyStepsModel.fromJson(
+              ?.map((step) => AssemblyStepModel.fromJson(
                   json: step as Map<String, dynamic>))
               .toList() ??
           [],
@@ -42,11 +52,16 @@ class ChockTypesModel {
       'name': name,
       'chockImagePath': chockImagePath,
       'notes': notes,
+      'howTocalcBearingShim': howTocalcBearingShim,
+      "parts": parts != null && parts!.isNotEmpty
+          ? parts!.map((part) => part.toJson()).toList()
+          : [],
       'assemblySteps': assemblySteps.map((step) => step.toJson()).toList(),
     };
   }
 }
 
+//         {"name": "Top Thrust Chock", "imagePath": "assets/images/top_thrust.png"},
 // Future<void> _loadChockTypes() async {
 //   // Simulate loading from JSON (you'd usually load from a file or network)
 //   String jsonString = '''
@@ -55,7 +70,6 @@ class ChockTypesModel {
 //         {"name": "Bottom of Stroke", "imagePath": "assets/images/bos.png"},
 //         {"name": "Top Dead Stroke", "imagePath": "assets/images/tds.png"},
 //         {"name": "Bottom Dead Stroke", "imagePath": "assets/images/bds.png"},
-//         {"name": "Top Thrust Chock", "imagePath": "assets/images/top_thrust.png"},
 //         {"name": "Bottom Thrust Chock", "imagePath": "assets/images/bottom_thrust.png"},
 //         {"name": "Piston", "imagePath": "assets/images/piston.png"}
 //       ]

@@ -547,18 +547,20 @@ DropdownMenuEntry menuEntry(
 class CustomDropDown extends StatelessWidget {
   CustomDropDown({
     super.key,
-    required this.dropDownController,
-    required this.part,
+    this.dropDownController,
+    this.part,
     required this.items,
     required this.mainLable,
     required this.initialSelection,
+    this.onSelected,
   });
 
-  final TextEditingController dropDownController;
-  final AddPartWithMaterialNumberScreen part;
+  final TextEditingController? dropDownController;
+  final AddPartWithMaterialNumberScreen? part;
   List<DropdownMenuEntry> items;
   String mainLable;
   String initialSelection;
+  ValueChanged<dynamic>? onSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -567,6 +569,7 @@ class CustomDropDown extends StatelessWidget {
       initialSelection: initialSelection,
       // initialSelection: part.isEdit ? part.partModel!.areaOfUsage : "BDM",
       width: context.width,
+      onSelected: onSelected,
       leadingIcon: Icon(Icons.settings_suggest_outlined),
       inputDecorationTheme: InputDecorationTheme(
         enabledBorder: OutlineInputBorder(

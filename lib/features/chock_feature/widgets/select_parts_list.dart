@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
 import 'package:rollshop/core/theme/colors.dart';
 import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
+import 'package:rollshop/features/parts_with_material_number/screens/add_parts_with_material_number_screen.dart';
 import 'package:rollshop/features/parts_with_material_number/screens/all_parts_screen.dart';
 import 'package:rollshop/features/parts_with_material_number/widgets/build_part_item.dart';
 // ... other imports
@@ -77,6 +78,34 @@ class _SelectPartsListState extends State<SelectPartsList> {
                 ),
           ),
         ),
+        // Padding(
+        //   padding: const EdgeInsets.all(8.0),
+        //   child: CustomDropDown(
+        //     // dropDownController: dropDownAreaOfUsageController,
+        //     mainLable: 'اختار منطقة الشغل',
+        //     onSelected: (value) {
+        //       setState(() {
+        //         _searchQuery = value;
+        //         // _filteredParts.where((part) => part.type == value);
+        //       });
+        //     },
+        //     initialSelection: "BDM",
+        //     items: [
+        //       menuEntry("BDM"),
+        //       menuEntry("TDM"),
+        //       menuEntry("Vertical"),
+        //       menuEntry("Straghitner"),
+        //       menuEntry("Guides"),
+        //       // DropdownMenuEntry(value: "BDM", label: "BDM"),
+        //       // DropdownMenuEntry(value: "TDM", label: "TDM"),
+        //       // DropdownMenuEntry(
+        //       //     value: "Vertical", label: "Vertical"),
+        //       // DropdownMenuEntry(
+        //       //     value: "Straghitner", label: "Straghitner"),
+        //       // DropdownMenuEntry(value: "Guides", label: "Guides"),
+        //     ],
+        //   ),
+        // ),
         Expanded(
           child: ListView.builder(
             itemCount: _filteredParts.length,

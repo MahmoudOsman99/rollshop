@@ -13,11 +13,12 @@ class ChockRemoteDataSource {
   Future<List<ChockTypesModel>> getAllChocks() async {
     final chocksFromDB = await db.collection(CollectionsPaths.chockPath).get();
     final List<ChockTypesModel> chocks = [];
+    // return [];
     if (chocksFromDB.docs.isNotEmpty) {
       // debugPrint("not empty");
       // debugPrint("${chocksFromDB.docs.first}");
       for (var c in chocksFromDB.docs) {
-        // debugPrint("${c.data()['name']}");
+        debugPrint("${c.data()}");
         chocks.add(
             ChockTypesModel.fromJson(json: c.data(), idFromFirebase: c.id));
       }
@@ -58,19 +59,19 @@ class ChockRemoteDataSource {
   //   } catch (e) {}
   // }
 
-  Future<Unit> addChock(ChockTypesModel chock) async {
-    // try {
-    final c = chock.toJson();
+  Future<Unit> addChock({required ChockTypesModel chock}) async {
+    try {
+      final c = chock.toJson();
 
-    // final steps = c
-    debugPrint("${c['assemblySteps'][0]['description']}");
-    await db.collection(CollectionsPaths.chockPath).add(c);
-    debugPrint("$unit");
-    debugPrint("added successfully");
-    return Future.value(unit);
-
-    // } catch (e) {
-    //   debugPrint(e.toString());
-    // }
+      // final steps = c
+      debugPrint("${c['assemblySteps'][0]['description']}");
+      await db.collection(CollectionsPaths.chockPath).add(c);
+      debugPrint("$unit");
+      debugPrint("added successfully");
+      return Future.value(unit);
+    } catch (e) {
+      debugPrint(e.toString());
+      return Future.value(unit);
+    }
   }
 }

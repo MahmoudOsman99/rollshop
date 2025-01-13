@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
 import 'package:rollshop/features/chock_feature/models/repository/chock_repository.dart';
 import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
@@ -10,6 +14,7 @@ class ChockCubit extends Cubit<ChockState> {
   // static ChockCubit get(context) => BlocProvider.of(context);
   List<ChockTypesModel> chocks = [];
   // List<PartsWithMaterialNumberModel> parts = [];
+  List<String> bearingTypes = ["Radial", "Spherical", "Thrust"];
 
   Future<void> loadAllChocks() async {
     emit(ChocksLoadingState());
@@ -20,6 +25,42 @@ class ChockCubit extends Cubit<ChockState> {
       emit(ChocksLoadedFailedState(error: e.toString()));
     }
   }
+
+  List<TextEditingController> descControllers = [];
+  List<TextEditingController> notesControllers = [];
+  List<ImagePicker> pickers = [];
+  List<File> imagesPathes = [];
+
+  addField() {
+    descControllers.add(TextEditingController());
+    notesControllers.add(TextEditingController());
+    pickers.add(ImagePicker());
+    // imageFiles.add();
+    emit(ChockAddFieldsAddedState());
+  }
+
+  void addImage(File imageFile) {
+    imagesPathes.add(imageFile);
+    emit(ChockImageChangedState());
+  }
+
+  void removeImage(File image) {
+    imagesPathes.remove(image);
+    emit(ChockImageChangedState());
+  }
+
+  removeField(int index) {
+    descControllers.removeAt(index);
+    notesControllers.removeAt(index);
+    pickers.removeAt(index);
+    emit(ChockAddFieldsRemovedState());
+  }
+
+  changeImage() {
+    emit(ChockImageChangedState());
+  }
+
+  getFieldsValue() {}
 
   // Future<void> getAllParts() async {
   //   emit(ChocksLoadingState());

@@ -28,3 +28,9 @@ class ChocksLoadedSuccessfullyState extends ChockState {
     required this.chocks,
   });
 }
+
+class ChockAddFieldsAddedState extends ChockState {}
+
+class ChockAddFieldsRemovedState extends ChockState {}
+
+class ChockImageChangedState extends ChockState {}

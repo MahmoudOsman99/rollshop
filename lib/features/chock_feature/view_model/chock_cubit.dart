@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
 import 'package:rollshop/features/chock_feature/models/repository/chock_repository.dart';
-import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
 import 'chock_state.dart';
 
 class ChockCubit extends Cubit<ChockState> {
@@ -51,6 +50,9 @@ class ChockCubit extends Cubit<ChockState> {
 
   removeField(int index) {
     // if (descControllers.contains(descControllers[index])) {
+    descControllers[index].dispose();
+    notesControllers[index].dispose();
+
     descControllers.removeAt(index);
     notesControllers.removeAt(index);
     pickers.removeAt(index);

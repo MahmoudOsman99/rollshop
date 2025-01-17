@@ -1,9 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:rollshop/components/widgets/build_image_with_error_handler.dart';
-import 'package:rollshop/core/helpers/extensions.dart';
 import 'package:rollshop/core/helpers/images_path.dart';
-import 'package:rollshop/core/router/routers.dart';
 import 'package:rollshop/core/theme/colors.dart';
 import 'package:rollshop/core/theme/styles.dart';
 import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
@@ -26,23 +24,24 @@ class ChockDetailesScreen extends StatelessWidget {
       //   centerTitle: true,
       //   backgroundColor: ColorsManager.darkModeColor,
       // ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // context.read<ChockCubit>().addOneChock(newChock: null);
-          context.pushNamed(Routes.addChockScreen);
-        },
-        backgroundColor: ColorsManager.orangeColor,
-        child: Icon(
-          Icons.add,
-          color: ColorsManager.whiteColor,
-          size: 50,
-        ),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     // context.read<ChockCubit>().addOneChock(newChock: null);
+      //     context.pushNamed(Routes.addChockScreen);
+      //   },
+      //   backgroundColor: ColorsManager.orangeColor,
+      //   child: Icon(
+      //     Icons.add,
+      //     color: ColorsManager.whiteColor,
+      //     size: 50,
+      //   ),
+      // ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(20.sp),
           child: SingleChildScrollView(
             child: Column(
+              spacing: 10.h,
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(15),
@@ -53,6 +52,7 @@ class ChockDetailesScreen extends StatelessWidget {
                             chock.chockImagePath.isNotEmpty
                         ? CachedNetworkImage(
                             imageUrl: chock.chockImagePath,
+                            fit: BoxFit.cover,
                             errorWidget: (context, url, error) {
                               return BuildImageWithErrorHandler(
                                 imageType: ImageType.asset,
@@ -68,25 +68,87 @@ class ChockDetailesScreen extends StatelessWidget {
                   ),
                 ),
                 Text(
+                  chock.name,
+                  style: MyTextStyles.font24Black700Weight,
+                ),
+                Text(
                   "خطوات التجميع",
                   style: MyTextStyles.font24Black700Weight,
                 ),
-                chock.assemblySteps.isNotEmpty
-                    ? SizedBox(
+                if (chock.assemblySteps.isNotEmpty)
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: ColorsManager.orangeColor,
+                          width: 2,
+                        )),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        right: 10.sp,
+                        left: 10.sp,
+                      ),
+                      child: SizedBox(
                         height: size.height / 2,
                         child: ListView.builder(
                           itemCount: chock.assemblySteps.length,
                           itemBuilder: (context, index) {
                             // debugPrint();
                             return Column(
+                              spacing: 10,
                               children: [
-                                Text(
-                                  chock.assemblySteps[index].description,
-                                  style: MyTextStyles.font16BlackeWeight500,
-                                ),
                                 SizedBox(
-                                  height: 10,
+                                  height: 40.h,
                                 ),
+                                // Text(
+                                //   chock.assemblySteps[index].description,
+                                //   style: MyTextStyles.font16BlackeWeight500,
+                                // ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        // mainAxisAlignment:
+                                        //     MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            chock.assemblySteps[index]
+                                                .description,
+                                            maxLines: 4,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: CachedNetworkImage(
+                                          imageUrl: chock
+                                              .assemblySteps[index].imagePath,
+                                          fit: BoxFit.cover,
+                                          errorWidget: (context, url, error) {
+                                            return BuildImageWithErrorHandler(
+                                              imageType: ImageType.asset,
+                                              path: ImagesPath.errorImagePath,
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  "ملاحظات علي الخطوة",
+                                ),
+                                Text(
+                                  chock.assemblySteps[index].notes,
+                                  maxLines: 4,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+
                                 // SizedBox(
                                 //   height: size.height / 3,
                                 //   width: size.width,
@@ -128,19 +190,28 @@ class ChockDetailesScreen extends StatelessWidget {
                             );
                           },
                         ),
-                      )
-                    : SizedBox(),
+                      ),
+                    ),
+                  )
+                else
+                  SizedBox(),
+                SizedBox(
+                  height: 10.h,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   spacing: 10.sp,
                   children: [
                     Text(
-                      chock.notes,
+                      "ملاحظات:",
                       style: MyTextStyles.font32OrangeBold,
                     ),
-                    Text(
-                      ":ملاحظات",
-                      style: MyTextStyles.font32OrangeBold,
+                    Expanded(
+                      child: Text(
+                        chock.notes,
+                        style: MyTextStyles.font16BlackeBold,
+                      ),
                     ),
                   ],
                 ),

@@ -43,152 +43,149 @@ class _BuildFieldsState extends State<BuildFields> {
               );
             },
             itemBuilder: (context, index) {
-              return Form(
-                key: widget.formKey,
-                child: Column(
-                  spacing: 20.h,
-                  children: [
-                    // GestureDetector(
-                    //   onTap: () async {
-                    // XFile? selectedImage;
-                    // if (context.read<ChockCubit>().imagesPathes.isNotEmpty &&
-                    //     selectedImage != null) {
-                    //   context
-                    //       .read<ChockCubit>()
-                    //       .removeImage(File(selectedImage.path));
-                    // }
+              return Column(
+                spacing: 20.h,
+                children: [
+                  // GestureDetector(
+                  //   onTap: () async {
+                  // XFile? selectedImage;
+                  // if (context.read<ChockCubit>().imagesPathes.isNotEmpty &&
+                  //     selectedImage != null) {
+                  //   context
+                  //       .read<ChockCubit>()
+                  //       .removeImage(File(selectedImage.path));
+                  // }
 
-                    // selectedImage = await context
-                    //     .read<ChockCubit>()
-                    //     .pickers[index]
-                    //     .pickImage(source: ImageSource.gallery);
-                    // if (selectedImage != null) {
-                    //   context
-                    //       .read<ChockCubit>()
-                    //       .addImage(File(selectedImage.path));
-                    //   debugPrint(
-                    //       "${context.read<ChockCubit>().imagesPathes.length}");
-                    // context
-                    //     .read<ChockCubit>()
-                    //     .imagesPathes
-                    //     .add(File(selectedImage.path)
-                    // );
-                    // }
-                    // debugPrint(
-                    //     "${context.read<ChockCubit>().descControllers.length}");
-                    //   },
-                    //   child: SizedBox(
-                    //     width: 150.w,
-                    //     height: 150.h,
-                    //     child: context.read<ChockCubit>().imagesPathes.isNotEmpty &&
-                    //             context.read<ChockCubit>().imagesPathes.length >
-                    //                 index
-                    //         ? ClipRRect(
-                    //             borderRadius: BorderRadius.circular(15),
-                    //             child: BuildImageWithErrorHandler(
-                    //               imageType: ImageType.file,
-                    //               path: context
-                    //                   .read<ChockCubit>()
-                    //                   .imagesPathes[index],
-                    //               boxFit: BoxFit.cover,
-                    //             ),
-                    //           )
-                    //         : Icon(
-                    //             Icons.upload,
-                    //             size: 50,
-                    //             color: ColorsManager.orangeColor,
-                    //           ),
-                    //   ),
-                    // ),
-                    Row(
-                      // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      spacing: 20,
-                      children: [
-                        Text(
-                          "خطوة رقم ${index + 1}",
-                          style: MyTextStyles.font16BlackeBold,
-                        ),
-                        index > 0
-                            ? DecoratedBox(
-                                decoration: BoxDecoration(
-                                  color: ColorsManager.redColor,
-                                  borderRadius: BorderRadius.circular(15),
+                  // selectedImage = await context
+                  //     .read<ChockCubit>()
+                  //     .pickers[index]
+                  //     .pickImage(source: ImageSource.gallery);
+                  // if (selectedImage != null) {
+                  //   context
+                  //       .read<ChockCubit>()
+                  //       .addImage(File(selectedImage.path));
+                  //   debugPrint(
+                  //       "${context.read<ChockCubit>().imagesPathes.length}");
+                  // context
+                  //     .read<ChockCubit>()
+                  //     .imagesPathes
+                  //     .add(File(selectedImage.path)
+                  // );
+                  // }
+                  // debugPrint(
+                  //     "${context.read<ChockCubit>().descControllers.length}");
+                  //   },
+                  //   child: SizedBox(
+                  //     width: 150.w,
+                  //     height: 150.h,
+                  //     child: context.read<ChockCubit>().imagesPathes.isNotEmpty &&
+                  //             context.read<ChockCubit>().imagesPathes.length >
+                  //                 index
+                  //         ? ClipRRect(
+                  //             borderRadius: BorderRadius.circular(15),
+                  //             child: BuildImageWithErrorHandler(
+                  //               imageType: ImageType.file,
+                  //               path: context
+                  //                   .read<ChockCubit>()
+                  //                   .imagesPathes[index],
+                  //               boxFit: BoxFit.cover,
+                  //             ),
+                  //           )
+                  //         : Icon(
+                  //             Icons.upload,
+                  //             size: 50,
+                  //             color: ColorsManager.orangeColor,
+                  //           ),
+                  //   ),
+                  // ),
+                  Row(
+                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    spacing: 20,
+                    children: [
+                      Text(
+                        "خطوة رقم ${index + 1}",
+                        style: MyTextStyles.font16BlackeBold,
+                      ),
+                      index > 0
+                          ? DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: ColorsManager.redColor,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: InkWell(
+                                onTap: () async {
+                                  setState(() {
+                                    context
+                                        .read<ChockCubit>()
+                                        .removeField(index);
+                                  });
+
+                                  // final result = await showDialog<bool>(
+                                  //   context: context,
+                                  //   builder: (context) {
+                                  //     return AlertDialog(
+                                  //       title: const Text('تأكيد الحذف'),
+                                  //       content: Text('هل تريد حذف هذا العنصر?'),
+                                  //       actions: <Widget>[
+                                  //         TextButton(
+                                  //           onPressed: () => context
+                                  //               .pop(), // Return false//////////////////////////
+                                  //           child: const Text('الغاء'),
+                                  //         ),
+                                  //         TextButton(
+                                  //           onPressed: () => Navigator.of(context)
+                                  //               .pop(true), // Return true
+                                  //           child: const Text(
+                                  //             'تأكيد',
+                                  //             style: TextStyle(
+                                  //               color: ColorsManager.redColor,
+                                  //             ),
+                                  //           ),
+                                  //         ),
+                                  //       ],
+                                  //     );
+                                  //   },
+                                  // );
+                                  // if (result == true) {
+                                  //   context.read<ChockCubit>().removeField(index);
+
+                                  //   showCustomSnackBar(
+                                  //     context: context,
+                                  //     message: "تم حذف العنصر بنجاح",
+                                  //     color: ColorsManager.redColor,
+                                  //   );
+                                  // } else {
+                                  //   showCustomSnackBar(
+                                  //     context: context,
+                                  //     message: "لم يتم الحذف",
+                                  //     color: ColorsManager.mainTeal,
+                                  //   );
+                                  // }
+                                },
+                                child: Icon(
+                                  Icons.remove,
+                                  size: 30,
+                                  color: ColorsManager.whiteColor,
                                 ),
-                                child: InkWell(
-                                  onTap: () async {
-                                    setState(() {
-                                      context
-                                          .read<ChockCubit>()
-                                          .removeField(index);
-                                    });
-
-                                    // final result = await showDialog<bool>(
-                                    //   context: context,
-                                    //   builder: (context) {
-                                    //     return AlertDialog(
-                                    //       title: const Text('تأكيد الحذف'),
-                                    //       content: Text('هل تريد حذف هذا العنصر?'),
-                                    //       actions: <Widget>[
-                                    //         TextButton(
-                                    //           onPressed: () => context
-                                    //               .pop(), // Return false//////////////////////////
-                                    //           child: const Text('الغاء'),
-                                    //         ),
-                                    //         TextButton(
-                                    //           onPressed: () => Navigator.of(context)
-                                    //               .pop(true), // Return true
-                                    //           child: const Text(
-                                    //             'تأكيد',
-                                    //             style: TextStyle(
-                                    //               color: ColorsManager.redColor,
-                                    //             ),
-                                    //           ),
-                                    //         ),
-                                    //       ],
-                                    //     );
-                                    //   },
-                                    // );
-                                    // if (result == true) {
-                                    //   context.read<ChockCubit>().removeField(index);
-
-                                    //   showCustomSnackBar(
-                                    //     context: context,
-                                    //     message: "تم حذف العنصر بنجاح",
-                                    //     color: ColorsManager.redColor,
-                                    //   );
-                                    // } else {
-                                    //   showCustomSnackBar(
-                                    //     context: context,
-                                    //     message: "لم يتم الحذف",
-                                    //     color: ColorsManager.mainTeal,
-                                    //   );
-                                    // }
-                                  },
-                                  child: Icon(
-                                    Icons.remove,
-                                    size: 30,
-                                    color: ColorsManager.whiteColor,
-                                  ),
-                                ),
-                              )
-                            : SizedBox(),
-                      ],
-                    ),
-                    CustomTextFormField(
-                      textFieldController:
-                          context.read<ChockCubit>().descControllers[index],
-                      hintText:
-                          // "شرح ${context.read<ChockCubit>().descControllers.length}",
-                          "شرح",
-                      maxLines: 3,
-                    ),
-                    CustomTextFormField(
-                      textFieldController:
-                          context.read<ChockCubit>().notesControllers[index],
-                      hintText: "ملاحظات",
-                    ),
-                  ],
-                ),
+                              ),
+                            )
+                          : SizedBox(),
+                    ],
+                  ),
+                  CustomTextFormField(
+                    textFieldController:
+                        context.read<ChockCubit>().descControllers[index],
+                    hintText:
+                        // "شرح ${context.read<ChockCubit>().descControllers.length}",
+                        "شرح",
+                    maxLines: 3,
+                  ),
+                  CustomTextFormField(
+                    textFieldController:
+                        context.read<ChockCubit>().notesControllers[index],
+                    hintText: "ملاحظات",
+                  ),
+                ],
               );
             },
           ),

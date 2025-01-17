@@ -158,8 +158,12 @@ class _AddChockScreenState extends State<AddChockScreen> {
                       },
                       color: ColorsManager.mainTeal,
                     ),
+                    if (context.read<ChockCubit>().descControllers.isNotEmpty)
+                      BuildFields(),
 
-                    BuildFields(),
+                    // SizedBox(
+                    //   child: Text("data"),
+                    // ),
 
                     // SizedBox(
                     //   width: context.width.w,

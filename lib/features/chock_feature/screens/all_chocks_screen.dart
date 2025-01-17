@@ -1,11 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rollshop/components/widgets/build_image_with_error_handler.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
-import 'package:rollshop/core/helpers/images_path.dart';
 
 import 'package:rollshop/core/router/routers.dart';
 import 'package:rollshop/core/theme/colors.dart';
@@ -38,7 +36,7 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
           // if (state is ChocksLoadedSuccessfullyState) {
           //   chocks = state.chocks;
           // }
-          if (state is ChocksInitialState) {
+          if (state is ChocksInitialState || state is ChocksLoadingState) {
             context.read<ChockCubit>().loadAllChocks();
             return Scaffold(body: Center(child: CircularProgressIndicator()));
           } else if (state is ChocksLoadedFailedState) {
@@ -69,85 +67,103 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
               ),
               body: ConditionalBuilder(
                 fallback: (context) {
-                  return Center(
-                    child: CircularProgressIndicator(),
+                  return Scaffold(
+                    body: Center(
+                      child: CircularProgressIndicator(),
+                    ),
                   );
                 },
                 condition: state.chocks.isNotEmpty,
                 builder: (context) {
-                  return Padding(
-                    padding: EdgeInsets.all(10.sp),
-                    child: GridView.builder(
-                      itemCount: state.chocks.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: .7,
-                      ),
-                      itemBuilder: (context, index) => SizedBox(
-                        child: Card(
-                          elevation: 20,
-                          child: InkWell(
-                            onTap: () {
-                              context.pushNamed(
-                                Routes.chockDetailesScreen,
-                                arguments: state.chocks[index],
-                              );
-                            },
-                            child: Column(
-                              spacing: 10.h,
-                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      top:
-                                          0), // to let the image in the top without auto padding
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(15),
-                                    child: SizedBox(
-                                      width: context.width * .5,
-                                      height: context.height * .2,
-                                      child: BuildImageWithErrorHandler(
-                                        imageType: ImageType.network,
-                                        boxFit: BoxFit.cover,
-                                        path:
-                                            state.chocks[index].chockImagePath,
+                  return RefreshIndicator(
+                    onRefresh: () async {
+                      await context.read<ChockCubit>().loadAllChocks();
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.all(10.sp),
+                      child: GridView.builder(
+                        itemCount: state.chocks.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: .5,
+                        ),
+                        itemBuilder: (context, index) => SizedBox(
+                          child: Card(
+                            elevation: 20,
+                            child: InkWell(
+                              onTap: () {
+                                context.pushNamed(
+                                  Routes.chockDetailesScreen,
+                                  arguments: state.chocks[index],
+                                );
+                              },
+                              child: Column(
+                                spacing: 10.h,
+                                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        top:
+                                            0), // to let the image in the top without auto padding
+                                    child: ClipRRect(
+                                      borderRadius:
+                                          BorderRadiusDirectional.only(
+                                        topEnd: Radius.circular(10),
+                                        topStart: Radius.circular(10),
+                                      ),
+                                      child: SizedBox(
+                                        // width: context.width * .5,
+                                        // height: context.height * .2,
+                                        child: BuildImageWithErrorHandler(
+                                          imageType: ImageType.network,
+                                          boxFit: BoxFit.cover,
+                                          path: state
+                                              .chocks[index].chockImagePath,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    spacing: 10.h,
-                                    // mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        state.chocks[index].name,
-                                        style: MyTextStyles.font16BlackeBold,
-                                      ),
-                                      Text(
-                                        state.chocks[index].notes,
-                                        style: MyTextStyles.font13GreyRegular,
-                                      ),
-                                      state.chocks[index].bearingType.isNotEmpty
-                                          ? Text(
-                                              state.chocks[index].bearingType,
-                                              style: MyTextStyles
-                                                  .font13GreyRegular,
-                                            )
-                                          : SizedBox(),
-                                      // Expanded(
-                                      //   flex: 1,
-                                      //   child: Padding(
-                                      //     padding: const EdgeInsets.all(15),
-                                      //     child: Text(state.chocks.first.name),
-                                      //   ),
-                                      // ),
-                                    ],
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      spacing: 10.h,
+                                      // mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          state.chocks[index].name,
+                                          style: MyTextStyles.font16BlackeBold,
+                                        ),
+                                        // Text(
+                                        //   state.chocks[index].notes,
+                                        //   style: MyTextStyles.font13GreyRegular,
+                                        //   maxLines: 1,
+                                        //   overflow: TextOverflow.ellipsis,
+                                        // ),
+                                        Text(
+                                          state.chocks[index].bearingType,
+                                          style: MyTextStyles.font13GreyRegular,
+                                        ),
+                                        // state.chocks[index].bearingType
+                                        //         .isNotEmpty
+                                        //     ? Text(
+                                        //         "نوع البيرنج:  ${state.chocks[index].bearingType}",
+                                        //         style: MyTextStyles
+                                        //             .font13GreyRegular,
+                                        //       )
+                                        //     : SizedBox(),
+                                        // Expanded(
+                                        //   flex: 1,
+                                        //   child: Padding(
+                                        //     padding: const EdgeInsets.all(15),
+                                        //     child: Text(state.chocks.first.name),
+                                        //   ),
+                                        // ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -158,7 +174,14 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
               ),
             );
           } else {
-            return Text("unexpected error founded");
+            return Scaffold(
+              body: Center(
+                child: Text(
+                  "Sorry! error happend and we will solve it ASAP",
+                  style: MyTextStyles.font32OrangeBold,
+                ),
+              ),
+            );
           }
         });
   }

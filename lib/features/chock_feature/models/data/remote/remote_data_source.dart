@@ -64,7 +64,7 @@ class ChockRemoteDataSource {
       final c = chock.toJson();
 
       // final steps = c
-      debugPrint("${c['assemblySteps'][0]['description']}");
+      // debugPrint("${c['assemblySteps'][0]['description']}");
       await db.collection(CollectionsPaths.chockPath).add(c);
       debugPrint("$unit");
       debugPrint("added successfully");

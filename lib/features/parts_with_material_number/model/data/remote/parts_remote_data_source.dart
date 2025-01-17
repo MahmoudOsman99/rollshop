@@ -10,8 +10,10 @@ class PartsRemoteDataSource {
   Future<List<PartsWithMaterialNumberModel>> getAllPartsFromFirebase() async {
     List<PartsWithMaterialNumberModel> parts = [];
     try {
-      final remoteParts =
-          await db.collection(CollectionsPaths.partsWithMaterialNumber).get();
+      final remoteParts = await db
+          .collection(CollectionsPaths.partsWithMaterialNumber)
+          .orderBy("name")
+          .get();
       if (remoteParts.docs.isNotEmpty) {
         for (var p in remoteParts.docs) {
           parts.add(PartsWithMaterialNumberModel.fromJson(

@@ -50,10 +50,14 @@ class ChockCubit extends Cubit<ChockState> {
   }
 
   removeField(int index) {
+    // if (descControllers.contains(descControllers[index])) {
     descControllers.removeAt(index);
     notesControllers.removeAt(index);
     pickers.removeAt(index);
     emit(ChockAddFieldsRemovedState());
+    // } else {
+    //   emit(ChockAddFieldsRemovedState());
+    // }
   }
 
   changeImage() {

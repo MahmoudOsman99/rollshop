@@ -30,14 +30,13 @@ class _SelectPartsListState extends State<SelectPartsList> {
     } else {
       final lowerCaseQuery = _searchQuery.toLowerCase();
       return widget.allParts
-          .where((part) =>
-              part.materialNumber
-                  .toString()
-                  .trim()
-                  .toLowerCase()
-                  .contains(lowerCaseQuery) ||
-              part.name.toLowerCase().contains(lowerCaseQuery) ||
-              part.areaOfUsage.toLowerCase().contains(lowerCaseQuery))
+          .where(
+            (part) =>
+                part.materialNumber.toString().contains(lowerCaseQuery) ||
+                part.name.toLowerCase().contains(lowerCaseQuery) ||
+                part.areaOfUsage.toLowerCase().contains(lowerCaseQuery) ||
+                part.type.toLowerCase().contains(lowerCaseQuery),
+          )
           .toList();
     }
   }

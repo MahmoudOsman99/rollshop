@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rollshop/core/helpers/image_handler.dart';
+import 'package:rollshop/features/chock_feature/models/assembly_steps_model.dart';
 import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
 import 'package:rollshop/features/chock_feature/models/repository/chock_repository.dart';
+import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
 import 'chock_state.dart';
 
 class ChockCubit extends Cubit<ChockState> {
@@ -26,8 +28,14 @@ class ChockCubit extends Cubit<ChockState> {
     }
   }
 
+  List<PartsWithMaterialNumberModel> selectedParts = [];
+
   List<TextEditingController> descControllers = [];
   List<TextEditingController> notesControllers = [];
+
+  ///this list to get the values that inside the list of controllers
+  List<String> allDescriptionControllersValues = [];
+  List<String> allNotesControllersValues = [];
   List<ImagePicker> pickers = [];
   List<File> imagesPathes = [];
 
@@ -106,11 +114,67 @@ class ChockCubit extends Cubit<ChockState> {
     // emit(ChockImageChangedState());
   }
 
-  // bool getFieldsValue() {
-  //   for (int i = 0; i < descControllers.length; i++) {
-  //     descControllers[i].text.isEmpty;
-  //   }
-  // }
+  getFieldsValue() {
+    for (var controller in descControllers) {
+      allDescriptionControllersValues.add(controller.text);
+    }
+    for (var controller in notesControllers) {
+      allNotesControllersValues.add(controller.text);
+    }
+  }
+
+  saveChockDetailes({
+    required String name,
+    required String bearingType,
+    required File chockImagePath,
+    required String notes,
+    required String howTocalcBearingShim,
+
+    // required String notes,
+  }) async {
+    emit(ChocksLoadingState());
+    getFieldsValue();
+    // try {
+    List<AssemblyStepModel> stepsModel = [];
+    for (int i = 0; i < descControllers.length; i++) {
+      stepsModel.add(
+        AssemblyStepModel(
+            description: allDescriptionControllersValues[i],
+            imagePath:
+                await ImageHandler().uploadImageToImgur(imagesPathes[i]) ?? "",
+            notes: allNotesControllersValues[i]),
+      );
+    }
+    // List<PartsWithMaterialNumberModel> selectedParts = [];
+    // for (int i = 0; i < descControllers.length; i++) {
+    //   stepsModel.add(
+    //     AssemblyStepModel(
+    //         description: allDescriptionControllersValues[i],
+    //         imagePath:
+    //             await ImageHandler().uploadImageToImgur(imagesPathes[i]) ?? "",
+    //         notes: allNotesControllersValues[i]),
+    //   );
+    // }
+
+    chockRepo.addChock(
+      chock: ChockTypesModel(
+        bearingType: bearingType,
+        name: name,
+        chockImagePath:
+            await ImageHandler().uploadImageToImgur(chockImagePath) ?? "",
+        notes: notes,
+        howTocalcBearingShim: howTocalcBearingShim,
+        parts: selectedParts,
+        assemblySteps: stepsModel,
+      ),
+    );
+    getAllChocks();
+    // emit(ChockAddedSuccessfullyState());
+
+    // } catch (e) {
+    //   debugPrint(e.toString());
+    // }
+  }
 
   // Future<void> getAllParts() async {
   //   emit(ChocksLoadingState());

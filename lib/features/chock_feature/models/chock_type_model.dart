@@ -52,6 +52,7 @@ class ChockTypesModel {
       'name': name,
       'chockImagePath': chockImagePath,
       'notes': notes,
+      'bearingType': bearingType,
       'howTocalcBearingShim': howTocalcBearingShim ?? "",
       "parts": parts != null && parts!.isNotEmpty
           ? parts!.map((part) => part.toJson()).toList()

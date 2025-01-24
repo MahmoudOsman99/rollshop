@@ -56,7 +56,7 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
             return Scaffold(
               appBar: AppBar(
                 title: Text(
-                  'BDM Section',
+                  'معلومات عن الكراسي',
                   style: MyTextStyles.font32WhiteBold,
                 ),
                 centerTitle: true,
@@ -120,6 +120,8 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
                                           BorderRadiusDirectional.only(
                                         topEnd: Radius.circular(10),
                                         topStart: Radius.circular(10),
+                                        bottomEnd: Radius.circular(10),
+                                        bottomStart: Radius.circular(10),
                                       ),
                                       child: SizedBox(
                                         // width: context.width * .5,

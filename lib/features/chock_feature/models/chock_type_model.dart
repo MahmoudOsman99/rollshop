@@ -27,11 +27,11 @@ class ChockTypesModel {
       {required Map<String, dynamic> json, idFromFirebase}) {
     return ChockTypesModel(
       id: idFromFirebase ?? json['id'],
-      bearingType: json['bearingType'] ?? "",
       name: json['name'] ?? "",
+      bearingType: json['bearingType'] ?? "",
       chockImagePath: json['chockImagePath'] ?? "",
-      notes: json['notes'] ?? "",
       howTocalcBearingShim: json['howTocalcBearingShim'] ?? "",
+      notes: json['notes'] ?? "",
       parts: (json["parts"] as List<dynamic>?)
               ?.map((part) => PartsWithMaterialNumberModel.fromJson(
                     json: part as Map<String, dynamic>,
@@ -52,7 +52,7 @@ class ChockTypesModel {
       'name': name,
       'chockImagePath': chockImagePath,
       'notes': notes,
-      'howTocalcBearingShim': howTocalcBearingShim,
+      'howTocalcBearingShim': howTocalcBearingShim ?? "",
       "parts": parts != null && parts!.isNotEmpty
           ? parts!.map((part) => part.toJson()).toList()
           : [],

@@ -1,11 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:rollshop/components/widgets/build_image_with_error_handler.dart';
 import 'package:rollshop/components/widgets/custom_text_field.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
 import 'package:rollshop/core/theme/colors.dart';
 import 'package:rollshop/core/theme/styles.dart';
-import 'package:rollshop/features/chock_feature/view_model/chock_cubit.dart';
+import 'package:rollshop/features/chock_feature/cubit/chock_cubit.dart';
 
 class BuildFields extends StatefulWidget {
   BuildFields({super.key});
@@ -46,58 +50,73 @@ class _BuildFieldsState extends State<BuildFields> {
               return Column(
                 spacing: 20.h,
                 children: [
-                  // GestureDetector(
-                  //   onTap: () async {
-                  // XFile? selectedImage;
-                  // if (context.read<ChockCubit>().imagesPathes.isNotEmpty &&
-                  //     selectedImage != null) {
-                  //   context
-                  //       .read<ChockCubit>()
-                  //       .removeImage(File(selectedImage.path));
-                  // }
+                  GestureDetector(
+                    onTap: () async {
+                      // if (context.read<ChockCubit>().imagesPathes.isNotEmpty) {
+                      //   // if(context.read<ChockCubit>().imagesPathes[index])
+                      //   if (context.read<ChockCubit>().descControllers.length ==
+                      //       context.read<ChockCubit>().imagesPathes.length) {
+                      //     context.read<ChockCubit>().removeImage(index);
+                      //   }
+                      // }
+                      XFile? selectedImage;
 
-                  // selectedImage = await context
-                  //     .read<ChockCubit>()
-                  //     .pickers[index]
-                  //     .pickImage(source: ImageSource.gallery);
-                  // if (selectedImage != null) {
-                  //   context
-                  //       .read<ChockCubit>()
-                  //       .addImage(File(selectedImage.path));
-                  //   debugPrint(
-                  //       "${context.read<ChockCubit>().imagesPathes.length}");
-                  // context
-                  //     .read<ChockCubit>()
-                  //     .imagesPathes
-                  //     .add(File(selectedImage.path)
-                  // );
-                  // }
-                  // debugPrint(
-                  //     "${context.read<ChockCubit>().descControllers.length}");
-                  //   },
-                  //   child: SizedBox(
-                  //     width: 150.w,
-                  //     height: 150.h,
-                  //     child: context.read<ChockCubit>().imagesPathes.isNotEmpty &&
-                  //             context.read<ChockCubit>().imagesPathes.length >
-                  //                 index
-                  //         ? ClipRRect(
-                  //             borderRadius: BorderRadius.circular(15),
-                  //             child: BuildImageWithErrorHandler(
-                  //               imageType: ImageType.file,
-                  //               path: context
-                  //                   .read<ChockCubit>()
-                  //                   .imagesPathes[index],
-                  //               boxFit: BoxFit.cover,
-                  //             ),
-                  //           )
-                  //         : Icon(
-                  //             Icons.upload,
-                  //             size: 50,
-                  //             color: ColorsManager.orangeColor,
-                  //           ),
-                  //   ),
-                  // ),
+                      selectedImage = await context
+                          .read<ChockCubit>()
+                          .pickers[index]
+                          .pickImage(source: ImageSource.gallery);
+                      // if (context.read<ChockCubit>().imagesPathes.isNotEmpty &&
+                      //     selectedImage != null) {
+                      //   debugPrint("Not empty ========================");
+                      //   // context.read<ChockCubit>().imagesPathes.remove(
+                      //   //     context.read<ChockCubit>().imagesPathes[index]);
+                      // }
+                      if (selectedImage != null) {
+                        // &&
+                        //   context.read<ChockCubit>().imagesPathes.length !=
+                        //       context.read<ChockCubit>().pickers.length
+                        // context.read<ChockCubit>()
+                        setState(() {
+                          context
+                              .read<ChockCubit>()
+                              .addImage(File(selectedImage!.path), index);
+                        });
+                        // debugPrint(
+                        //     "${context.read<ChockCubit>().imagesPathes.length}");
+                        // context
+                        //     .read<ChockCubit>()
+                        //     .imagesPathes
+                        //     .add(File(selectedImage.path));
+                      }
+                      // debugPrint(
+                      //     "${context.read<ChockCubit>().descControllers.length}");
+                    },
+                    child: SizedBox(
+                      width: 150.w,
+                      height: 150.h,
+                      child: context
+                                  .read<ChockCubit>()
+                                  .imagesPathes
+                                  .isNotEmpty &&
+                              context.read<ChockCubit>().imagesPathes.length >
+                                  index
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: BuildImageWithErrorHandler(
+                                imageType: ImageType.file,
+                                path: context
+                                    .read<ChockCubit>()
+                                    .imagesPathes[index],
+                                boxFit: BoxFit.cover,
+                              ),
+                            )
+                          : Icon(
+                              Icons.upload,
+                              size: 50,
+                              color: ColorsManager.orangeColor,
+                            ),
+                    ),
+                  ),
                   Row(
                     // mainAxisAlignment: MainAxisAlignment.spaceAround,
                     spacing: 20,

@@ -176,6 +176,13 @@ class _AddChockScreenState extends State<AddChockScreen> {
                             onPartsSelected: (selectedParts) {
                               setState(() {
                                 _selectedParts = selectedParts;
+                                context.read<ChockCubit>().selectedParts =
+                                    selectedParts;
+                                debugPrint(context
+                                    .read<ChockCubit>()
+                                    .selectedParts
+                                    .length
+                                    .toString());
                               });
                             },
                           ),
@@ -213,6 +220,8 @@ class _AddChockScreenState extends State<AddChockScreen> {
                       CustomButton(
                         buttonName: "حفظ",
                         onPressed: () {
+                          // debugPrint(chockBearingTypeController.text);
+
                           if (_selectedParts.isEmpty) {
                             setState(() {
                               isEmpty = true;
@@ -248,9 +257,19 @@ class _AddChockScreenState extends State<AddChockScreen> {
                             if (formKey.currentState!.validate()) {
                               showCustomSnackBar(
                                 context: context,
-                                message: "تمام",
+                                message: "برجاء الانتظار حتي يتم حفظ البيانات",
                                 color: ColorsManager.mainTeal,
                               );
+                              context.read<ChockCubit>().saveChockDetailes(
+                                    name: chockNameController.text,
+                                    bearingType:
+                                        chockBearingTypeController.text,
+                                    chockImagePath: chockImagePath!,
+                                    notes: chockNotesController.text,
+                                    howTocalcBearingShim:
+                                        chockHowToCalcShimController.text,
+                                  );
+                              context.pop();
                             } else {
                               showCustomSnackBar(
                                 context: context,

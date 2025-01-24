@@ -139,10 +139,11 @@ class ChockCubit extends Cubit<ChockState> {
     for (int i = 0; i < descControllers.length; i++) {
       stepsModel.add(
         AssemblyStepModel(
-            description: allDescriptionControllersValues[i],
-            imagePath:
-                await ImageHandler().uploadImageToImgur(imagesPathes[i]) ?? "",
-            notes: allNotesControllersValues[i]),
+          description: allDescriptionControllersValues[i],
+          imagePath:
+              await ImageHandler().uploadImageToImgur(imagesPathes[i]) ?? "",
+          notes: allNotesControllersValues[i],
+        ),
       );
     }
     // List<PartsWithMaterialNumberModel> selectedParts = [];

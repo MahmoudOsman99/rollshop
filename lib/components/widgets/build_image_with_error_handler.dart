@@ -30,6 +30,7 @@ class BuildImageWithErrorHandler extends StatelessWidget {
         );
       case ImageType.network:
         return CachedNetworkImage(
+          fit: boxFit,
           imageUrl: path,
           errorWidget: (context, url, error) {
             return errorImage();

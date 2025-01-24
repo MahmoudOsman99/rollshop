@@ -113,8 +113,8 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
                                 children: [
                                   Padding(
                                     padding: EdgeInsets.only(
-                                        top:
-                                            0), // to let the image in the top without auto padding
+                                      top: 0,
+                                    ), // to let the image in the top without auto padding
                                     child: ClipRRect(
                                       borderRadius:
                                           BorderRadiusDirectional.only(
@@ -124,8 +124,10 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
                                         bottomStart: Radius.circular(10),
                                       ),
                                       child: SizedBox(
-                                        // width: context.width * .5,
-                                        // height: context.height * .2,
+                                        width: context.width * .5,
+                                        height: context.height * .3,
+                                        // height: 250.h,
+                                        // width: 250.w,
                                         child: BuildImageWithErrorHandler(
                                           imageType: ImageType.network,
                                           boxFit: BoxFit.cover,

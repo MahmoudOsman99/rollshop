@@ -8,8 +8,8 @@ import 'package:rollshop/core/helpers/extensions.dart';
 import 'package:rollshop/core/router/routers.dart';
 import 'package:rollshop/core/theme/colors.dart';
 
-import 'package:rollshop/features/chock_feature/view_model/chock_cubit.dart';
-import 'package:rollshop/features/chock_feature/view_model/chock_state.dart';
+import 'package:rollshop/features/chock_feature/cubit/chock_cubit.dart';
+import 'package:rollshop/features/chock_feature/cubit/chock_state.dart';
 import 'package:rollshop/features/parts_with_material_number/view_model/cubit/parts_cubit.dart';
 
 import '../../../core/theme/styles.dart';
@@ -36,12 +36,22 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
           // if (state is ChocksLoadedSuccessfullyState) {
           //   chocks = state.chocks;
           // }
-          if (state is ChocksInitialState || state is ChocksLoadingState) {
-            context.read<ChockCubit>().loadAllChocks();
-            return Scaffold(body: Center(child: CircularProgressIndicator()));
+          if (state is ChocksInitialState) {
+            context.read<ChockCubit>().getAllChocks();
+            return Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
           } else if (state is ChocksLoadedFailedState) {
             // Handle error state, e.g., display an error message
             return Scaffold(body: Center(child: Text('Error: ${state.error}')));
+          } else if (state is ChocksLoadingState) {
+            return Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
           } else if (state is ChocksLoadedSuccessfullyState) {
             return Scaffold(
               appBar: AppBar(
@@ -77,7 +87,7 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
                 builder: (context) {
                   return RefreshIndicator(
                     onRefresh: () async {
-                      await context.read<ChockCubit>().loadAllChocks();
+                      await context.read<ChockCubit>().getAllChocks();
                     },
                     child: Padding(
                       padding: EdgeInsets.all(10.sp),
@@ -174,6 +184,7 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
               ),
             );
           } else {
+            // context.read<ChockCubit>().loadAllChocks();
             return Scaffold(
               body: Center(
                 child: Text(

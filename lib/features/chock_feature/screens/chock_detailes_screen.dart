@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:rollshop/components/widgets/build_image_with_error_handler.dart';
+import 'package:rollshop/core/helpers/extensions.dart';
 import 'package:rollshop/core/helpers/images_path.dart';
 import 'package:rollshop/core/theme/colors.dart';
 import 'package:rollshop/core/theme/styles.dart';
@@ -85,8 +86,11 @@ class ChockDetailesScreen extends StatelessWidget {
                         )),
                     child: Padding(
                       padding: EdgeInsets.only(
+                        // 10.sp
                         right: 10.sp,
                         left: 10.sp,
+                        top: 5.sp,
+                        bottom: 5.sp,
                       ),
                       child: SizedBox(
                         height: size.height / 2,
@@ -123,18 +127,23 @@ class ChockDetailesScreen extends StatelessWidget {
                                       ),
                                     ),
                                     Expanded(
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: CachedNetworkImage(
-                                          imageUrl: chock
-                                              .assemblySteps[index].imagePath,
-                                          fit: BoxFit.cover,
-                                          errorWidget: (context, url, error) {
-                                            return BuildImageWithErrorHandler(
-                                              imageType: ImageType.asset,
-                                              path: ImagesPath.errorImagePath,
-                                            );
-                                          },
+                                      child: SizedBox(
+                                        width: context.width * 0.1,
+                                        height: context.height * 0.15,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: CachedNetworkImage(
+                                            imageUrl: chock
+                                                .assemblySteps[index].imagePath,
+                                            fit: BoxFit.cover,
+                                            errorWidget: (context, url, error) {
+                                              return BuildImageWithErrorHandler(
+                                                imageType: ImageType.asset,
+                                                path: ImagesPath.errorImagePath,
+                                              );
+                                            },
+                                          ),
                                         ),
                                       ),
                                     ),

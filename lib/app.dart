@@ -6,7 +6,7 @@ import 'package:rollshop/core/router/app_router.dart';
 import 'package:rollshop/core/router/routers.dart';
 import 'package:rollshop/core/theme/theme.dart';
 import 'package:rollshop/features/chock_feature/screens/all_chocks_screen.dart';
-import 'package:rollshop/features/chock_feature/view_model/chock_cubit.dart';
+import 'package:rollshop/features/chock_feature/cubit/chock_cubit.dart';
 import 'package:rollshop/features/parts_with_material_number/view_model/cubit/parts_cubit.dart';
 
 class RollshopApp extends StatelessWidget {

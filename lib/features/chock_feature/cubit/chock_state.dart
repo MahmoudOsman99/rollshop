@@ -29,6 +29,14 @@ class ChocksLoadedSuccessfullyState extends ChockState {
   });
 }
 
+class ChocksAssemblyStepsUploadedSuccessfullyState extends ChockState {
+  final List<String> imagesUrls;
+
+  const ChocksAssemblyStepsUploadedSuccessfullyState({
+    required this.imagesUrls,
+  });
+}
+
 class ChockAddFieldsAddedState extends ChockState {}
 
 class ChockAddFieldsRemovedState extends ChockState {}

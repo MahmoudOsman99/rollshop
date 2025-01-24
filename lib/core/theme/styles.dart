@@ -25,6 +25,11 @@ class MyTextStyles {
     fontWeight: FontWeight.normal,
     color: ColorsManager.greyText,
   );
+  static TextStyle font13OrangeBold = TextStyle(
+    fontSize: 13.sp,
+    fontWeight: FontWeight.bold,
+    color: ColorsManager.orangeColor,
+  );
 
   static TextStyle font16WhiteWeight500 = TextStyle(
     fontSize: 16.sp,

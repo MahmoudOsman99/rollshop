@@ -7,6 +7,8 @@ import 'package:rollshop/core/theme/colors.dart';
 import 'package:rollshop/core/theme/styles.dart';
 import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rollshop/features/chock_feature/widgets/select_parts_list.dart';
+import 'package:rollshop/features/parts_with_material_number/widgets/build_part_item.dart';
 
 class ChockDetailesScreen extends StatelessWidget {
   ChockTypesModel chock;
@@ -47,7 +49,7 @@ class ChockDetailesScreen extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(15),
                   child: SizedBox(
-                    height: size.height / 4,
+                    height: size.height * 0.4,
                     width: size.width,
                     child: chock.chockImagePath != null ||
                             chock.chockImagePath.isNotEmpty
@@ -79,16 +81,17 @@ class ChockDetailesScreen extends StatelessWidget {
                 if (chock.assemblySteps.isNotEmpty)
                   DecoratedBox(
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: ColorsManager.orangeColor,
-                          width: 2,
-                        )),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: ColorsManager.orangeColor,
+                        width: 2,
+                      ),
+                    ),
                     child: Padding(
-                      padding: EdgeInsets.only(
+                      padding: EdgeInsetsDirectional.only(
                         // 10.sp
-                        right: 10.sp,
-                        left: 10.sp,
+                        start: 10.sp,
+                        end: 10.sp,
                         top: 5.sp,
                         bottom: 5.sp,
                       ),
@@ -100,6 +103,7 @@ class ChockDetailesScreen extends StatelessWidget {
                             // debugPrint();
                             return Column(
                               spacing: 10,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SizedBox(
                                   height: 40.h,
@@ -109,6 +113,10 @@ class ChockDetailesScreen extends StatelessWidget {
                                 //   style: MyTextStyles.font16BlackeWeight500,
                                 // ),
                                 Row(
+                                  spacing: 10.w,
+                                  // mainAxisAlignment:
+                                  //     MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Expanded(
                                       child: Column(
@@ -118,18 +126,28 @@ class ChockDetailesScreen extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
+                                            "شرح خطوة ${index + 1}",
+                                            style:
+                                                MyTextStyles.font13OrangeBold,
+                                          ),
+                                          Text(
                                             chock.assemblySteps[index]
                                                 .description,
-                                            maxLines: 4,
+                                            maxLines: 12,
                                             overflow: TextOverflow.ellipsis,
                                           ),
+                                          // Text(
+                                          //   "الشرح:  ${chock.assemblySteps[index].description}",
+                                          //   maxLines: 4,
+                                          //   overflow: TextOverflow.ellipsis,
+                                          // ),
                                         ],
                                       ),
                                     ),
                                     Expanded(
                                       child: SizedBox(
-                                        width: context.width * 0.1,
-                                        height: context.height * 0.15,
+                                        // width: context.width * 0.1,
+                                        // height: context.height * 0.15,
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(10),
@@ -149,8 +167,10 @@ class ChockDetailesScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
+
                                 Text(
-                                  "ملاحظات علي الخطوة",
+                                  "ملاحظات علي خطوة ${index + 1}",
+                                  style: MyTextStyles.font13OrangeBold,
                                 ),
                                 Text(
                                   chock.assemblySteps[index].notes,
@@ -202,11 +222,42 @@ class ChockDetailesScreen extends StatelessWidget {
                       ),
                     ),
                   )
-                else
-                  SizedBox(),
+                // else
+                //   SizedBox(),
+                ,
                 SizedBox(
                   height: 10.h,
                 ),
+
+                /// The chock parts section
+                if (chock.parts != null && chock.parts!.isNotEmpty)
+                  Column(
+                    spacing: 10.sp,
+                    children: [
+                      Text(
+                        "القطع اللتي يتكون منهاالكرسي",
+                        style: MyTextStyles.lable18OrangeBold,
+                      ),
+                      DecoratedBox(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            width: 2,
+                            color: ColorsManager.orangeColor,
+                          ),
+                        ),
+                        child: SizedBox(
+                          width: context.width,
+                          height: context.height * 0.4,
+                          child: ListView.builder(
+                            itemCount: chock.parts!.length,
+                            itemBuilder: (context, index) => BuildPartItem(
+                                part: chock.parts![index], allowEdit: false),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,

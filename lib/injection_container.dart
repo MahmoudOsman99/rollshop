@@ -2,7 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:rollshop/features/chock_feature/models/data/remote/remote_data_source.dart';
 import 'package:rollshop/features/chock_feature/models/repository/chock_repository.dart';
 import 'package:rollshop/features/chock_feature/models/repository/chock_repository_imp.dart';
-import 'package:rollshop/features/chock_feature/view_model/chock_cubit.dart';
+import 'package:rollshop/features/chock_feature/cubit/chock_cubit.dart';
 import 'package:rollshop/features/parts_with_material_number/model/data/remote/parts_remote_data_source.dart';
 import 'package:rollshop/features/parts_with_material_number/model/data/repository/parts_repo_implment.dart';
 import 'package:rollshop/features/parts_with_material_number/model/data/repository/parts_repository.dart';

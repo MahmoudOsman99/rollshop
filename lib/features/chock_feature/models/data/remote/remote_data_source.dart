@@ -18,7 +18,7 @@ class ChockRemoteDataSource {
       // debugPrint("not empty");
       // debugPrint("${chocksFromDB.docs.first}");
       for (var c in chocksFromDB.docs) {
-        debugPrint("${c.data()}");
+        // debugPrint("${c.data()}");
         chocks.add(
             ChockTypesModel.fromJson(json: c.data(), idFromFirebase: c.id));
       }

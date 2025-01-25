@@ -56,7 +56,7 @@ class _AllPartsScreenState extends State<AllPartsScreen> {
                 title: Text(
                   'Parts Section ${state.parts.length}',
                   // 'Parts Section ${parts.length}',
-                  style: MyTextStyles.font32WhiteBold,
+                  style: MyTextStyles.font32Bold(Theme.of(context)),
                 ),
                 centerTitle: true,
                 backgroundColor: ColorsManager.mainTeal,

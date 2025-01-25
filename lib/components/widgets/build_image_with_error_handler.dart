@@ -32,6 +32,9 @@ class BuildImageWithErrorHandler extends StatelessWidget {
         return CachedNetworkImage(
           fit: boxFit,
           imageUrl: path,
+          placeholder: (context, url) => Center(
+            child: CircularProgressIndicator(),
+          ),
           errorWidget: (context, url, error) {
             return errorImage();
           },

@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
 import 'package:rollshop/features/chock_feature/screens/add_chock_screen.dart';
 import 'package:rollshop/features/chock_feature/screens/all_chocks_screen.dart';
-import 'package:rollshop/features/main/main_screen.dart';
+import 'package:rollshop/features/main/screen/main_screen.dart';
 import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
 import 'package:rollshop/features/parts_with_material_number/screens/add_parts_with_material_number_screen.dart';
 import 'package:rollshop/features/chock_feature/screens/chock_detailes_screen.dart';

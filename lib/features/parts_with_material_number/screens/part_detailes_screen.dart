@@ -53,7 +53,7 @@ class PartDetailesScreen extends StatelessWidget {
                 ),
                 Text(
                   "خطوات التجميع",
-                  style: MyTextStyles.font24Black700Weight,
+                  style: MyTextStyles.font24Weight700(Theme.of(context)),
                 ),
                 if (chock.assemblySteps.isNotEmpty)
                   SizedBox(

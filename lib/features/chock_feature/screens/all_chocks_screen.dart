@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:rollshop/components/widgets/build_image_with_error_handler.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
 
@@ -10,6 +11,7 @@ import 'package:rollshop/core/theme/colors.dart';
 
 import 'package:rollshop/features/chock_feature/cubit/chock_cubit.dart';
 import 'package:rollshop/features/chock_feature/cubit/chock_state.dart';
+import 'package:rollshop/features/main/cubit/app_cubit.dart';
 import 'package:rollshop/features/parts_with_material_number/view_model/cubit/parts_cubit.dart';
 
 import '../../../core/theme/styles.dart';
@@ -27,6 +29,7 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
   //   sl<ChockCubit>().loadAllChocks();
   //   super.initState();
   // }
+  // PersistentTabController _controller;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +60,7 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
               appBar: AppBar(
                 title: Text(
                   'معلومات عن الكراسي',
-                  style: MyTextStyles.font32WhiteBold,
+                  style: MyTextStyles.font32Bold(Theme.of(context)),
                 ),
                 centerTitle: true,
                 backgroundColor: ColorsManager.mainTeal,
@@ -72,8 +75,16 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
                   // context.read<ChockCubit>().addOneChock(newChock: null);
                   // context.read<ChockCubit>().loadAllChocks();
                 },
-                backgroundColor: ColorsManager.orangeColor,
-                child: Icon(Icons.add),
+                // backgroundColor: Colors.transparent,
+                backgroundColor: ColorsManager.mainTeal,
+                child: Icon(
+                  Icons.add,
+                  size: 25.sp,
+                  color: context.read<AppCubit>().currentThemeMode ==
+                          ThemeMode.light
+                      ? ColorsManager.whiteColor
+                      : ColorsManager.blackText,
+                ),
               ),
               body: ConditionalBuilder(
                 fallback: (context) {
@@ -90,7 +101,7 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
                       await context.read<ChockCubit>().getAllChocks();
                     },
                     child: Padding(
-                      padding: EdgeInsets.all(10.sp),
+                      padding: EdgeInsets.all(10.r),
                       child: GridView.builder(
                         itemCount: state.chocks.length,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -99,7 +110,8 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
                         ),
                         itemBuilder: (context, index) => SizedBox(
                           child: Card(
-                            elevation: 20,
+                            // elevation: 20,
+
                             child: InkWell(
                               onTap: () {
                                 context.pushNamed(
@@ -118,14 +130,14 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
                                     child: ClipRRect(
                                       borderRadius:
                                           BorderRadiusDirectional.only(
-                                        topEnd: Radius.circular(10),
-                                        topStart: Radius.circular(10),
-                                        bottomEnd: Radius.circular(10),
-                                        bottomStart: Radius.circular(10),
+                                        topEnd: Radius.circular(10.r),
+                                        topStart: Radius.circular(10.r),
+                                        bottomEnd: Radius.circular(10.r),
+                                        bottomStart: Radius.circular(10.r),
                                       ),
                                       child: SizedBox(
-                                        width: context.width * .5,
-                                        height: context.height * .3,
+                                        width: context.width * .5.w,
+                                        height: context.height * .25.h,
                                         // height: 250.h,
                                         // width: 250.w,
                                         child: BuildImageWithErrorHandler(
@@ -138,42 +150,72 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
                                     ),
                                   ),
                                   Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      spacing: 10.h,
-                                      // mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          state.chocks[index].name,
-                                          style: MyTextStyles.font16BlackeBold,
-                                        ),
-                                        // Text(
-                                        //   state.chocks[index].notes,
-                                        //   style: MyTextStyles.font13GreyRegular,
-                                        //   maxLines: 1,
-                                        //   overflow: TextOverflow.ellipsis,
-                                        // ),
-                                        Text(
-                                          state.chocks[index].bearingType,
-                                          style: MyTextStyles.font13GreyRegular,
-                                        ),
-                                        // state.chocks[index].bearingType
-                                        //         .isNotEmpty
-                                        //     ? Text(
-                                        //         "نوع البيرنج:  ${state.chocks[index].bearingType}",
-                                        //         style: MyTextStyles
-                                        //             .font13GreyRegular,
-                                        //       )
-                                        //     : SizedBox(),
-                                        // Expanded(
-                                        //   flex: 1,
-                                        //   child: Padding(
-                                        //     padding: const EdgeInsets.all(15),
-                                        //     child: Text(state.chocks.first.name),
-                                        //   ),
-                                        // ),
-                                      ],
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.only(
+                                        start: 5.r,
+                                        end: 5.r,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        spacing: 10.h,
+                                        // mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            state.chocks[index].name,
+                                            style: MyTextStyles.font16Bold(
+                                                Theme.of(context)),
+                                          ),
+                                          // Text(
+                                          //   state.chocks[index].notes,
+                                          //   style: MyTextStyles.font13GreyRegular,
+                                          //   maxLines: 1,
+                                          //   overflow: TextOverflow.ellipsis,
+                                          // ),
+                                          DecoratedBox(
+                                            decoration: BoxDecoration(
+                                              color: ColorsManager.orangeColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(5.r),
+                                            ),
+                                            child: Padding(
+                                              padding:
+                                                  EdgeInsetsDirectional.only(
+                                                start: 7.r,
+                                                end: 7.r,
+                                                top: 4.r,
+                                                bottom: 4.r,
+                                              ),
+                                              child: Text(
+                                                state.chocks[index].bearingType,
+                                                style: MyTextStyles.font12Bold(
+                                                    Theme.of(context)),
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            state.chocks[index].notes,
+                                            style:
+                                                MyTextStyles.font13GreyRegular(
+                                                    Theme.of(context)),
+                                          ),
+                                          // state.chocks[index].bearingType
+                                          //         .isNotEmpty
+                                          //     ? Text(
+                                          //         "نوع البيرنج:  ${state.chocks[index].bearingType}",
+                                          //         style: MyTextStyles
+                                          //             .font13GreyRegular,
+                                          //       )
+                                          //     : SizedBox(),
+                                          // Expanded(
+                                          //   flex: 1,
+                                          //   child: Padding(
+                                          //     padding: const EdgeInsets.all(15),
+                                          //     child: Text(state.chocks.first.name),
+                                          //   ),
+                                          // ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -189,11 +231,14 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
             );
           } else {
             // context.read<ChockCubit>().loadAllChocks();
-            return Scaffold(
-              body: Center(
-                child: Text(
-                  "Sorry! error happend and we will solve it ASAP",
-                  style: MyTextStyles.font32OrangeBold,
+            return RefreshIndicator(
+              onRefresh: () => context.read<ChockCubit>().getAllChocks(),
+              child: Scaffold(
+                body: Center(
+                  child: Text(
+                    "Sorry! error happend and we will solve it ASAP",
+                    style: MyTextStyles.font32OrangeBold,
+                  ),
                 ),
               ),
             );

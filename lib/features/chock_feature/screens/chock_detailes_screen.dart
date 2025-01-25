@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:rollshop/components/widgets/build_image_with_error_handler.dart';
+import 'package:rollshop/components/widgets/text_with_color_decoration.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
 import 'package:rollshop/core/helpers/images_path.dart';
 import 'package:rollshop/core/theme/colors.dart';
@@ -44,40 +45,73 @@ class ChockDetailesScreen extends StatelessWidget {
           padding: EdgeInsets.all(20.sp),
           child: SingleChildScrollView(
             child: Column(
-              spacing: 10.h,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 15.h,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(15.r),
                   child: SizedBox(
-                    height: size.height * 0.4,
-                    width: size.width,
-                    child: chock.chockImagePath != null ||
-                            chock.chockImagePath.isNotEmpty
-                        ? CachedNetworkImage(
-                            imageUrl: chock.chockImagePath,
-                            fit: BoxFit.cover,
-                            errorWidget: (context, url, error) {
-                              return BuildImageWithErrorHandler(
-                                imageType: ImageType.asset,
-                                path: ImagesPath.errorImagePath,
-                              );
-                            },
-                          )
-                        : SizedBox(),
+                    height: size.height * 0.5.h,
+                    width: size.width.w,
+                    child: BuildImageWithErrorHandler(
+                      imageType: ImageType.network,
+                      path: chock.chockImagePath,
+                    ),
+                    // child: chock.chockImagePath != null ||
+                    //         chock.chockImagePath.isNotEmpty
+                    //     ? CachedNetworkImage(
+                    //         imageUrl: chock.chockImagePath,
+                    //         fit: BoxFit.cover,
+                    //         errorWidget: (context, url, error) {
+                    //           return BuildImageWithErrorHandler(
+                    //             imageType: ImageType.asset,
+                    //             path: ImagesPath.errorImagePath,
+                    //           );
+                    //         },
+                    //       )
+                    //     : SizedBox(),
+
                     // Image.asset(
                     //   chock.chockImagePath,
                     //   fit: BoxFit.cover,
                     // ),
                   ),
                 ),
-                Text(
-                  chock.name,
-                  style: MyTextStyles.font24Black700Weight,
+                Align(
+                  alignment: Alignment(0, 0),
+                  child: Text(
+                    chock.name,
+                    style: MyTextStyles.font24Weight700(Theme.of(context)),
+                  ),
                 ),
-                Text(
-                  "خطوات التجميع",
-                  style: MyTextStyles.font24Black700Weight,
+                TextWithColorDecoration(
+                  backColor: ColorsManager.mainTeal,
+                  lable: "نوع البيرينج: ${chock.bearingType}",
+                  textStyle: MyTextStyles.font16Bold(Theme.of(context)),
                 ),
+                TextWithColorDecoration(
+                  backColor: ColorsManager.mainTeal,
+                  lable: "خطوات التجميع",
+                  textStyle: MyTextStyles.font16Bold(Theme.of(context)),
+                ),
+                // DecoratedBox(
+                //   decoration: BoxDecoration(
+                //     color: ColorsManager.mainTeal,
+                //     borderRadius: BorderRadius.circular(5),
+                //   ),
+                //   child: Padding(
+                //     padding: EdgeInsetsDirectional.only(
+                //       start: 4.sp,
+                //       end: 4.sp,
+                //       top: 3.sp,
+                //       bottom: 3.sp,
+                //     ),
+                //     child: Text(
+                //       "خطوات التجميع",
+                //       style: MyTextStyles.font16WhiteBold,
+                //     ),
+                //   ),
+                // ),
                 if (chock.assemblySteps.isNotEmpty)
                   DecoratedBox(
                     decoration: BoxDecoration(
@@ -233,11 +267,31 @@ class ChockDetailesScreen extends StatelessWidget {
                 if (chock.parts != null && chock.parts!.isNotEmpty)
                   Column(
                     spacing: 10.sp,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "القطع اللتي يتكون منهاالكرسي",
-                        style: MyTextStyles.lable18OrangeBold,
+                      TextWithColorDecoration(
+                        backColor: ColorsManager.mainTeal,
+                        lable: "القطع اللتي يتكون منهاالكرسي",
+                        textStyle: MyTextStyles.font16Bold(Theme.of(context)),
                       ),
+                      // DecoratedBox(
+                      //   decoration: BoxDecoration(
+                      //     color: ColorsManager.mainTeal,
+                      //     borderRadius: BorderRadius.circular(5),
+                      //   ),
+                      //   child: Padding(
+                      //     padding: EdgeInsetsDirectional.only(
+                      //       start: 4.sp,
+                      //       end: 4.sp,
+                      //       top: 3.sp,
+                      //       bottom: 3.sp,
+                      //     ),
+                      //     child: Text(
+                      //       "القطع اللتي يتكون منهاالكرسي",
+                      //       style: MyTextStyles.font16WhiteBold,
+                      //     ),
+                      //   ),
+                      // ),
                       DecoratedBox(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
@@ -260,17 +314,31 @@ class ChockDetailesScreen extends StatelessWidget {
                   ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  // crossAxisAlignment: CrossAxisAlignment.start,
                   spacing: 10.sp,
                   children: [
-                    Text(
-                      "ملاحظات:",
-                      style: MyTextStyles.font32OrangeBold,
+                    DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: ColorsManager.mainTeal,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsetsDirectional.only(
+                          start: 4.sp,
+                          end: 4.sp,
+                          top: 3.sp,
+                          bottom: 3.sp,
+                        ),
+                        child: Text(
+                          "ملاحظات:",
+                          style: MyTextStyles.font16Bold(Theme.of(context)),
+                        ),
+                      ),
                     ),
                     Expanded(
                       child: Text(
                         chock.notes,
-                        style: MyTextStyles.font16BlackeBold,
+                        style: MyTextStyles.font16Bold(Theme.of(context)),
                       ),
                     ),
                   ],

@@ -3,6 +3,7 @@ import 'package:rollshop/features/chock_feature/models/data/remote/remote_data_s
 import 'package:rollshop/features/chock_feature/models/repository/chock_repository.dart';
 import 'package:rollshop/features/chock_feature/models/repository/chock_repository_imp.dart';
 import 'package:rollshop/features/chock_feature/cubit/chock_cubit.dart';
+import 'package:rollshop/features/main/cubit/app_cubit.dart';
 import 'package:rollshop/features/parts_with_material_number/model/data/remote/parts_remote_data_source.dart';
 import 'package:rollshop/features/parts_with_material_number/model/data/repository/parts_repo_implment.dart';
 import 'package:rollshop/features/parts_with_material_number/model/data/repository/parts_repository.dart';
@@ -11,6 +12,10 @@ import 'package:rollshop/features/parts_with_material_number/view_model/cubit/pa
 final sl = GetIt.instance;
 
 Future<void> init() async {
+  //! App Cubit
+  // Cubit
+  sl.registerLazySingleton<AppCubit>(() => AppCubit());
+
   //! Features - chock-types
   // Remote
   sl.registerLazySingleton<ChockRemoteDataSource>(
@@ -34,6 +39,6 @@ Future<void> init() async {
 
   // Cubit
   sl.registerLazySingleton<PartsCubit>(() => PartsCubit(
-        sl(),
+        sl<PartsRepository>(),
       ));
 }

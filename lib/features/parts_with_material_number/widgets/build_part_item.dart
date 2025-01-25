@@ -38,13 +38,20 @@ class BuildPartItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  buildPartItem(text: part.name, lable: "الأسم:"),
                   buildPartItem(
-                      text: part.materialNumber, lable: "رقم ماتريال:"),
+                      text: part.name, lable: "الأسم:", context: context),
                   buildPartItem(
-                      text: part.drawingPartNumber, lable: "رقم الرسمة"),
-                  buildPartItem(text: part.sizes, lable: "المقاسات"),
-                  buildPartItem(text: part.type, lable: "النوع"),
+                      text: part.materialNumber,
+                      lable: "رقم ماتريال:",
+                      context: context),
+                  buildPartItem(
+                      text: part.drawingPartNumber,
+                      lable: "رقم الرسمة",
+                      context: context),
+                  buildPartItem(
+                      text: part.sizes, lable: "المقاسات", context: context),
+                  buildPartItem(
+                      text: part.type, lable: "النوع", context: context),
                 ],
               ),
             ),
@@ -94,13 +101,16 @@ class BuildPartItem extends StatelessWidget {
   }
 }
 
-Widget buildPartItem({required dynamic text, required String lable}) {
+Widget buildPartItem(
+    {required dynamic text,
+    required String lable,
+    required BuildContext context}) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       Text(
         lable,
-        style: MyTextStyles.font12BlackeBold,
+        style: MyTextStyles.font12Bold(Theme.of(context)),
       ),
       Flexible(
         child: Text(

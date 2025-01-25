@@ -149,7 +149,7 @@ class _AddChockScreenState extends State<AddChockScreen> {
                       ),
                       Text(
                         "مكونات الكرسي",
-                        style: MyTextStyles.font24Black700Weight,
+                        style: MyTextStyles.font24Weight700(Theme.of(context)),
                       ),
                       SizedBox(
                         width: context.width.w,
@@ -190,7 +190,7 @@ class _AddChockScreenState extends State<AddChockScreen> {
                       ),
                       Text(
                         "خطوات التجميع",
-                        style: MyTextStyles.font24Black700Weight,
+                        style: MyTextStyles.font24Weight700(Theme.of(context)),
                       ),
                       CustomButton(
                         buttonName: "اضافة خطوة تجميع",
@@ -273,7 +273,7 @@ class _AddChockScreenState extends State<AddChockScreen> {
                             } else {
                               showCustomSnackBar(
                                 context: context,
-                                message: "مش تمام",
+                                message: "كمل بيانات الكرسي",
                                 color: ColorsManager.redColor,
                               );
                             }

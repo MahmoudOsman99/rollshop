@@ -123,7 +123,8 @@ class _BuildFieldsState extends State<BuildFields> {
                     children: [
                       Text(
                         "خطوة رقم ${index + 1}",
-                        style: MyTextStyles.font16BlackeBold,
+                        // textAlign: TextAlign.right,
+                        style: MyTextStyles.font16Bold(Theme.of(context)),
                       ),
                       index > 0
                           ? DecoratedBox(

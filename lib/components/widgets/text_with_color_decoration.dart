@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rollshop/core/theme/colors.dart';
+import 'package:rollshop/features/main/cubit/app_cubit.dart';
 
 class TextWithColorDecoration extends StatelessWidget {
   TextWithColorDecoration({
     super.key,
-    required this.backColor,
+    this.backColor = ColorsManager.redAccent,
     required this.lable,
     required this.textStyle,
   });
@@ -16,8 +19,10 @@ class TextWithColorDecoration extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: backColor,
-        borderRadius: BorderRadius.circular(5),
+        color: context.read<AppCubit>().currentThemeMode == ThemeMode.dark
+            ? ColorsManager.redAccent
+            : ColorsManager.orangeColor,
+        borderRadius: BorderRadius.circular(5.r),
       ),
       child: Padding(
         padding: EdgeInsetsDirectional.only(

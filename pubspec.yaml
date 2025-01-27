@@ -30,8 +30,10 @@ dependencies:
   conditional_builder_null_safety: 
   internet_connection_checker_plus: 
   cached_network_image: 
+  animated_bottom_navigation_bar:
   # adaptive_theme: 
-  persistent_bottom_nav_bar: any
+  # persistent_bottom_nav_bar: any
+
 
 dev_dependencies:
   flutter_test:

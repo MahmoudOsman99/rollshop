@@ -1,8 +1,10 @@
 // select_parts_list.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
 import 'package:rollshop/core/theme/colors.dart';
+import 'package:rollshop/features/main/cubit/app_cubit.dart';
 import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
 import 'package:rollshop/features/parts_with_material_number/screens/add_parts_with_material_number_screen.dart';
 import 'package:rollshop/features/parts_with_material_number/screens/all_parts_screen.dart';
@@ -65,6 +67,10 @@ class _SelectPartsListState extends State<SelectPartsList> {
                   borderRadius: BorderRadius.circular(10),
                   borderSide: BorderSide(
                     color: ColorsManager.orangeColor,
+                    //  context.read<AppCubit>().currentThemeMode ==
+                    //         ThemeMode.dark
+                    //     ? ColorsManager.whiteColor
+                    //     : ColorsManager.orangeColor,
                     width: 2,
                   ),
                 ),
@@ -77,83 +83,55 @@ class _SelectPartsListState extends State<SelectPartsList> {
                 ),
           ),
         ),
-        // Padding(
-        //   padding: const EdgeInsets.all(8.0),
-        //   child: CustomDropDown(
-        //     // dropDownController: dropDownAreaOfUsageController,
-        //     mainLable: 'اختار منطقة الشغل',
-        //     onSelected: (value) {
-        //       setState(() {
-        //         _searchQuery = value;
-        //         // _filteredParts.where((part) => part.type == value);
-        //       });
-        //     },
-        //     initialSelection: "BDM",
-        //     items: [
-        //       menuEntry("BDM"),
-        //       menuEntry("TDM"),
-        //       menuEntry("Vertical"),
-        //       menuEntry("Straghitner"),
-        //       menuEntry("Guides"),
-        //       // DropdownMenuEntry(value: "BDM", label: "BDM"),
-        //       // DropdownMenuEntry(value: "TDM", label: "TDM"),
-        //       // DropdownMenuEntry(
-        //       //     value: "Vertical", label: "Vertical"),
-        //       // DropdownMenuEntry(
-        //       //     value: "Straghitner", label: "Straghitner"),
-        //       // DropdownMenuEntry(value: "Guides", label: "Guides"),
-        //     ],
-        //   ),
-        // ),
         Expanded(
           child: ListView.builder(
+            physics: BouncingScrollPhysics(),
             itemCount: _filteredParts.length,
             itemBuilder: (context, index) {
               final part = _filteredParts[index];
-              return Padding(
-                padding: EdgeInsets.all(8.0.sp),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 40.w,
-                      height: 40.h,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: _selectedPartIds.contains(part.id)
-                              ? ColorsManager.orangeColor
-                              : ColorsManager.greyText,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: InkWell(
-                          onTap: () {
-                            setState(() {
-                              if (_selectedPartIds.contains(part.id)) {
-                                _selectedPartIds.remove(part.id);
-                              } else {
-                                _selectedPartIds.add(part.id!);
-                              }
-                            });
-                            final selectedParts = widget.allParts
-                                .where((part) =>
-                                    _selectedPartIds.contains(part.id))
-                                .toList();
-                            widget.onPartsSelected(selectedParts);
-                          },
+              return InkWell(
+                onTap: () {
+                  setState(() {
+                    if (_selectedPartIds.contains(part.id)) {
+                      _selectedPartIds.remove(part.id);
+                    } else {
+                      _selectedPartIds.add(part.id!);
+                    }
+                  });
+                  final selectedParts = widget.allParts
+                      .where((part) => _selectedPartIds.contains(part.id))
+                      .toList();
+                  widget.onPartsSelected(selectedParts);
+                },
+                child: Padding(
+                  padding: EdgeInsets.all(8.0.sp),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 40.w,
+                        height: 40.h,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: _selectedPartIds.contains(part.id)
+                                ? ColorsManager.orangeColor
+                                : ColorsManager.greyText,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                           child: Icon(
                             Icons.check,
                             color: ColorsManager.whiteColor,
                           ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      flex: 5,
-                      child: BuildPartItem(
-                        part: part,
-                        allowEdit: false,
+                      Expanded(
+                        flex: 5,
+                        child: BuildPartItem(
+                          part: part,
+                          allowEdit: false,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },

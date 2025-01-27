@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rollshop/features/main/cubit/app_cubit.dart';
 import '/core/theme/colors.dart';
 
 class MyTextStyles {
@@ -36,11 +37,13 @@ class MyTextStyles {
             ? ColorsManager.whiteText
             : ColorsManager.greyText,
       );
-  static TextStyle font13OrangeBold = TextStyle(
-    fontSize: 13.sp,
-    fontWeight: FontWeight.bold,
-    color: ColorsManager.orangeColor,
-  );
+  static TextStyle font13OrangeBold(ThemeData theme) => TextStyle(
+        fontSize: 13.sp,
+        fontWeight: FontWeight.bold,
+        color: theme.brightness == Brightness.light
+            ? ColorsManager.orangeColor
+            : ColorsManager.whiteColor,
+      );
 
   static TextStyle font16Weight500(ThemeData theme) => TextStyle(
         fontSize: 16.sp,
@@ -71,9 +74,10 @@ class MyTextStyles {
             ? ColorsManager.whiteText
             : ColorsManager.blackText,
       );
-  static TextStyle font12Bold(ThemeData theme) => TextStyle(
-        fontSize: 14.sp,
-        fontWeight: FontWeight.bold,
+  static TextStyle font12(ThemeData theme, {FontWeight? fontWeight}) =>
+      TextStyle(
+        fontSize: 12.sp,
+        fontWeight: fontWeight ?? FontWeight.bold,
         color: theme.brightness == Brightness.dark
             ? ColorsManager.whiteText
             : ColorsManager.blackText,

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rollshop/components/widgets/build_image_with_error_handler.dart';
 import 'package:rollshop/components/widgets/text_with_color_decoration.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
@@ -8,7 +9,7 @@ import 'package:rollshop/core/theme/colors.dart';
 import 'package:rollshop/core/theme/styles.dart';
 import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:rollshop/features/chock_feature/widgets/select_parts_list.dart';
+import 'package:rollshop/features/main/cubit/app_cubit.dart';
 import 'package:rollshop/features/parts_with_material_number/widgets/build_part_item.dart';
 
 class ChockDetailesScreen extends StatelessWidget {
@@ -22,34 +23,53 @@ class ChockDetailesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(chock.name),
-      //   titleTextStyle: MyTextStyles.font32WhiteBold,
-      //   centerTitle: true,
-      //   backgroundColor: ColorsManager.darkModeColor,
-      // ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     // context.read<ChockCubit>().addOneChock(newChock: null);
-      //     context.pushNamed(Routes.addChockScreen);
-      //   },
-      //   backgroundColor: ColorsManager.orangeColor,
-      //   child: Icon(
-      //     Icons.add,
-      //     color: ColorsManager.whiteColor,
-      //     size: 50,
-      //   ),
-      // ),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: ColorsManager.whiteColor
+              //  context.read<AppCubit>().currentThemeMode == ThemeMode.dark
+              //     ? ColorsManager.whiteColor
+              //     : ColorsManager.deepGrey,
+              ),
+          onPressed: () {
+            context.pop();
+          },
+          style: ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(
+              context.read<AppCubit>().currentThemeMode == ThemeMode.dark
+                  ? ColorsManager.redAccent
+                  : ColorsManager.orangeColor,
+              // ColorsManager.redAccent
+            ),
+            padding: WidgetStatePropertyAll(EdgeInsets.all(10.r)),
+
+            // shape: WidgetStatePropertyAll(BeveledRectangleBorder(
+            //     borderRadius: BorderRadius.circular(10.r)))
+          ),
+        ),
+        // actions: [
+        //   Padding(
+        //     padding: EdgeInsets.all(20.r),
+        //     child: Icon(
+        //       Icons.arrow_back_rounded,
+        //     ),
+        //   ),
+        // ],
+      ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(20.sp),
+          padding: EdgeInsetsDirectional.only(
+            top: 10.r,
+            start: 10.r,
+            end: 10.r,
+            bottom: 10.r,
+          ),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               spacing: 15.h,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(15.r),
+                  borderRadius: BorderRadius.circular(10.r),
                   child: SizedBox(
                     height: size.height * 0.5.h,
                     width: size.width.w,
@@ -57,24 +77,6 @@ class ChockDetailesScreen extends StatelessWidget {
                       imageType: ImageType.network,
                       path: chock.chockImagePath,
                     ),
-                    // child: chock.chockImagePath != null ||
-                    //         chock.chockImagePath.isNotEmpty
-                    //     ? CachedNetworkImage(
-                    //         imageUrl: chock.chockImagePath,
-                    //         fit: BoxFit.cover,
-                    //         errorWidget: (context, url, error) {
-                    //           return BuildImageWithErrorHandler(
-                    //             imageType: ImageType.asset,
-                    //             path: ImagesPath.errorImagePath,
-                    //           );
-                    //         },
-                    //       )
-                    //     : SizedBox(),
-
-                    // Image.asset(
-                    //   chock.chockImagePath,
-                    //   fit: BoxFit.cover,
-                    // ),
                   ),
                 ),
                 Align(
@@ -85,39 +87,24 @@ class ChockDetailesScreen extends StatelessWidget {
                   ),
                 ),
                 TextWithColorDecoration(
-                  backColor: ColorsManager.mainTeal,
+                  // backColor: ColorsManager.mainTeal,
                   lable: "نوع البيرينج: ${chock.bearingType}",
                   textStyle: MyTextStyles.font16Bold(Theme.of(context)),
                 ),
                 TextWithColorDecoration(
-                  backColor: ColorsManager.mainTeal,
+                  // backColor: ColorsManager.mainTeal,
                   lable: "خطوات التجميع",
                   textStyle: MyTextStyles.font16Bold(Theme.of(context)),
                 ),
-                // DecoratedBox(
-                //   decoration: BoxDecoration(
-                //     color: ColorsManager.mainTeal,
-                //     borderRadius: BorderRadius.circular(5),
-                //   ),
-                //   child: Padding(
-                //     padding: EdgeInsetsDirectional.only(
-                //       start: 4.sp,
-                //       end: 4.sp,
-                //       top: 3.sp,
-                //       bottom: 3.sp,
-                //     ),
-                //     child: Text(
-                //       "خطوات التجميع",
-                //       style: MyTextStyles.font16WhiteBold,
-                //     ),
-                //   ),
-                // ),
                 if (chock.assemblySteps.isNotEmpty)
                   DecoratedBox(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
-                        color: ColorsManager.orangeColor,
+                        color: context.read<AppCubit>().currentThemeMode ==
+                                ThemeMode.light
+                            ? ColorsManager.orangeColor
+                            : ColorsManager.whiteColor,
                         width: 2,
                       ),
                     ),
@@ -132,6 +119,7 @@ class ChockDetailesScreen extends StatelessWidget {
                       child: SizedBox(
                         height: size.height / 2,
                         child: ListView.builder(
+                          physics: BouncingScrollPhysics(),
                           itemCount: chock.assemblySteps.length,
                           itemBuilder: (context, index) {
                             // debugPrint();
@@ -142,14 +130,8 @@ class ChockDetailesScreen extends StatelessWidget {
                                 SizedBox(
                                   height: 40.h,
                                 ),
-                                // Text(
-                                //   chock.assemblySteps[index].description,
-                                //   style: MyTextStyles.font16BlackeWeight500,
-                                // ),
                                 Row(
                                   spacing: 10.w,
-                                  // mainAxisAlignment:
-                                  //     MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Expanded(
@@ -162,7 +144,8 @@ class ChockDetailesScreen extends StatelessWidget {
                                           Text(
                                             "شرح خطوة ${index + 1}",
                                             style:
-                                                MyTextStyles.font13OrangeBold,
+                                                MyTextStyles.font13OrangeBold(
+                                                    Theme.of(context)),
                                           ),
                                           Text(
                                             chock.assemblySteps[index]
@@ -184,7 +167,7 @@ class ChockDetailesScreen extends StatelessWidget {
                                         // height: context.height * 0.15,
                                         child: ClipRRect(
                                           borderRadius:
-                                              BorderRadius.circular(10),
+                                              BorderRadius.circular(10.r),
                                           child: CachedNetworkImage(
                                             imageUrl: chock
                                                 .assemblySteps[index].imagePath,
@@ -201,64 +184,23 @@ class ChockDetailesScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-
                                 Text(
                                   "ملاحظات علي خطوة ${index + 1}",
-                                  style: MyTextStyles.font13OrangeBold,
+                                  style: MyTextStyles.font13OrangeBold(
+                                      Theme.of(context)),
                                 ),
                                 Text(
                                   chock.assemblySteps[index].notes,
                                   maxLines: 4,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-
-                                // SizedBox(
-                                //   height: size.height / 3,
-                                //   width: size.width,
-                                //   child: ListView.separated(
-                                //     separatorBuilder: (context, index) {
-                                //       return SizedBox(
-                                //         width: 10,
-                                //         height: 20,
-                                //       );
-                                //     },
-                                //     scrollDirection: Axis.vertical,
-                                //     itemCount: chock
-                                //         .assemblySteps[index].imagesPath.length,
-                                //     itemBuilder: (context, indexImage) => ClipRRect(
-                                //       borderRadius: BorderRadius.circular(15),
-                                //       child: InteractiveViewer(
-                                //         minScale: 1.0,
-                                //         maxScale: 4.0,
-                                //         child: CachedNetworkImage(
-                                //           imageUrl: chock.assemblySteps[index]
-                                //               .imagesPath[indexImage],
-                                //           errorWidget: (context, url, error) {
-                                //             return BuildImageWithErrorHandler(
-                                //               imageType: ImageType.asset,
-                                //               path: ImagesPath.errorImagePath,
-                                //             );
-                                //           },
-                                //         ),
-                                //         // child: Image.asset(
-                                //         //   chock.assemblySteps[index]
-                                //         //       .imagesPath[indexImage],
-                                //         //   fit: BoxFit.cover,
-                                //         // ),
-                                //       ),
-                                //     ),
-                                //   ),
-                                // ),
                               ],
                             );
                           },
                         ),
                       ),
                     ),
-                  )
-                // else
-                //   SizedBox(),
-                ,
+                  ),
                 SizedBox(
                   height: 10.h,
                 ),
@@ -270,43 +212,35 @@ class ChockDetailesScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TextWithColorDecoration(
-                        backColor: ColorsManager.mainTeal,
+                        // backColor: ColorsManager.mainTeal,
                         lable: "القطع اللتي يتكون منهاالكرسي",
                         textStyle: MyTextStyles.font16Bold(Theme.of(context)),
                       ),
-                      // DecoratedBox(
-                      //   decoration: BoxDecoration(
-                      //     color: ColorsManager.mainTeal,
-                      //     borderRadius: BorderRadius.circular(5),
-                      //   ),
-                      //   child: Padding(
-                      //     padding: EdgeInsetsDirectional.only(
-                      //       start: 4.sp,
-                      //       end: 4.sp,
-                      //       top: 3.sp,
-                      //       bottom: 3.sp,
-                      //     ),
-                      //     child: Text(
-                      //       "القطع اللتي يتكون منهاالكرسي",
-                      //       style: MyTextStyles.font16WhiteBold,
-                      //     ),
-                      //   ),
-                      // ),
                       DecoratedBox(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(10.r),
                           border: Border.all(
                             width: 2,
-                            color: ColorsManager.orangeColor,
+                            color: context.read<AppCubit>().currentThemeMode ==
+                                    ThemeMode.light
+                                ? ColorsManager.orangeColor
+                                : ColorsManager.whiteColor,
                           ),
                         ),
-                        child: SizedBox(
-                          width: context.width,
-                          height: context.height * 0.4,
-                          child: ListView.builder(
-                            itemCount: chock.parts!.length,
-                            itemBuilder: (context, index) => BuildPartItem(
-                                part: chock.parts![index], allowEdit: false),
+                        child: Padding(
+                          padding: EdgeInsetsDirectional.only(
+                            top: 5.r,
+                            bottom: 5.r,
+                          ),
+                          child: SizedBox(
+                            width: context.width,
+                            height: context.height * 0.5,
+                            child: ListView.builder(
+                              physics: BouncingScrollPhysics(),
+                              itemCount: chock.parts!.length,
+                              itemBuilder: (context, index) => BuildPartItem(
+                                  part: chock.parts![index], allowEdit: false),
+                            ),
                           ),
                         ),
                       ),
@@ -317,24 +251,9 @@ class ChockDetailesScreen extends StatelessWidget {
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   spacing: 10.sp,
                   children: [
-                    DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: ColorsManager.mainTeal,
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.only(
-                          start: 4.sp,
-                          end: 4.sp,
-                          top: 3.sp,
-                          bottom: 3.sp,
-                        ),
-                        child: Text(
-                          "ملاحظات:",
-                          style: MyTextStyles.font16Bold(Theme.of(context)),
-                        ),
-                      ),
-                    ),
+                    TextWithColorDecoration(
+                        lable: "ملاحظات",
+                        textStyle: MyTextStyles.font16Bold(Theme.of(context))),
                     Expanded(
                       child: Text(
                         chock.notes,

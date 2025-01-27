@@ -5,6 +5,7 @@ import 'package:rollshop/components/widgets/build_image_with_error_handler.dart'
 import 'package:rollshop/core/theme/colors.dart';
 import 'package:rollshop/core/theme/styles.dart';
 import 'package:rollshop/features/main/cubit/app_cubit.dart';
+import 'package:rollshop/features/main/cubit/app_state.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -49,24 +50,30 @@ class ProfileScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10.r),
                         border: Border.all(
                           width: 2,
-                          color: ColorsManager.orangeColor,
+                          color: context.read<AppCubit>().currentThemeMode ==
+                                  ThemeMode.dark
+                              ? ColorsManager.redAccent
+                              : ColorsManager.orangeColor,
                         )),
                     child: Padding(
                       padding: EdgeInsetsDirectional.only(
                         top: 20.r,
                         bottom: 20.r,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 300),
-                            transitionBuilder:
-                                (Widget child, Animation<double> animation) {
-                              return ScaleTransition(
-                                  scale: animation, child: child);
-                            },
-                            child: Icon(
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 500),
+                        transitionBuilder:
+                            (Widget child, Animation<double> animation) {
+                          return ScaleTransition(
+                            scale: animation,
+                            child: child,
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          // spacing: 20.w,
+                          children: [
+                            Icon(
                               context.read<AppCubit>().currentThemeMode ==
                                       ThemeMode.dark
                                   ? Icons.brightness_7
@@ -76,15 +83,15 @@ class ProfileScreen extends StatelessWidget {
                                     ThemeMode.dark,
                               ), // Key for animation
                             ),
-                          ),
-                          Text(
-                            context.read<AppCubit>().currentThemeMode ==
-                                    ThemeMode.dark
-                                ? "Light Theme"
-                                : "Dark Theme",
-                            style: MyTextStyles.font16Bold(Theme.of(context)),
-                          ),
-                        ],
+                            Text(
+                              context.read<AppCubit>().currentThemeMode ==
+                                      ThemeMode.dark
+                                  ? "Light Theme"
+                                  : "Dark Theme",
+                              style: MyTextStyles.font16Bold(Theme.of(context)),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ))

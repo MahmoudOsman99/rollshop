@@ -11,8 +11,8 @@ import 'package:rollshop/core/helpers/image_handler.dart';
 import 'package:rollshop/core/router/app_router.dart';
 import 'package:rollshop/core/theme/styles.dart';
 import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
-import 'package:rollshop/features/parts_with_material_number/view_model/cubit/parts_cubit.dart';
-import 'package:rollshop/features/parts_with_material_number/view_model/cubit/parts_state.dart';
+import 'package:rollshop/features/parts_with_material_number/cubit/parts_cubit.dart';
+import 'package:rollshop/features/parts_with_material_number/cubit/parts_state.dart';
 
 import '../../../components/widgets/custom_text_field.dart';
 import '../../../core/theme/colors.dart';
@@ -89,6 +89,9 @@ class _AddPartWithMaterialNumberScreenState
 
   @override
   Widget build(BuildContext context) {
+    // final bottom = MediaQuery.of(context).viewInsets.bottom;
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     return BlocConsumer<PartsCubit, PartsState>(
       listener: (context, state) {
         if (state is PartsErrorState) {
@@ -101,386 +104,384 @@ class _AddPartWithMaterialNumberScreenState
       },
       builder: (context, state) {
         return Scaffold(
-          body: SafeArea(
-            child: Padding(
-              padding: EdgeInsets.only(
-                top: 50.sp,
-                left: 10.sp,
-                right: 10.sp,
-                bottom: 30.sp,
-              ),
-              child: SingleChildScrollView(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    spacing: 20,
-                    children: [
-                      GestureDetector(
-                        onTap: () async {
-                          // if (widget.isViewOnly) return;
-                          try {
-                            XFile? pickedImage = await _imagePicker.pickImage(
-                                source: ImageSource.gallery);
-                            if (pickedImage != null) {
-                              setState(() {
-                                imageFile = File(pickedImage.path);
-                              });
-                            }
-                          } catch (e) {
-                            debugPrint('Error picking images: $e');
-                            // Handle the error, e.g., show a snackbar
-                            showCustomSnackBar(
-                              context: context,
-                              message: "Error picking images: $e",
-                              color: ColorsManager.orangeColor,
-                            );
+          resizeToAvoidBottomInset: false,
+          body: Padding(
+            padding: EdgeInsets.only(
+              top: 50.r,
+              left: 10.r,
+              right: 10.r,
+              // bottom: 30.r,
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+            child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  spacing: 20,
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        // if (widget.isViewOnly) return;
+                        try {
+                          XFile? pickedImage = await _imagePicker.pickImage(
+                              source: ImageSource.gallery);
+                          if (pickedImage != null) {
+                            setState(() {
+                              imageFile = File(pickedImage.path);
+                            });
                           }
-                        },
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: ColorsManager.orangeColor,
-                              width: 2,
-                            ),
-                            borderRadius: BorderRadius.circular(10),
+                        } catch (e) {
+                          debugPrint('Error picking images: $e');
+                          // Handle the error, e.g., show a snackbar
+                          showCustomSnackBar(
+                            context: context,
+                            message: "Error picking images: $e",
+                            color: ColorsManager.orangeColor,
+                          );
+                        }
+                      },
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: ColorsManager.orangeColor,
+                            width: 2,
                           ),
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0.sp),
-                            child: SizedBox(
-                              width: context.width * 0.7,
-                              height: context.height / 3,
-                              child: imageUrl != null && imageUrl!.isNotEmpty
-                                  ? BuildImageWithErrorHandler(
-                                      imageType: ImageType.network,
-                                      path: imageUrl,
-                                    )
-                                  : imageFile != null
-                                      ? BuildImageWithErrorHandler(
-                                          imageType: ImageType.file,
-                                          path: imageFile,
-                                        )
-                                      : SizedBox(
-                                          child: Icon(
-                                            Icons.upload,
-                                            size: 100,
-                                            color: ColorsManager.orangeColor,
-                                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0.sp),
+                          child: SizedBox(
+                            width: context.width * 0.7,
+                            height: context.height / 3,
+                            child: imageUrl != null && imageUrl!.isNotEmpty
+                                ? BuildImageWithErrorHandler(
+                                    imageType: ImageType.network,
+                                    path: imageUrl,
+                                  )
+                                : imageFile != null
+                                    ? BuildImageWithErrorHandler(
+                                        imageType: ImageType.file,
+                                        path: imageFile,
+                                      )
+                                    : SizedBox(
+                                        child: Icon(
+                                          Icons.upload,
+                                          size: 100,
+                                          color: ColorsManager.orangeColor,
                                         ),
-                            ),
-                            // !widget.isEdit && imageFile != null
-                            //     ? BuildImageWithErrorHandler(
-                            //         imageType: ImageType.file, path: imageFile)
-                            //     : SizedBox(),
-                            //  widget.isEdit &&
-                            //         (imageUrl == null || imageUrl!.isEmpty)
-                            //     ? BuildImageWithErrorHandler(
-                            //             imageType: ImageType.file,
-                            //             path: imageFile,
-                            //           )
-                            //     : imageFile != null
-                            //         ? BuildImageWithErrorHandler(
-                            //         imageType: ImageType.network,
-                            //         path: imageUrl,
-                            //       )
-                            //         : SizedBox(),
-                            // SizedBox(
-                            //   width: context.width * 0.7,
-                            //   height: context.height / 3,
-                            //   child: widget.isEdit
-                            //       ? imageUrl.isNotEmpty
-                            //           ? BuildImageWithErrorHandler(
-                            //               imageType: ImageType.network,
-                            //               path: imageUrl,
-                            //             )
-                            //           : SizedBox()
-                            //       : BuildImageWithErrorHandler(
-                            //           imageType: ImageType.file,
-                            //           path: imageFile,
-                            //         ),
-                            // ),
-                          ),
-                        ),
-                      ),
-                      CustomTextFormField(
-                        textFieldController: partNameController,
-                        hintText: "أسم القطعة",
-                        // isReadOnly: widget.isViewOnly,
-                      ),
-                      CustomTextFormField(
-                        textFieldController: materialNumberController,
-                        hintText: "رقم ماتريال",
-                        keyboardType: TextInputType.number,
-                        // isReadOnly: widget.isViewOnly,
-                      ),
-                      CustomTextFormField(
-                        textFieldController: drawingPartNumberController,
-                        hintText: "رقم القطعة في الرسمة",
-                        keyboardType: TextInputType.number,
-                        // isReadOnly: widget.isViewOnly,
-                      ),
-                      DropdownMenu(
-                        controller: dropDownTypeController,
-                        initialSelection:
-                            widget.isEdit ? widget.partModel!.type : "Part",
-                        width: context.width,
-                        // enabled: !widget.isViewOnly,
-                        leadingIcon: Icon(Icons.settings_suggest_outlined),
-                        inputDecorationTheme: InputDecorationTheme(
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: BorderSide(
-                              color: ColorsManager.orangeColor,
-                            ),
-                          ),
-                        ),
-                        label: Text(
-                          'اختر نوع القطعة',
-                          style: MyTextStyles.lable18OrangeBold,
-                        ),
-                        dropdownMenuEntries: [
-                          menuEntry("Part"),
-                          menuEntry("Seal"),
-                          menuEntry("Bearing"),
-                          menuEntry("Chock"),
-                          menuEntry("Guide"),
-                          menuEntry("Roll"),
-
-                          // DropdownMenuEntry(value: "Part", label: "Part"),
-                          // DropdownMenuEntry(value: "Seal", label: "Seal"),
-                          // DropdownMenuEntry(value: "Bearing", label: "Bearing"),
-                          // DropdownMenuEntry(value: "Chock", label: "Chock"),
-                        ],
-                      ),
-                      CustomDropDown(
-                        dropDownController: dropDownAreaOfUsageController,
-                        part: widget,
-                        mainLable: 'اختار منطقة الشغل',
-                        initialSelection: "BDM",
-                        items: [
-                          menuEntry("BDM"),
-                          menuEntry("TDM"),
-                          menuEntry("Vertical"),
-                          menuEntry("Straghitner"),
-                          menuEntry("Guides"),
-                          // DropdownMenuEntry(value: "BDM", label: "BDM"),
-                          // DropdownMenuEntry(value: "TDM", label: "TDM"),
-                          // DropdownMenuEntry(
-                          //     value: "Vertical", label: "Vertical"),
-                          // DropdownMenuEntry(
-                          //     value: "Straghitner", label: "Straghitner"),
-                          // DropdownMenuEntry(value: "Guides", label: "Guides"),
-                        ],
-                      ),
-                      CustomTextFormField(
-                        textFieldController: sizesController,
-                        hintText: "المقاسات",
-                        // isReadOnly: widget.isViewOnly,
-                      ),
-                      CustomTextFormField(
-                        textFieldController: usageController,
-                        hintText: "الأستخدام",
-                        // isReadOnly: widget.isViewOnly,
-                      ),
-                      CustomTextFormField(
-                        textFieldController: partNotesController,
-                        hintText: "ملاحظات",
-                        keyboardType: TextInputType.multiline,
-                        maxLines: 4,
-                        isRequired: false,
-                        // isReadOnly: widget.isViewOnly,
-                      ),
-                      isSaveLoading
-                          ? CircularProgressIndicator()
-                          : CustomButton(
-                              buttonName: 'حفظ',
-                              color: ColorsManager.orangeColor,
-                              onPressed: () async {
-                                if (!_formKey.currentState!.validate()) {
-                                  showCustomSnackBar(
-                                    context: context,
-                                    message: "برجاء ادخال جميع البيانات",
-                                    color: ColorsManager.redColor,
-                                  );
-                                } else {
-                                  if (widget.isEdit == false) {
-                                    if (imageFile == null) {
-                                      showCustomSnackBar(
-                                        context: context,
-                                        message: "برجاء اختيار صورة",
-                                        color: ColorsManager.redColor,
-                                      );
-                                      return;
-                                    }
-                                    setState(() {
-                                      isSaveLoading = true;
-                                    });
-                                    if (await context
-                                        .read<PartsCubit>()
-                                        .isPartExistByMaterialNumber(
-                                            materialNumber: int.parse(
-                                                materialNumberController
-                                                    .text))) {
-                                      setState(() {
-                                        isSaveLoading = false;
-                                      });
-                                      showCustomSnackBar(
-                                        context: context,
-                                        message:
-                                            "تم تسجيل هذا العنصر بنفس رقم material number من قبل",
-                                        color: ColorsManager.redColor,
-                                      );
-                                      return;
-                                    }
-                                    imageUrl = await uploadImageToImgur(
-                                        imageFile: imageFile);
-                                    if (imageUrl == null) {
-                                      showCustomSnackBar(
-                                        context: context,
-                                        message: "حدث مشكلة اثناء حفظ الصورة",
-                                        color: ColorsManager.redColor,
-                                      );
-                                      return;
-                                    }
-                                    // CircularProgressIndicator();
-                                    setState(() {
-                                      isSaveLoading = true;
-                                    });
-                                    sl<PartsCubit>().addOnePart(
-                                      part: PartsWithMaterialNumberModel(
-                                        name: partNameController.text,
-                                        materialNumber: int.parse(
-                                            materialNumberController.text),
-                                        type: dropDownTypeController.text,
-                                        usage: usageController.text,
-                                        imagePath: imageUrl ?? "",
-                                        drawingPartNumber: int.parse(
-                                            drawingPartNumberController.text),
-                                        areaOfUsage:
-                                            dropDownAreaOfUsageController.text,
-                                        sizes: sizesController.text,
-                                        notes: partNotesController.text.isEmpty
-                                            ? ""
-                                            : partNotesController.text,
                                       ),
+                          ),
+                          // !widget.isEdit && imageFile != null
+                          //     ? BuildImageWithErrorHandler(
+                          //         imageType: ImageType.file, path: imageFile)
+                          //     : SizedBox(),
+                          //  widget.isEdit &&
+                          //         (imageUrl == null || imageUrl!.isEmpty)
+                          //     ? BuildImageWithErrorHandler(
+                          //             imageType: ImageType.file,
+                          //             path: imageFile,
+                          //           )
+                          //     : imageFile != null
+                          //         ? BuildImageWithErrorHandler(
+                          //         imageType: ImageType.network,
+                          //         path: imageUrl,
+                          //       )
+                          //         : SizedBox(),
+                          // SizedBox(
+                          //   width: context.width * 0.7,
+                          //   height: context.height / 3,
+                          //   child: widget.isEdit
+                          //       ? imageUrl.isNotEmpty
+                          //           ? BuildImageWithErrorHandler(
+                          //               imageType: ImageType.network,
+                          //               path: imageUrl,
+                          //             )
+                          //           : SizedBox()
+                          //       : BuildImageWithErrorHandler(
+                          //           imageType: ImageType.file,
+                          //           path: imageFile,
+                          //         ),
+                          // ),
+                        ),
+                      ),
+                    ),
+                    CustomTextFormField(
+                      textFieldController: partNameController,
+                      hintText: "أسم القطعة",
+                      // isReadOnly: widget.isViewOnly,
+                    ),
+                    CustomTextFormField(
+                      textFieldController: materialNumberController,
+                      hintText: "رقم ماتريال",
+                      keyboardType: TextInputType.number,
+                      // isReadOnly: widget.isViewOnly,
+                    ),
+                    CustomTextFormField(
+                      textFieldController: drawingPartNumberController,
+                      hintText: "رقم القطعة في الرسمة",
+                      keyboardType: TextInputType.number,
+                      // isReadOnly: widget.isViewOnly,
+                    ),
+                    DropdownMenu(
+                      controller: dropDownTypeController,
+                      initialSelection:
+                          widget.isEdit ? widget.partModel!.type : "Part",
+                      width: context.width,
+                      // enabled: !widget.isViewOnly,
+                      leadingIcon: Icon(Icons.settings_suggest_outlined),
+                      inputDecorationTheme: InputDecorationTheme(
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide(
+                            color: ColorsManager.orangeColor,
+                          ),
+                        ),
+                      ),
+                      label: Text(
+                        'اختر نوع القطعة',
+                        style: MyTextStyles.lable18OrangeBold,
+                      ),
+                      dropdownMenuEntries: [
+                        menuEntry("Part"),
+                        menuEntry("Seal"),
+                        menuEntry("Bearing"),
+                        menuEntry("Chock"),
+                        menuEntry("Guide"),
+                        menuEntry("Roll"),
+
+                        // DropdownMenuEntry(value: "Part", label: "Part"),
+                        // DropdownMenuEntry(value: "Seal", label: "Seal"),
+                        // DropdownMenuEntry(value: "Bearing", label: "Bearing"),
+                        // DropdownMenuEntry(value: "Chock", label: "Chock"),
+                      ],
+                    ),
+                    CustomDropDown(
+                      dropDownController: dropDownAreaOfUsageController,
+                      part: widget,
+                      mainLable: 'اختار منطقة الشغل',
+                      initialSelection: "BDM",
+                      items: [
+                        menuEntry("BDM"),
+                        menuEntry("TDM"),
+                        menuEntry("Vertical"),
+                        menuEntry("Straghitner"),
+                        menuEntry("Guides"),
+                        // DropdownMenuEntry(value: "BDM", label: "BDM"),
+                        // DropdownMenuEntry(value: "TDM", label: "TDM"),
+                        // DropdownMenuEntry(
+                        //     value: "Vertical", label: "Vertical"),
+                        // DropdownMenuEntry(
+                        //     value: "Straghitner", label: "Straghitner"),
+                        // DropdownMenuEntry(value: "Guides", label: "Guides"),
+                      ],
+                    ),
+                    CustomTextFormField(
+                      textFieldController: sizesController,
+                      hintText: "المقاسات",
+                      // isReadOnly: widget.isViewOnly,
+                    ),
+                    CustomTextFormField(
+                      textFieldController: usageController,
+                      hintText: "الأستخدام",
+                      // isReadOnly: widget.isViewOnly,
+                    ),
+                    CustomTextFormField(
+                      textFieldController: partNotesController,
+                      hintText: "ملاحظات",
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 4,
+                      isRequired: false,
+                      // isReadOnly: widget.isViewOnly,
+                    ),
+                    isSaveLoading
+                        ? CircularProgressIndicator()
+                        : CustomButton(
+                            buttonName: 'حفظ',
+                            color: ColorsManager.orangeColor,
+                            onPressed: () async {
+                              if (!_formKey.currentState!.validate()) {
+                                showCustomSnackBar(
+                                  context: context,
+                                  message: "برجاء ادخال جميع البيانات",
+                                  color: ColorsManager.redColor,
+                                );
+                              } else {
+                                if (widget.isEdit == false) {
+                                  if (imageFile == null) {
+                                    showCustomSnackBar(
+                                      context: context,
+                                      message: "برجاء اختيار صورة",
+                                      color: ColorsManager.redColor,
                                     );
+                                    return;
+                                  }
+                                  setState(() {
+                                    isSaveLoading = true;
+                                  });
+                                  if (await context
+                                      .read<PartsCubit>()
+                                      .isPartExistByMaterialNumber(
+                                          materialNumber: int.parse(
+                                              materialNumberController.text))) {
                                     setState(() {
                                       isSaveLoading = false;
                                     });
                                     showCustomSnackBar(
                                       context: context,
-                                      message: "تم الحفظ بنجاح",
-                                      color: ColorsManager.mainTeal,
+                                      message:
+                                          "تم تسجيل هذا العنصر بنفس رقم material number من قبل",
+                                      color: ColorsManager.redColor,
                                     );
-                                    context.pop();
+                                    return;
                                   }
-                                  // else {
-                                  //   isLoading = false;
-                                  //   showCustomSnackBar(
-                                  //     context: context,
-                                  //     message:
-                                  //         "تم تسجيل هذا العنصر بنفس رقم material number من قبل",
-                                  //     color: ColorsManager.mainTeal,
-                                  //   );
-                                  //   return;
-                                  // }
-
-                                  // if (imageFile != null) {
-                                  //   imageUrl = await uploadImageToImgur(
-                                  //     imageFile: imageFile,
-                                  //   );
-                                  // }
-                                  // sl<PartsCubit>().updatePart(
-                                  //   part: PartsWithMaterialNumberModel(
-                                  //     name: partNameController.text,
-                                  //     materialNumber: int.parse(
-                                  //         materialNumberController.text),
-                                  //     type: dropDownTypeController.text,
-                                  //     usage: usageController.text,
-                                  //     imagePath: imageUrl ?? "",
-                                  //     drawingPartNumber: int.parse(
-                                  //         drawingPartNumberController.text),
-                                  //     areaOfUsage:
-                                  //         dropDownAreaOfUsageController.text,
-                                  //     sizes: sizesController.text,
-                                  //     notes: partNotesController.text.isEmpty
-                                  //         ? ""
-                                  //         : partNotesController.text,
-                                  //   ),
-                                  //   id: widget.partModel!.id.toString(),
-                                  // );
-                                  // setState(() {
-                                  //   isLoading = false;
-                                  // });
-                                }
-                              },
-                            ),
-                      widget.isEdit
-                          ? !isDeleteLoading
-                              ? CustomButton(
-                                  buttonName: 'حذف هذا العنصر',
-                                  color: ColorsManager.redColor,
-                                  onPressed: () async {
-                                    setState(() {
-                                      isDeleteLoading = true;
-                                    });
-                                    final result = await showDialog<bool>(
+                                  imageUrl = await uploadImageToImgur(
+                                      imageFile: imageFile);
+                                  if (imageUrl == null) {
+                                    showCustomSnackBar(
                                       context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          title: const Text('تأكيد الحذف'),
-                                          content: Text(
-                                              'هل تريد حذف هذا العنصر ${partNameController.text}?'),
-                                          actions: <Widget>[
-                                            TextButton(
-                                              onPressed: () => context
-                                                  .pop(), // Return false//////////////////////////
-                                              child: const Text('الغاء'),
-                                            ),
-                                            TextButton(
-                                              onPressed: () =>
-                                                  Navigator.of(context)
-                                                      .pop(true), // Return true
-                                              child: const Text(
-                                                'تأكيد',
-                                                style: TextStyle(
-                                                  color: ColorsManager.redColor,
-                                                ),
+                                      message: "حدث مشكلة اثناء حفظ الصورة",
+                                      color: ColorsManager.redColor,
+                                    );
+                                    return;
+                                  }
+                                  // CircularProgressIndicator();
+                                  setState(() {
+                                    isSaveLoading = true;
+                                  });
+                                  sl<PartsCubit>().addOnePart(
+                                    part: PartsWithMaterialNumberModel(
+                                      name: partNameController.text,
+                                      materialNumber: int.parse(
+                                          materialNumberController.text),
+                                      type: dropDownTypeController.text,
+                                      usage: usageController.text,
+                                      imagePath: imageUrl ?? "",
+                                      drawingPartNumber: int.parse(
+                                          drawingPartNumberController.text),
+                                      areaOfUsage:
+                                          dropDownAreaOfUsageController.text,
+                                      sizes: sizesController.text,
+                                      notes: partNotesController.text.isEmpty
+                                          ? ""
+                                          : partNotesController.text,
+                                    ),
+                                  );
+                                  setState(() {
+                                    isSaveLoading = false;
+                                  });
+                                  showCustomSnackBar(
+                                    context: context,
+                                    message: "تم الحفظ بنجاح",
+                                    color: ColorsManager.mainTeal,
+                                  );
+                                  context.pop();
+                                }
+                                // else {
+                                //   isLoading = false;
+                                //   showCustomSnackBar(
+                                //     context: context,
+                                //     message:
+                                //         "تم تسجيل هذا العنصر بنفس رقم material number من قبل",
+                                //     color: ColorsManager.mainTeal,
+                                //   );
+                                //   return;
+                                // }
+
+                                // if (imageFile != null) {
+                                //   imageUrl = await uploadImageToImgur(
+                                //     imageFile: imageFile,
+                                //   );
+                                // }
+                                // sl<PartsCubit>().updatePart(
+                                //   part: PartsWithMaterialNumberModel(
+                                //     name: partNameController.text,
+                                //     materialNumber: int.parse(
+                                //         materialNumberController.text),
+                                //     type: dropDownTypeController.text,
+                                //     usage: usageController.text,
+                                //     imagePath: imageUrl ?? "",
+                                //     drawingPartNumber: int.parse(
+                                //         drawingPartNumberController.text),
+                                //     areaOfUsage:
+                                //         dropDownAreaOfUsageController.text,
+                                //     sizes: sizesController.text,
+                                //     notes: partNotesController.text.isEmpty
+                                //         ? ""
+                                //         : partNotesController.text,
+                                //   ),
+                                //   id: widget.partModel!.id.toString(),
+                                // );
+                                // setState(() {
+                                //   isLoading = false;
+                                // });
+                              }
+                            },
+                          ),
+                    widget.isEdit
+                        ? !isDeleteLoading
+                            ? CustomButton(
+                                buttonName: 'حذف هذا العنصر',
+                                color: ColorsManager.redColor,
+                                onPressed: () async {
+                                  setState(() {
+                                    isDeleteLoading = true;
+                                  });
+                                  final result = await showDialog<bool>(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: const Text('تأكيد الحذف'),
+                                        content: Text(
+                                            'هل تريد حذف هذا العنصر ${partNameController.text}?'),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () => context
+                                                .pop(), // Return false//////////////////////////
+                                            child: const Text('الغاء'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () =>
+                                                Navigator.of(context)
+                                                    .pop(true), // Return true
+                                            child: const Text(
+                                              'تأكيد',
+                                              style: TextStyle(
+                                                color: ColorsManager.redColor,
                                               ),
                                             ),
-                                          ],
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                  if (result == true) {
+                                    await context.read<PartsCubit>().deletePart(
+                                          id: widget.partModel!.id!,
                                         );
-                                      },
+                                    showCustomSnackBar(
+                                      context: context,
+                                      message: "تم حذف العنصر بنجاح",
+                                      color: ColorsManager.redColor,
                                     );
-                                    if (result == true) {
-                                      await context
-                                          .read<PartsCubit>()
-                                          .deletePart(
-                                            id: widget.partModel!.id!,
-                                          );
-                                      showCustomSnackBar(
-                                        context: context,
-                                        message: "تم حذف العنصر بنجاح",
-                                        color: ColorsManager.redColor,
-                                      );
-                                      setState(() {
-                                        isDeleteLoading = false;
-                                      });
-                                      context.pop();
-                                    } else {
-                                      showCustomSnackBar(
-                                        context: context,
-                                        message: "لم يتم الحذف",
-                                        color: ColorsManager.mainTeal,
-                                      );
-                                      setState(() {
-                                        isDeleteLoading = false;
-                                      });
-                                    }
-                                  })
-                              : CircularProgressIndicator()
-                          : SizedBox(),
-                    ],
-                  ),
+                                    setState(() {
+                                      isDeleteLoading = false;
+                                    });
+                                    context.pop();
+                                  } else {
+                                    showCustomSnackBar(
+                                      context: context,
+                                      message: "لم يتم الحذف",
+                                      color: ColorsManager.mainTeal,
+                                    );
+                                    setState(() {
+                                      isDeleteLoading = false;
+                                    });
+                                  }
+                                })
+                            : CircularProgressIndicator()
+                        : SizedBox(),
+                  ],
                 ),
               ),
             ),
@@ -573,11 +574,17 @@ class CustomDropDown extends StatelessWidget {
       leadingIcon: Icon(Icons.settings_suggest_outlined),
       inputDecorationTheme: InputDecorationTheme(
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(10.r),
           borderSide: BorderSide(
             color: ColorsManager.orangeColor,
           ),
         ),
+        // focusedBorder: OutlineInputBorder(
+        //   borderRadius: BorderRadius.circular(10.r),
+        //   borderSide: BorderSide(
+        //     color: ColorsManager.orangeColor,
+        //   ),
+        // ),
       ),
       label: Text(
         mainLable,
@@ -600,3 +607,16 @@ enum PartProccessType {
   update,
   delete,
 }
+
+// SizedBox addPaddingWhenKeyboardAppears() {
+//   final viewInsets = EdgeInsets.fromViewPadding(
+//     WidgetsBinding.instance!.window.viewInsets,
+//     WidgetsBinding.instance!.window.devicePixelRatio,
+//   );
+
+//   final bottomOffset = viewInsets.bottom;
+//   const hiddenKeyboard = 0.0; // Always 0 if keyboard is not opened
+//   final isNeedPadding = bottomOffset != hiddenKeyboard;
+
+//   return SizedBox(height: isNeedPadding ? bottomOffset : hiddenKeyboard);
+// }

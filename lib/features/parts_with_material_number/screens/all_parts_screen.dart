@@ -9,10 +9,11 @@ import 'package:rollshop/core/helpers/images_path.dart';
 import 'package:rollshop/core/router/routers.dart';
 import 'package:rollshop/core/theme/colors.dart';
 import 'package:rollshop/core/theme/styles.dart';
+import 'package:rollshop/features/main/cubit/app_cubit.dart';
 
 import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
-import 'package:rollshop/features/parts_with_material_number/view_model/cubit/parts_cubit.dart';
-import 'package:rollshop/features/parts_with_material_number/view_model/cubit/parts_state.dart';
+import 'package:rollshop/features/parts_with_material_number/cubit/parts_cubit.dart';
+import 'package:rollshop/features/parts_with_material_number/cubit/parts_state.dart';
 import 'package:rollshop/features/parts_with_material_number/widgets/build_part_item.dart';
 import 'package:rollshop/injection_container.dart';
 
@@ -54,12 +55,17 @@ class _AllPartsScreenState extends State<AllPartsScreen> {
           return Scaffold(
               appBar: AppBar(
                 title: Text(
-                  'Parts Section ${state.parts.length}',
+                  'جميع العناصر المسجلة ${state.parts.length}',
                   // 'Parts Section ${parts.length}',
-                  style: MyTextStyles.font32Bold(Theme.of(context)),
+                  style: MyTextStyles.font32Bold(Theme.of(context))
+                      .copyWith(color: ColorsManager.lightWhite),
                 ),
                 centerTitle: true,
-                backgroundColor: ColorsManager.mainTeal,
+                backgroundColor:
+                    context.read<AppCubit>().currentThemeMode == ThemeMode.dark
+                        ? ColorsManager.lightBlue
+                        : ColorsManager.orangeColor,
+                //  ColorsManager.lightBlue,
               ),
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
@@ -68,8 +74,16 @@ class _AllPartsScreenState extends State<AllPartsScreen> {
                   // state.addOneParts(newParts: null);
                   // state.loadAllChocks();
                 },
-                backgroundColor: ColorsManager.orangeColor,
-                child: Icon(Icons.add),
+                backgroundColor:
+                    context.read<AppCubit>().currentThemeMode == ThemeMode.dark
+                        ? ColorsManager.lightBlue
+                        : ColorsManager.orangeColor,
+                //  ColorsManager.mainBlue,
+                child: Icon(
+                  Icons.add,
+                  size: 25.sp,
+                  color: ColorsManager.whiteColor,
+                ),
               ),
               body: ConditionalBuilder(
                 condition: state.parts.isNotEmpty,
@@ -88,6 +102,7 @@ class _AllPartsScreenState extends State<AllPartsScreen> {
                     await context.read<PartsCubit>().getAllParts();
                   },
                   child: ListView.separated(
+                    physics: BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
                       return BuildPartItem(
                         part: state.parts[index],

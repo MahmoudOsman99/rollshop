@@ -11,7 +11,8 @@ class ChockRemoteDataSource {
   final db = FirebaseFirestore.instance;
 
   Future<List<ChockTypesModel>> getAllChocks() async {
-    final chocksFromDB = await db.collection(CollectionsPaths.chockPath).get();
+    final chocksFromDB =
+        await db.collection(CollectionsPaths.chockPath).orderBy("name").get();
     final List<ChockTypesModel> chocks = [];
     // return [];
     if (chocksFromDB.docs.isNotEmpty) {

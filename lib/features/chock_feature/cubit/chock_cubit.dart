@@ -16,7 +16,7 @@ class ChockCubit extends Cubit<ChockState> {
   // static ChockCubit get(context) => BlocProvider.of(context);
   List<ChockTypesModel> chocks = [];
   // List<PartsWithMaterialNumberModel> parts = [];
-  List<String> bearingTypes = ["Radial", "Spherical", "Thrust"];
+  List<String> bearingTypes = ["Radial", "Spherical", "Thrust", "Tapered"];
 
   Future<void> getAllChocks() async {
     emit(ChocksLoadingState());

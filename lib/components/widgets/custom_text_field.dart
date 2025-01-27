@@ -56,10 +56,10 @@ class CustomTextFormField extends StatelessWidget {
         floatingLabelBehavior: FloatingLabelBehavior.always,
         hintTextDirection: TextDirection.rtl,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(10.r),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(10.r),
           borderSide: BorderSide(
             color: ColorsManager.orangeColor,
             width: 2,

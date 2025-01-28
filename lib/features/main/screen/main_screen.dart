@@ -12,7 +12,10 @@ import 'package:rollshop/core/router/app_router.dart';
 import 'package:rollshop/core/router/routers.dart';
 import 'package:rollshop/core/theme/colors.dart';
 import 'package:rollshop/core/theme/styles.dart';
+import 'package:rollshop/features/chock_feature/cubit/chock_cubit.dart';
+import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
 import 'package:rollshop/features/chock_feature/screens/all_chocks_screen.dart';
+import 'package:rollshop/features/chock_feature/widgets/build_chock_item.dart';
 import 'package:rollshop/features/main/components/navbar_components.dart';
 import 'package:rollshop/features/main/cubit/app_cubit.dart';
 import 'package:rollshop/features/main/cubit/app_state.dart';
@@ -33,6 +36,17 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: AppBar(
+      //   actions: [],
+      //   leading: IconButton(
+      //       onPressed: () {
+      //         showSearch(
+      //           context: context,
+      //           delegate: CustomSearchDelegate(),
+      //         );
+      //       },
+      //       icon: Icon(Icons.search)),
+      // ),
       // floatingActionButton: FloatingActionButton(
       //   onPressed: () {},
       //   child: Icon(

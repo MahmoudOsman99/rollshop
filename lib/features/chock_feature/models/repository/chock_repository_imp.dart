@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:rollshop/features/chock_feature/models/bearing_types_model.dart';
 import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
 import 'package:rollshop/features/chock_feature/models/data/remote/remote_data_source.dart';
 import 'package:rollshop/features/chock_feature/models/repository/chock_repository.dart';
@@ -29,5 +30,10 @@ class ChockRepositoryImp implements ChockRepository {
   @override
   Future<List<PartsWithMaterialNumberModel>> getAllParts() async {
     return await remote.getAllParts();
+  }
+
+  @override
+  Future<List<BearingTypesModel>> getBearingTypes() async {
+    return await remote.getBearingTypes();
   }
 }

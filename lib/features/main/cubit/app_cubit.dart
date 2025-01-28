@@ -17,6 +17,9 @@ class AppCubit extends Cubit<AppState> {
     final prefs = await SharedPreferences.getInstance();
     final themeIndex = prefs.getInt('themeMode') ?? 0;
     currentThemeMode = ThemeMode.values[themeIndex];
+    if (currentThemeMode == ThemeMode.system) {
+      currentThemeMode = ThemeMode.light;
+    }
     emit(AppChangeThemeModeState(themeMode: currentThemeMode));
   }
 

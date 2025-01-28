@@ -9,7 +9,7 @@ import 'package:rollshop/features/chock_feature/screens/all_chocks_screen.dart';
 import 'package:rollshop/features/chock_feature/cubit/chock_cubit.dart';
 import 'package:rollshop/features/main/cubit/app_cubit.dart';
 import 'package:rollshop/features/main/cubit/app_state.dart';
-import 'package:rollshop/features/parts_with_material_number/view_model/cubit/parts_cubit.dart';
+import 'package:rollshop/features/parts_with_material_number/cubit/parts_cubit.dart';
 
 class RollshopApp extends StatelessWidget {
   final AppRouter appRouter;
@@ -44,6 +44,7 @@ class RollshopApp extends StatelessWidget {
             child: MaterialApp(
               onGenerateRoute: appRouter.generateRoute,
               initialRoute: Routes.mainScreenScreen,
+              // routes: ,
               debugShowCheckedModeBanner: false,
               // home: AllChocksScreen(),
               // theme: AppTheme.darkTheme,

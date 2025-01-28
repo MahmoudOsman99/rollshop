@@ -13,9 +13,10 @@ import 'package:rollshop/features/chock_feature/cubit/chock_cubit.dart';
 import 'package:rollshop/features/chock_feature/cubit/chock_state.dart';
 import 'package:rollshop/features/chock_feature/widgets/build_fields.dart';
 import 'package:rollshop/features/chock_feature/widgets/select_parts_list.dart';
+import 'package:rollshop/features/main/cubit/app_cubit.dart';
 import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
 import 'package:rollshop/features/parts_with_material_number/screens/add_parts_with_material_number_screen.dart';
-import 'package:rollshop/features/parts_with_material_number/view_model/cubit/parts_cubit.dart';
+import 'package:rollshop/features/parts_with_material_number/cubit/parts_cubit.dart';
 
 import '../../../components/widgets/custom_text_field.dart';
 
@@ -47,7 +48,19 @@ class _AddChockScreenState extends State<AddChockScreen> {
     if (context.read<ChockCubit>().descControllers.isEmpty) {
       context.read<ChockCubit>().addField();
     }
+    // if (context.read<ChockCubit>().bearingTypes.isEmpty) {
+    //   context.read<ChockCubit>().getBearingTypes();
+    //   debugPrint(context.read<ChockCubit>().bearingTypes.first);
+    // }
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // context.read<ChockCubit>().descControllers.clear();
+    // context.read<ChockCubit>().notesControllers.clear();
+    // context.read<ChockCubit>().imagesPathes.clear();
+    super.dispose();
   }
 
   @override
@@ -56,6 +69,7 @@ class _AddChockScreenState extends State<AddChockScreen> {
       bloc: context.read<ChockCubit>(),
       builder: (context, state) {
         return Scaffold(
+          resizeToAvoidBottomInset: true,
           body: SafeArea(
             child: Padding(
               padding: EdgeInsets.only(
@@ -65,6 +79,7 @@ class _AddChockScreenState extends State<AddChockScreen> {
                 bottom: 30.sp,
               ),
               child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
                 child: Form(
                   key: formKey,
                   child: Column(
@@ -82,13 +97,18 @@ class _AddChockScreenState extends State<AddChockScreen> {
                         },
                         child: DecoratedBox(
                           decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 2,
-                                color: ColorsManager.orangeColor,
-                              ),
-                              borderRadius: BorderRadius.circular(10)),
+                            border: Border.all(
+                              width: 2,
+                              color:
+                                  context.read<AppCubit>().currentThemeMode ==
+                                          ThemeMode.dark
+                                      ? ColorsManager.whiteColor
+                                      : ColorsManager.orangeColor,
+                            ),
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
                           child: Padding(
-                            padding: EdgeInsets.all(5.sp),
+                            padding: EdgeInsets.all(5.r),
                             child: SizedBox(
                               height: context.height * 0.3,
                               width: context.width * 0.7,
@@ -111,7 +131,8 @@ class _AddChockScreenState extends State<AddChockScreen> {
                                         ),
                                         Text(
                                           "رفع صورة الكرسي",
-                                          style: MyTextStyles.font32OrangeBold,
+                                          style: MyTextStyles.font24Weight700(
+                                              Theme.of(context)),
                                         ),
                                       ],
                                     ),
@@ -126,6 +147,12 @@ class _AddChockScreenState extends State<AddChockScreen> {
                       CustomDropDown(
                         dropDownController: chockBearingTypeController,
                         items: [
+                          // ...context
+                          //     .read<ChockCubit>()
+                          //     .getBearingTypes().then((types)=>{
+                          // ...types
+                          //     })
+                          // .map((type) => menuEntry(type))
                           ...context
                               .read<ChockCubit>()
                               .bearingTypes
@@ -133,7 +160,9 @@ class _AddChockScreenState extends State<AddChockScreen> {
                         ],
                         mainLable: "نوع حمل البلية",
                         initialSelection:
-                            context.read<ChockCubit>().bearingTypes.first,
+                            context.read<ChockCubit>().bearingTypes.isNotEmpty
+                                ? context.read<ChockCubit>().bearingTypes.first
+                                : "",
                       ),
                       CustomTextFormField(
                         textFieldController: chockHowToCalcShimController,
@@ -159,10 +188,13 @@ class _AddChockScreenState extends State<AddChockScreen> {
                             border: Border.all(
                               color: isEmpty
                                   ? ColorsManager.redColor
-                                  : ColorsManager.orangeColor,
+                                  : context.read<AppCubit>().currentThemeMode ==
+                                          ThemeMode.dark
+                                      ? ColorsManager.whiteColor
+                                      : ColorsManager.orangeColor,
                               width: 2,
                             ),
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(10.r),
                           ),
                           child: SelectPartsList(
                             allParts: context.read<PartsCubit>().parts,
@@ -213,7 +245,7 @@ class _AddChockScreenState extends State<AddChockScreen> {
                             context.read<ChockCubit>().addField();
                           });
                         },
-                        color: ColorsManager.mainTeal,
+                        color: ColorsManager.orangeColor,
                       ),
                       if (context.read<ChockCubit>().descControllers.isNotEmpty)
                         BuildFields(),
@@ -221,6 +253,14 @@ class _AddChockScreenState extends State<AddChockScreen> {
                         buttonName: "حفظ",
                         onPressed: () {
                           // debugPrint(chockBearingTypeController.text);
+                          if (chockImagePath == null) {
+                            showCustomSnackBar(
+                              context: context,
+                              message: "يجب اختيار اختيار صورة للكرسي",
+                              color: ColorsManager.redColor,
+                            );
+                            return;
+                          }
 
                           if (_selectedParts.isEmpty) {
                             setState(() {

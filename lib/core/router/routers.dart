@@ -1,6 +1,10 @@
 class Routes {
-  static const String mainScreenScreen = '/mainScreen';
+  //! Main Screen
+  static const String mainScreenScreen = '/';
+  // static const String mainScreenScreen = '/mainScreen';
   static const String onBoardingScreen = '/onBoardingScreen';
+//! Profile Routes
+  static const String profileScreenRoute = '/profileScreen';
 
   // Chocks routes
   static const String allChocksScreen = '/allChocksScreen';

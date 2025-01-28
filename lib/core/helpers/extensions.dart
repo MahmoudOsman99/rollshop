@@ -22,4 +22,5 @@ extension Navigation on BuildContext {
 extension Size on BuildContext {
   double get height => MediaQuery.sizeOf(this).height;
   double get width => MediaQuery.sizeOf(this).width;
+  double get keyboardHeight => MediaQuery.of(this).viewInsets.bottom;
 }

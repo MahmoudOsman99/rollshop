@@ -59,7 +59,7 @@ class BuildPartItem extends StatelessWidget {
               width: 120.w,
               height: 120.h,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(10.r),
                 child: part.imagePath.isNotEmpty
                     ? CachedNetworkImage(
                         imageUrl: part.imagePath,
@@ -110,7 +110,8 @@ Widget buildPartItem(
     children: [
       Text(
         lable,
-        style: MyTextStyles.font12Bold(Theme.of(context)),
+        style:
+            MyTextStyles.font12(Theme.of(context), fontWeight: FontWeight.bold),
       ),
       Flexible(
         child: Text(

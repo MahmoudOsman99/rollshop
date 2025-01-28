@@ -31,6 +31,7 @@ dependencies:
   internet_connection_checker_plus: 
   cached_network_image: 
   animated_bottom_navigation_bar:
+  flutter_native_splash:
   # adaptive_theme: 
   # persistent_bottom_nav_bar: any
 
@@ -42,23 +43,23 @@ dev_dependencies:
   flutter_lints: ^5.0.0
   flutter_launcher_icons:
 
-flutter_launcher_icons:
-  android: "launcher_icon"
-  ios: true
-  image_path: "assets/icons/logo.jpeg"
-  min_sdk_android: 21 # android min sdk min:16, default 21
-  web:
-    generate: true
-    image_path: "assets/icons/logo.jpeg"
-    background_color: "#hexcode"
-    theme_color: "#hexcode"
-  windows:
-    generate: true
-    image_path: "assets/icons/logo.jpeg"
-    icon_size: 48 # min:48, max:256, default: 48
-  macos:
-    generate: true
-    image_path: "assets/icons/logo.jpeg"
+# flutter_launcher_icons:
+#   android: "launcher_icon"
+#   ios: true
+#   image_path: "assets/icons/logo.jpeg"
+#   min_sdk_android: 21 # android min sdk min:16, default 21
+#   web:
+#     generate: true
+#     image_path: "assets/icons/logo.jpeg"
+#     background_color: "#ffffff"
+#     theme_color: "#ffffff"
+#   windows:
+#     generate: true
+#     image_path: "assets/icons/logo.jpeg"
+#     icon_size: 48 # min:48, max:256, default: 48
+#   macos:
+#     generate: true
+#     image_path: "assets/icons/logo.jpeg"
   
 
 

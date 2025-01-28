@@ -76,9 +76,12 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
               floatingActionButton: FloatingActionButton(
                 onPressed: () async {
                   // context.pushNamed(Routes.addPartWithMaterialNumberScreen);
+                  // await context.read<ChockCubit>().getBearingTypes();
                   if (context.read<PartsCubit>().parts.isEmpty) {
                     await context.read<PartsCubit>().getAllParts();
                   }
+                  // if (context.read<ChockCubit>().bearingTypes.isEmpty) {
+                  // }
                   context.pushNamed(Routes.addChockScreen);
                   // context.read<ChockCubit>().addOneChock(newChock: null);
                   // context.read<ChockCubit>().loadAllChocks();

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,7 +15,13 @@ class ChockCubit extends Cubit<ChockState> {
   // static ChockCubit get(context) => BlocProvider.of(context);
   List<ChockTypesModel> chocks = [];
   // List<PartsWithMaterialNumberModel> parts = [];
-  List<String> bearingTypes = ["Radial", "Spherical", "Thrust", "Tapered"];
+  List<String> bearingTypes = [
+    "Radial",
+    "Spherical",
+    "Thrust",
+    "Tapered",
+  ];
+  // List<String> bearingTypes = [];
 
   Future<void> getAllChocks() async {
     emit(ChocksLoadingState());
@@ -27,6 +32,27 @@ class ChockCubit extends Cubit<ChockState> {
       emit(ChocksLoadedFailedState(error: e.toString()));
     }
   }
+
+  // getBearingTypes() async {
+  //   // emit(ChocksLoadingState());
+  //   final List<BearingTypesModel> types;
+  //   // List<String> bearingTypes = [];
+  //   try {
+  //     types = await chockRepo.getBearingTypes();
+  //     // debugPrint(types.length.toString());
+  //     if (types.isNotEmpty) {
+  //       types.map((t) => {bearingTypes.add(t.name)});
+  //       // debugPrint(bearingTypes.toString());
+  //     }
+  //     // debugPrint(bearingTypes.toString());
+  //     return bearingTypes;
+  //     // emit(ChocksLoadedSuccessfullyState(chocks: chocks));
+  //   } catch (e) {
+  //     debugPrint("No data");
+  //     return bearingTypes;
+  //     // emit(ChocksLoadedFailedState(error: e.toString()));
+  //   }
+  // }
 
   List<PartsWithMaterialNumberModel> selectedParts = [];
 

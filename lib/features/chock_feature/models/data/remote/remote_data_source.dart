@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 
 import 'package:flutter/material.dart';
 import 'package:rollshop/core/helpers/collections_paths.dart';
+import 'package:rollshop/features/chock_feature/models/bearing_types_model.dart';
 
 import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
 import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
@@ -28,6 +29,25 @@ class ChockRemoteDataSource {
       // debugPrint("get all chocks");
     } else {
       return [];
+    }
+  }
+
+  Future<List<BearingTypesModel>> getBearingTypes() async {
+    final List<BearingTypesModel> bearingTypes = [];
+    try {
+      final types =
+          await db.collection(CollectionsPaths.bearingTypesPath).get();
+      if (types.docs.isNotEmpty) {
+        // if (types.docs.first.data()["types"] == List) {
+        //   debugPrint("Ok");
+        // }
+        for (var type in types.docs.first.data()["types"]) {
+          bearingTypes.add(BearingTypesModel(name: type ?? ""));
+        }
+      }
+      return Future.value(bearingTypes);
+    } catch (e) {
+      return Future.value(bearingTypes);
     }
   }
 

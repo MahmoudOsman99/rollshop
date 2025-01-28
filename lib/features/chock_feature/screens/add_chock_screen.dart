@@ -48,7 +48,19 @@ class _AddChockScreenState extends State<AddChockScreen> {
     if (context.read<ChockCubit>().descControllers.isEmpty) {
       context.read<ChockCubit>().addField();
     }
+    // if (context.read<ChockCubit>().bearingTypes.isEmpty) {
+    //   context.read<ChockCubit>().getBearingTypes();
+    //   debugPrint(context.read<ChockCubit>().bearingTypes.first);
+    // }
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // context.read<ChockCubit>().descControllers.clear();
+    // context.read<ChockCubit>().notesControllers.clear();
+    // context.read<ChockCubit>().imagesPathes.clear();
+    super.dispose();
   }
 
   @override
@@ -57,6 +69,7 @@ class _AddChockScreenState extends State<AddChockScreen> {
       bloc: context.read<ChockCubit>(),
       builder: (context, state) {
         return Scaffold(
+          resizeToAvoidBottomInset: true,
           body: SafeArea(
             child: Padding(
               padding: EdgeInsets.only(
@@ -134,6 +147,12 @@ class _AddChockScreenState extends State<AddChockScreen> {
                       CustomDropDown(
                         dropDownController: chockBearingTypeController,
                         items: [
+                          // ...context
+                          //     .read<ChockCubit>()
+                          //     .getBearingTypes().then((types)=>{
+                          // ...types
+                          //     })
+                          // .map((type) => menuEntry(type))
                           ...context
                               .read<ChockCubit>()
                               .bearingTypes
@@ -141,7 +160,9 @@ class _AddChockScreenState extends State<AddChockScreen> {
                         ],
                         mainLable: "نوع حمل البلية",
                         initialSelection:
-                            context.read<ChockCubit>().bearingTypes.first,
+                            context.read<ChockCubit>().bearingTypes.isNotEmpty
+                                ? context.read<ChockCubit>().bearingTypes.first
+                                : "",
                       ),
                       CustomTextFormField(
                         textFieldController: chockHowToCalcShimController,

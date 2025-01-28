@@ -104,14 +104,15 @@ class _AddPartWithMaterialNumberScreenState
       },
       builder: (context, state) {
         return Scaffold(
-          resizeToAvoidBottomInset: false,
+          // resizeToAvoidBottomInset: false,
           body: Padding(
             padding: EdgeInsets.only(
               top: 50.r,
               left: 10.r,
               right: 10.r,
+              // bottom: screenHeight - keyboardHeight,
               // bottom: 30.r,
-              bottom: MediaQuery.of(context).viewInsets.bottom,
+              // bottom: MediaQuery.of(context).viewInsets.bottom,
             ),
             child: SingleChildScrollView(
               physics: BouncingScrollPhysics(),

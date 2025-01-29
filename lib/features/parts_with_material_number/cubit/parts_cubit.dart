@@ -14,10 +14,15 @@ class PartsCubit extends Cubit<PartsState> {
 
   // static PartsCubit get(context) => BlocProvider.of(context);
   List<PartsWithMaterialNumberModel> parts = [];
+  bool allowEdit = false;
+  changeAllowEdit() {
+    allowEdit = !allowEdit;
+    emit(PartChangeAllowEditState(allowEdit: allowEdit));
+  }
 
   Future<void> getAllParts() async {
     if (isClosed) return;
-    parts = [];
+    // parts = [];
     emit(PartsLoadingState());
     parts = await partsRepository.getParts();
     emit(PartsLoadedSuccessfullyState(parts: parts));
@@ -44,9 +49,10 @@ class PartsCubit extends Cubit<PartsState> {
     } else {
       if (await partsRepository.addPart(part: part)) {
         // parts.add(part);
-        // emit(PartsLoadedSuccessfullyState(parts: parts));
         getAllParts();
-        debugPrint("Part added success cubit message");
+        // debugPrint("Part added success cubit message");
+        emit(PartAddeddSuccessfullyState(partName: part.name));
+
         return true;
       } else {
         emit(PartAddeddFailureState(error: "Error while adding the part"));

@@ -33,6 +33,22 @@ class ChockCubit extends Cubit<ChockState> {
     }
   }
 
+  bool isViewSteps = false;
+  changeViewStepsSwitch() {
+    // emit(state);
+    isViewSteps = !isViewSteps;
+    // debugPrint("$isViewSteps");
+    emit(ChockViewStepsState(isView: isViewSteps));
+  }
+
+  bool isViewParts = false;
+  changeViewPartsSwitch() {
+    // emit(state);
+    isViewParts = !isViewParts;
+    // debugPrint("$isViewParts");
+    emit(ChockViewPartsState(isView: isViewParts));
+  }
+
   // getBearingTypes() async {
   //   // emit(ChocksLoadingState());
   //   final List<BearingTypesModel> types;

@@ -9,11 +9,13 @@ class CustomButton extends StatelessWidget {
   Color color;
   Color textColor = ColorsManager.whiteColor;
   VoidCallback onPressed;
+  bool allowEdit;
   CustomButton({
     super.key,
     required this.buttonName,
     required this.onPressed,
     required this.color,
+    this.allowEdit = true,
   });
 
   @override

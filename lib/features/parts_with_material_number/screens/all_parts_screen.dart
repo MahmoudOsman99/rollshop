@@ -1,11 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:rollshop/components/widgets/build_image_with_error_handler.dart';
+import 'package:rollshop/components/widgets/snack_bar.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
-import 'package:rollshop/core/helpers/images_path.dart';
 import 'package:rollshop/core/router/routers.dart';
 import 'package:rollshop/core/theme/colors.dart';
 import 'package:rollshop/core/theme/styles.dart';
@@ -15,23 +13,11 @@ import 'package:rollshop/features/parts_with_material_number/model/parts_with_ma
 import 'package:rollshop/features/parts_with_material_number/cubit/parts_cubit.dart';
 import 'package:rollshop/features/parts_with_material_number/cubit/parts_state.dart';
 import 'package:rollshop/features/parts_with_material_number/widgets/build_part_item.dart';
-import 'package:rollshop/injection_container.dart';
 
-class AllPartsScreen extends StatefulWidget {
+class AllPartsScreen extends StatelessWidget {
   AllPartsScreen({super.key});
 
-  @override
-  State<AllPartsScreen> createState() => _AllPartsScreenState();
-}
-
-class _AllPartsScreenState extends State<AllPartsScreen> {
   // @override
-  // void initState() {
-  //   sl<PartsCubit>().getAllParts();
-  //   super.initState();
-  // }
-
-  // List<PartsWithMaterialNumberModel> parts = [];
   @override
   Widget build(BuildContext context) {
     // final partCubit = PartsCubit.get(context);
@@ -51,49 +37,61 @@ class _AllPartsScreenState extends State<AllPartsScreen> {
               child: CircularProgressIndicator(),
             ),
           );
-        } else if (state is PartsLoadedSuccessfullyState) {
+        }
+        // else if (state is PartAddeddSuccessfullyState) {
+        //   showCustomSnackBar(
+        //     context: context,
+        //     message: "تم اضافة العنصر بنجاح",
+        //     color: ColorsManager.mainTeal,
+        //   );
+        // }
+        else {
           return Scaffold(
-              appBar: AppBar(
-                title: Text(
-                  'جميع العناصر المسجلة ${state.parts.length}',
+            appBar: AppBar(
+              title: FittedBox(
+                child: Text(
+                  'جميع العناصر المسجلة ${context.read<PartsCubit>().parts.length}',
                   // 'Parts Section ${parts.length}',
                   style: MyTextStyles.font32Bold(Theme.of(context))
                       .copyWith(color: ColorsManager.lightWhite),
                 ),
-                centerTitle: true,
-                backgroundColor:
-                    context.read<AppCubit>().currentThemeMode == ThemeMode.dark
-                        ? ColorsManager.lightBlue
-                        : ColorsManager.orangeColor,
-                //  ColorsManager.lightBlue,
-                leading: IconButton(
-                  onPressed: () {
-                    showSearch(
-                        context: context, delegate: CustomSearchdelegate());
-                  },
-                  icon: Icon(Icons.search),
-                ),
               ),
-              floatingActionButton: FloatingActionButton(
+              centerTitle: true,
+              backgroundColor:
+                  context.read<AppCubit>().currentThemeMode == ThemeMode.dark
+                      ? ColorsManager.lightBlue
+                      : ColorsManager.orangeColor,
+              //  ColorsManager.lightBlue,
+              leading: IconButton(
                 onPressed: () {
-                  context.pushNamed(Routes.addPartWithMaterialNumberScreen);
-                  // context.pushNamed(Routes.addPartsScreen);
-                  // state.addOneParts(newParts: null);
-                  // state.loadAllChocks();
+                  showSearch(
+                    context: context,
+                    delegate: CustomSearchdelegate(),
+                  );
                 },
-                backgroundColor:
-                    context.read<AppCubit>().currentThemeMode == ThemeMode.dark
-                        ? ColorsManager.lightBlue
-                        : ColorsManager.orangeColor,
-                //  ColorsManager.mainBlue,
-                child: Icon(
-                  Icons.add,
-                  size: 25.sp,
-                  color: ColorsManager.whiteColor,
-                ),
+                icon: Icon(Icons.search),
               ),
-              body: ConditionalBuilder(
-                condition: state.parts.isNotEmpty,
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                context.pushNamed(Routes.addPartWithMaterialNumberScreen);
+                // context.pushNamed(Routes.addPartsScreen);
+                //   context.read<PartsCubit>()addOneParts(newParts: null);
+                //   context.read<PartsCubit>()loadAllChocks();
+              },
+              backgroundColor:
+                  context.read<AppCubit>().currentThemeMode == ThemeMode.dark
+                      ? ColorsManager.lightBlue
+                      : ColorsManager.orangeColor,
+              //  ColorsManager.mainBlue,
+              child: Icon(
+                Icons.add,
+                size: 25.sp,
+                color: ColorsManager.whiteColor,
+              ),
+            ),
+            body: ConditionalBuilder(
+                condition: context.read<PartsCubit>().parts.isNotEmpty,
                 fallback: (context) {
                   return Scaffold(
                     body: Center(
@@ -104,33 +102,48 @@ class _AllPartsScreenState extends State<AllPartsScreen> {
                     ),
                   );
                 },
-                builder: (context) => RefreshIndicator(
-                  onRefresh: () async {
-                    await context.read<PartsCubit>().getAllParts();
-                  },
-                  child: ListView.separated(
-                    physics: BouncingScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return BuildPartItem(
-                        part: state.parts[index],
-                        allowEdit: true,
-                      );
+                builder: (context) {
+                  if (state is PartAddeddSuccessfullyState) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      showCustomSnackBar(
+                          context: context,
+                          message: "تم اضافة ${state.partName} بنجاح",
+                          color: ColorsManager.mainTeal);
+                    }
+                        // if (someCondition) {
+                        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        //       content: Text("تم اضافة ${state.partName} بنجاح")));
+                        //   // }
+                        // }
+                        );
+                  }
+                  return RefreshIndicator(
+                    onRefresh: () async {
+                      await context.read<PartsCubit>().getAllParts();
                     },
-                    separatorBuilder: (context, index) {
-                      return SizedBox(
-                        width: 10,
-                      );
-                    },
-                    itemCount: state.parts.length,
-                  ),
-                ),
-              ));
-        } else {
-          return Scaffold(
-            body: Center(
-              child: Text("No data found"),
-            ),
+                    child: ListView.separated(
+                      physics: BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return BuildPartItem(
+                          part: context.read<PartsCubit>().parts[index],
+                          allowEdit: true,
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return SizedBox(
+                          width: 10,
+                        );
+                      },
+                      itemCount: context.read<PartsCubit>().parts.length,
+                    ),
+                  );
+                }),
           );
+          // return Scaffold(
+          //   body: Center(
+          //     child: Text("No data found"),
+          //   ),
+          // );
         }
       },
     );
@@ -139,7 +152,7 @@ class _AllPartsScreenState extends State<AllPartsScreen> {
 
 class CustomSearchdelegate extends SearchDelegate {
   // PartsWithMaterialNumberModel
-  String _searchQuery = "";
+  // String _searchQuery = "";
   // List<PartsWithMaterialNumberModel> parts = sl<PartsCubit>().parts;
   // List<PartsWithMaterialNumberModel> get _filteredParts {
   //   if (_searchQuery.isEmpty) {
@@ -162,10 +175,11 @@ class CustomSearchdelegate extends SearchDelegate {
   List<Widget>? buildActions(BuildContext context) {
     return [
       IconButton(
-          onPressed: () {
-            _searchQuery = "";
-          },
-          icon: Icon(Icons.clear)),
+        onPressed: () {
+          query = "";
+        },
+        icon: Icon(Icons.clear),
+      ),
     ];
   }
 

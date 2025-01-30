@@ -39,6 +39,20 @@ class ChocksAssemblyStepsUploadedSuccessfullyState extends ChockState {
 
 class ChockAddFieldsAddedState extends ChockState {}
 
+class ChockViewStepsState extends ChockState {
+  bool isView;
+  ChockViewStepsState({required this.isView});
+  @override
+  List<Object> get props => [isView];
+}
+
+class ChockViewPartsState extends ChockState {
+  bool isView;
+  ChockViewPartsState({required this.isView});
+  @override
+  List<Object> get props => [isView];
+}
+
 class ChockAddFieldsRemovedState extends ChockState {}
 
 class ChockImageChangedState extends ChockState {}

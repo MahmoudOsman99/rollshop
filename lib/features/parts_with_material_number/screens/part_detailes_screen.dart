@@ -7,8 +7,8 @@ import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PartDetailesScreen extends StatelessWidget {
-  ChockTypesModel chock;
-  PartDetailesScreen({
+  final ChockTypesModel chock;
+  const PartDetailesScreen({
     super.key,
     required this.chock,
   });

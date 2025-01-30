@@ -54,13 +54,19 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
                 child: CircularProgressIndicator(),
               ),
             );
-          } else if (state is ChocksLoadedSuccessfullyState) {
+          }
+          // else if (state is ChocksLoadedSuccessfullyState) {
+
+          // }
+          else {
             return Scaffold(
               appBar: AppBar(
-                title: Text(
-                  'معلومات عن الكراسي',
-                  style: MyTextStyles.font32Bold(Theme.of(context))
-                      .copyWith(color: ColorsManager.whiteColor),
+                title: FittedBox(
+                  child: Text(
+                    'معلومات عن الكراسي',
+                    style: MyTextStyles.font32Bold(Theme.of(context))
+                        .copyWith(color: ColorsManager.whiteColor),
+                  ),
                 ),
                 centerTitle: true,
                 backgroundColor:
@@ -124,174 +130,177 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
                     ),
                   );
                 },
-                condition: state.chocks.isNotEmpty,
+                condition: context.read<ChockCubit>().chocks.isNotEmpty,
                 builder: (context) {
                   return RefreshIndicator(
                     onRefresh: () async {
                       await context.read<ChockCubit>().getAllChocks();
                     },
                     child: Padding(
-                        padding: EdgeInsets.all(10.r),
-                        child: ListView.separated(
-                          // physics: BouncingScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return BuildChockItem(chock: state.chocks[index]);
-                          },
-                          separatorBuilder: (context, index) {
-                            return Divider(
-                              color:
-                                  context.read<AppCubit>().currentThemeMode ==
-                                          ThemeMode.dark
-                                      ? ColorsManager.deepGrey
-                                      : ColorsManager.lightWhite,
-                              //  ColorsManager.deepGrey,
-                              thickness: 2,
-                            );
-                          },
-                          itemCount: state.chocks.length,
-                        )
-                        // GridView.builder(
-                        //   itemCount: state.chocks.length,
-                        //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        //     crossAxisCount: 2,
-                        //     childAspectRatio: .5,
-                        //   ),
-                        //   itemBuilder: (context, index) => DecoratedBox(
-                        //     decoration: BoxDecoration(e4
-                        //         color: ColorsManager.lightBlue,
-                        //         borderRadius: BorderRadius.circular(10.r)
-                        //         // borderRadius: BorderRadius.circular(10.r),
-                        //         // border: Border.all(
-                        //         // width: 2,
-                        //         // color: ColorsManager.lightBlue,
-                        //         // ),
-                        //         ),
-                        //     child: InkWell(
-                        //       onTap: () {
-                        //         context.pushNamed(
-                        //           Routes.chockDetailesScreen,
-                        //           arguments: state.chocks[index],
-                        //         );
-                        //       },
-                        //       child: Column(
-                        //         spacing: 10.h,
-                        //         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //         children: [
-                        //           Padding(
-                        //             padding: EdgeInsets.all(
-                        //               5.r,
-                        //             ), // to let the image in the top without auto padding
-                        //             child: ClipRRect(
-                        //               borderRadius: BorderRadiusDirectional.only(
-                        //                 topEnd: Radius.circular(10.r),
-                        //                 topStart: Radius.circular(10.r),
-                        //                 bottomEnd: Radius.circular(10.r),
-                        //                 bottomStart: Radius.circular(10.r),
-                        //               ),
-                        //               child: SizedBox(
-                        //                 width: context.width * .5.w,
-                        //                 height: context.height * .24.h,
-                        //                 // height: 250.h,
-                        //                 // width: 250.w,
-                        //                 child: BuildImageWithErrorHandler(
-                        //                   imageType: ImageType.network,
-                        //                   boxFit: BoxFit.cover,
-                        //                   path:
-                        //                       state.chocks[index].chockImagePath,
-                        //                 ),
-                        //               ),
-                        //             ),
-                        //           ),
-                        //           Expanded(
-                        //             child: Padding(
-                        //               padding: EdgeInsetsDirectional.only(
-                        //                 start: 5.r,
-                        //                 end: 5.r,
-                        //               ),
-                        //               child: Column(
-                        //                 crossAxisAlignment:
-                        //                     CrossAxisAlignment.end,
-                        //                 spacing: 10.h,
-                        //                 // mainAxisAlignment: MainAxisAlignment.center,
-                        //                 children: [
-                        //                   Text(
-                        //                     state.chocks[index].name,
-                        //                     style: MyTextStyles.font16Bold(
-                        //                         Theme.of(context)),
-                        //                   ),
-                        //                   // Text(
-                        //                   //   state.chocks[index].notes,
-                        //                   //   style: MyTextStyles.font13GreyRegular,
-                        //                   //   maxLines: 1,
-                        //                   //   overflow: TextOverflow.ellipsis,
-                        //                   // ),
-                        //                   DecoratedBox(
-                        //                     decoration: BoxDecoration(
-                        //                       color: ColorsManager.redAccent,
-                        //                       borderRadius:
-                        //                           BorderRadius.circular(5.r),
-                        //                     ),
-                        //                     child: Padding(
-                        //                       padding: EdgeInsetsDirectional.only(
-                        //                         start: 7.r,
-                        //                         end: 7.r,
-                        //                         top: 4.r,
-                        //                         bottom: 4.r,
-                        //                       ),
-                        //                       child: Text(
-                        //                         state.chocks[index].bearingType,
-                        //                         style: MyTextStyles.font12Bold(
-                        //                             Theme.of(context)),
-                        //                       ),
-                        //                     ),
-                        //                   ),
-                        //                   Text(
-                        //                     state.chocks[index].notes,
-                        //                     style: MyTextStyles.font13GreyRegular(
-                        //                         Theme.of(context)),
-                        //                   ),
-                        //                   // state.chocks[index].bearingType
-                        //                   //         .isNotEmpty
-                        //                   //     ? Text(
-                        //                   //         "نوع البيرنج:  ${state.chocks[index].bearingType}",
-                        //                   //         style: MyTextStyles
-                        //                   //             .font13GreyRegular,
-                        //                   //       )
-                        //                   //     : SizedBox(),
-                        //                   // Expanded(
-                        //                   //   flex: 1,
-                        //                   //   child: Padding(
-                        //                   //     padding: const EdgeInsets.all(15),
-                        //                   //     child: Text(state.chocks.first.name),
-                        //                   //   ),
-                        //                   // ),
-                        //                 ],
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                        ),
+                      padding: EdgeInsets.all(10.r),
+                      child: ListView.separated(
+                        // physics: BouncingScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return BuildChockItem(
+                              chock: context.read<ChockCubit>().chocks[index]);
+                        },
+                        separatorBuilder: (context, index) {
+                          return Divider(
+                            color: context.read<AppCubit>().currentThemeMode ==
+                                    ThemeMode.dark
+                                ? ColorsManager.deepGrey
+                                : ColorsManager.lightWhite,
+                            //  ColorsManager.deepGrey,
+                            thickness: 2,
+                          );
+                        },
+                        itemCount: context.read<ChockCubit>().chocks.length,
+                      ),
+                      // GridView.builder(
+                      //   itemCount: state.chocks.length,
+                      //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      //     crossAxisCount: 2,
+                      //     childAspectRatio: .5,
+                      //   ),
+                      //   itemBuilder: (context, index) => DecoratedBox(
+                      //     decoration: BoxDecoration(e4
+                      //         color: ColorsManager.lightBlue,
+                      //         borderRadius: BorderRadius.circular(10.r)
+                      //         // borderRadius: BorderRadius.circular(10.r),
+                      //         // border: Border.all(
+                      //         // width: 2,
+                      //         // color: ColorsManager.lightBlue,
+                      //         // ),
+                      //         ),
+                      //     child: InkWell(
+                      //       onTap: () {
+                      //         context.pushNamed(
+                      //           Routes.chockDetailesScreen,
+                      //           arguments: state.chocks[index],
+                      //         );
+                      //       },
+                      //       child: Column(
+                      //         spacing: 10.h,
+                      //         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //         children: [
+                      //           Padding(
+                      //             padding: EdgeInsets.all(
+                      //               5.r,
+                      //             ), // to let the image in the top without auto padding
+                      //             child: ClipRRect(
+                      //               borderRadius: BorderRadiusDirectional.only(
+                      //                 topEnd: Radius.circular(10.r),
+                      //                 topStart: Radius.circular(10.r),
+                      //                 bottomEnd: Radius.circular(10.r),
+                      //                 bottomStart: Radius.circular(10.r),
+                      //               ),
+                      //               child: SizedBox(
+                      //                 width: context.width * .5.w,
+                      //                 height: context.height * .24.h,
+                      //                 // height: 250.h,
+                      //                 // width: 250.w,
+                      //                 child: BuildImageWithErrorHandler(
+                      //                   imageType: ImageType.network,
+                      //                   boxFit: BoxFit.cover,
+                      //                   path:
+                      //                       state.chocks[index].chockImagePath,
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //           ),
+                      //           Expanded(
+                      //             child: Padding(
+                      //               padding: EdgeInsetsDirectional.only(
+                      //                 start: 5.r,
+                      //                 end: 5.r,
+                      //               ),
+                      //               child: Column(
+                      //                 crossAxisAlignment:
+                      //                     CrossAxisAlignment.end,
+                      //                 spacing: 10.h,
+                      //                 // mainAxisAlignment: MainAxisAlignment.center,
+                      //                 children: [
+                      //                   Text(
+                      //                     state.chocks[index].name,
+                      //                     style: MyTextStyles.font16Bold(
+                      //                         Theme.of(context)),
+                      //                   ),
+                      //                   // Text(
+                      //                   //   state.chocks[index].notes,
+                      //                   //   style: MyTextStyles.font13GreyRegular,
+                      //                   //   maxLines: 1,
+                      //                   //   overflow: TextOverflow.ellipsis,
+                      //                   // ),
+                      //                   DecoratedBox(
+                      //                     decoration: BoxDecoration(
+                      //                       color: ColorsManager.redAccent,
+                      //                       borderRadius:
+                      //                           BorderRadius.circular(5.r),
+                      //                     ),
+                      //                     child: Padding(
+                      //                       padding: EdgeInsetsDirectional.only(
+                      //                         start: 7.r,
+                      //                         end: 7.r,
+                      //                         top: 4.r,
+                      //                         bottom: 4.r,
+                      //                       ),
+                      //                       child: Text(
+                      //                         state.chocks[index].bearingType,
+                      //                         style: MyTextStyles.font12Bold(
+                      //                             Theme.of(context)),
+                      //                       ),
+                      //                     ),
+                      //                   ),
+                      //                   Text(
+                      //                     state.chocks[index].notes,
+                      //                     style: MyTextStyles.font13GreyRegular(
+                      //                         Theme.of(context)),
+                      //                   ),
+                      //                   // state.chocks[index].bearingType
+                      //                   //         .isNotEmpty
+                      //                   //     ? Text(
+                      //                   //         "نوع البيرنج:  ${state.chocks[index].bearingType}",
+                      //                   //         style: MyTextStyles
+                      //                   //             .font13GreyRegular,
+                      //                   //       )
+                      //                   //     : SizedBox(),
+                      //                   // Expanded(
+                      //                   //   flex: 1,
+                      //                   //   child: Padding(
+                      //                   //     padding: const EdgeInsets.all(15),
+                      //                   //     child: Text(state.chocks.first.name),
+                      //                   //   ),
+                      //                   // ),
+                      //                 ],
+                      //               ),
+                      //             ),
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                    ),
                   );
                 },
               ),
             );
-          } else {
-            // context.read<ChockCubit>().loadAllChocks();
-            return RefreshIndicator(
-              onRefresh: () => context.read<ChockCubit>().getAllChocks(),
-              child: Scaffold(
-                body: Center(
-                  child: Text(
-                    "Sorry! error happend and we will solve it ASAP",
-                    style: MyTextStyles.font32OrangeBold,
-                  ),
-                ),
-              ),
-            );
+            // // context.read<ChockCubit>().loadAllChocks();
+            // return Scaffold(
+            //   body: Center(
+            //     child: Padding(
+            //       padding: EdgeInsets.all(8.0.r),
+            //       child: Column(
+            //         children: [
+            //           Text(
+            //             "Sorry! error happend and we will solve it ASAP",
+            //             style: MyTextStyles.font32OrangeBold,
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // );
           }
         });
   }

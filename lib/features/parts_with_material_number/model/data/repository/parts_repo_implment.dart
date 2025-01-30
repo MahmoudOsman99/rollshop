@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:rollshop/core/helpers/internet_connection_checker.dart';
 import 'package:rollshop/features/parts_with_material_number/model/data/remote/parts_remote_data_source.dart';
 import 'package:rollshop/features/parts_with_material_number/model/data/repository/parts_repository.dart';
 import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';

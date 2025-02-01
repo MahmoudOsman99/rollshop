@@ -33,7 +33,7 @@ class BuildImageWithErrorHandler extends StatelessWidget {
           fit: boxFit,
           imageUrl: path,
           placeholder: (context, url) => Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator.adaptive(),
           ),
           errorWidget: (context, url, error) {
             return errorImage();

@@ -91,6 +91,7 @@ class BuildChockItem extends StatelessWidget {
                     child: BuildImageWithErrorHandler(
                       imageType: ImageType.network,
                       path: chock.chockImagePath,
+                      // boxFit: BoxFit.contain,
                     ),
                   ),
                 ),

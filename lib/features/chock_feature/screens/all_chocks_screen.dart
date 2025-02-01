@@ -9,9 +9,11 @@ import 'package:rollshop/core/theme/colors.dart';
 
 import 'package:rollshop/features/chock_feature/cubit/chock_cubit.dart';
 import 'package:rollshop/features/chock_feature/cubit/chock_state.dart';
+import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
 import 'package:rollshop/features/chock_feature/widgets/build_chock_item.dart';
 import 'package:rollshop/features/main/cubit/app_cubit.dart';
 import 'package:rollshop/features/parts_with_material_number/cubit/parts_cubit.dart';
+import 'package:rollshop/features/parts_with_material_number/screens/all_parts_screen.dart';
 
 import '../../../core/theme/styles.dart';
 
@@ -39,10 +41,10 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
           //   chocks = state.chocks;
           // }
           if (state is ChocksInitialState) {
-            context.read<ChockCubit>().getAllChocks();
+            // context.read<ChockCubit>().getAllChocks();
             return Scaffold(
               body: Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator.adaptive(),
               ),
             );
           } else if (state is ChocksLoadedFailedState) {
@@ -51,7 +53,7 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
           } else if (state is ChocksLoadingState) {
             return Scaffold(
               body: Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator.adaptive(),
               ),
             );
           }
@@ -67,6 +69,14 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
                     style: MyTextStyles.font32Bold(Theme.of(context))
                         .copyWith(color: ColorsManager.whiteColor),
                   ),
+                ),
+                leading: IconButton(
+                  onPressed: () {
+                    showSearch(
+                        context: context,
+                        delegate: CustomChockSearchDelegate());
+                  },
+                  icon: Icon(Icons.search),
                 ),
                 centerTitle: true,
                 backgroundColor:
@@ -304,4 +314,75 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
           }
         });
   }
+}
+
+class CustomChockSearchDelegate extends SearchDelegate {
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      IconButton(
+        onPressed: () {
+          query = "";
+        },
+        icon: Icon(Icons.clear),
+      ),
+    ];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        context.pop();
+      },
+      icon: Icon(Icons.adaptive.arrow_back),
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    final lowerCaseQuery = query.toLowerCase();
+    final filteredChocks = lowerCaseQuery.isEmpty
+        ? context.read<ChockCubit>().chocks
+        : context
+            .read<ChockCubit>()
+            .chocks
+            .where((chock) => chock.name.toLowerCase().contains(lowerCaseQuery))
+            .toList();
+
+    return ListView.builder(
+      itemCount: filteredChocks.length,
+      itemBuilder: (context, index) {
+        return BuildChockItem(chock: filteredChocks[index]);
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    final String lowerCaseQuery = query.toLowerCase();
+    final filteredChocks = lowerCaseQuery.isEmpty
+        ? context.read<ChockCubit>().chocks.take(2).toList()
+        : context
+            .read<ChockCubit>()
+            .chocks
+            .where(
+              (chock) =>
+                  chock.name.toLowerCase().contains(lowerCaseQuery) ||
+                  chock.bearingType.toLowerCase().contains(lowerCaseQuery) ||
+                  chock.notes.toLowerCase().contains(lowerCaseQuery),
+            )
+            .toList();
+
+    return ListView.builder(
+      itemCount: filteredChocks.length,
+      itemBuilder: (context, index) {
+        return BuildChockItem(
+          chock: filteredChocks[index],
+        );
+      },
+    );
+  }
+
+  // _buildChockSuggestion(List<ChockTypesModel> chocks) {}
 }

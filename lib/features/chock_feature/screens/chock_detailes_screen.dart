@@ -40,7 +40,8 @@ class ChockDetailesScreen extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: ColorsManager.whiteColor
+              icon: Icon(Icons.adaptive.arrow_back,
+                  color: ColorsManager.whiteColor
                   //  context.read<AppCubit>().currentThemeMode == ThemeMode.dark
                   //     ? ColorsManager.whiteColor
                   //     : ColorsManager.deepGrey,
@@ -91,6 +92,7 @@ class ChockDetailesScreen extends StatelessWidget {
                         child: BuildImageWithErrorHandler(
                           imageType: ImageType.network,
                           path: chock.chockImagePath,
+                          boxFit: BoxFit.contain,
                         ),
                       ),
                     ),
@@ -106,11 +108,11 @@ class ChockDetailesScreen extends StatelessWidget {
                       lable: "نوع البيرينج: ${chock.bearingType}",
                       textStyle: MyTextStyles.font16Bold(Theme.of(context)),
                     ),
-                    TextWithColorDecoration(
-                      // backColor: ColorsManager.mainTeal,
-                      lable: "خطوات التجميع",
-                      textStyle: MyTextStyles.font16Bold(Theme.of(context)),
-                    ),
+                    // TextWithColorDecoration(
+                    //   // backColor: ColorsManager.mainTeal,
+                    //   lable: "خطوات التجميع",
+                    //   textStyle: MyTextStyles.font16Bold(Theme.of(context)),
+                    // ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       // crossAxisAlignment: CrossAxisAlignment.start,

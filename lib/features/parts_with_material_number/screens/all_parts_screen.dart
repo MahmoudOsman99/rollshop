@@ -25,16 +25,16 @@ class AllPartsScreen extends StatelessWidget {
       bloc: context.read<PartsCubit>(),
       builder: (context, state) {
         if (state is PartsInitialState) {
-          context.read<PartsCubit>().getAllParts();
+          // context.read<PartsCubit>().getAllParts();
           return Scaffold(
             body: Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator.adaptive(),
             ),
           );
         } else if (state is PartsLoadingState || state is PartWatingState) {
           return Scaffold(
             body: Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator.adaptive(),
             ),
           );
         }
@@ -189,7 +189,7 @@ class CustomSearchdelegate extends SearchDelegate {
       onPressed: () {
         close(context, null);
       },
-      icon: Icon(Icons.arrow_back),
+      icon: Icon(Icons.adaptive.arrow_back),
     );
   }
 

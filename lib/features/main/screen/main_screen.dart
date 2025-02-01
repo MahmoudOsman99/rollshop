@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -35,6 +37,9 @@ class _MainScreenState extends State<MainScreen> {
   // final _controller = PersistentTabController(initialIndex: 0);
   @override
   Widget build(BuildContext context) {
+    if (Platform.isMacOS) {
+      debugPrint("In macOS");
+    }
     return Scaffold(
       // appBar: AppBar(
       //   actions: [],

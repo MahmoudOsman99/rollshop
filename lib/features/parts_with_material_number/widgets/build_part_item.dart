@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rollshop/components/widgets/build_image_with_error_handler.dart';
+import 'package:rollshop/components/widgets/snack_bar.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
 import 'package:rollshop/core/helpers/images_path.dart';
 import 'package:rollshop/core/router/routers.dart';
@@ -61,15 +62,25 @@ class BuildPartItem extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10.r),
                 child: part.imagePath.isNotEmpty
-                    ? CachedNetworkImage(
-                        imageUrl: part.imagePath,
-                        fit: BoxFit.cover,
-                        placeholder: (context, url) =>
-                            Center(child: CircularProgressIndicator()),
-                        errorWidget: (context, url, error) =>
-                            BuildImageWithErrorHandler(
-                          imageType: ImageType.asset,
-                          path: ImagesPath.errorImagePath,
+                    ? GestureDetector(
+                        onTap: () {
+                          showCustomSnackBar(
+                            context: context,
+                            message: part.imagePath,
+                            color: Colors.amber,
+                          );
+                          // debugPrint(part.imagePath);
+                        },
+                        child: CachedNetworkImage(
+                          imageUrl: part.imagePath,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => Center(
+                              child: CircularProgressIndicator.adaptive()),
+                          errorWidget: (context, url, error) =>
+                              BuildImageWithErrorHandler(
+                            imageType: ImageType.asset,
+                            path: ImagesPath.errorImagePath,
+                          ),
                         ),
                       )
                     : SizedBox(

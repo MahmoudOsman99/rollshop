@@ -89,6 +89,13 @@ class ChockCubit extends Cubit<ChockState> {
     // emit(ChockAddFieldsAddedState());
   }
 
+  clearFields() {
+    if (descControllers.isEmpty) return;
+    descControllers.map((controller) => controller.clear());
+    notesControllers.map((controller) => controller.clear());
+    pickers.clear();
+  }
+
   void addImage(File imageFile, int index) {
     // if(imagesPathes.contains(imagesPathes[index]))
     if (index == imagesPathes.length) {
@@ -100,21 +107,21 @@ class ChockCubit extends Cubit<ChockState> {
     // emit(ChockImageChangedState());
   }
 
-  void removeImage(int index) {
-    try {
-      debugPrint("${imagesPathes.length.toString()} before delete image");
-      if (imagesPathes.isNotEmpty) {
-        if (imagesPathes[index] != null) {
-          imagesPathes.removeAt(index);
-        }
-      }
-      debugPrint("${imagesPathes.length.toString()} after delete image");
-      // pickers.removeAt(index);
-      // emit(ChockImageChangedState());
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-  }
+  // void removeImage(int index) {
+  //   try {
+  //     debugPrint("${imagesPathes.length.toString()} before delete image");
+  //     if (imagesPathes.isNotEmpty) {
+  //       if (imagesPathes[index] != null) {
+  //         imagesPathes.removeAt(index);
+  //       }
+  //     }
+  //     debugPrint("${imagesPathes.length.toString()} after delete image");
+  //     // pickers.removeAt(index);
+  //     // emit(ChockImageChangedState());
+  //   } catch (e) {
+  //     debugPrint(e.toString());
+  //   }
+  // }
 
   List<String> uploadImagesToImgurAndGetImagesUrls(List<File> imagesFiles) {
     emit(ChocksLoadingState());
@@ -148,13 +155,13 @@ class ChockCubit extends Cubit<ChockState> {
     // }
   }
 
-  changeImage(int index, File imageFile) {
-    if (index == imagesPathes.length) {
-      return;
-    }
-    imagesPathes[index] = imageFile;
-    // emit(ChockImageChangedState());
-  }
+  // changeImage(int index, File imageFile) {
+  //   if (index == imagesPathes.length) {
+  //     return;
+  //   }
+  //   imagesPathes[index] = imageFile;
+  //   // emit(ChockImageChangedState());
+  // }
 
   getFieldsValue() {
     for (var controller in descControllers) {
@@ -171,8 +178,6 @@ class ChockCubit extends Cubit<ChockState> {
     required File chockImagePath,
     required String notes,
     required String howTocalcBearingShim,
-
-    // required String notes,
   }) async {
     emit(ChocksLoadingState());
     getFieldsValue();
@@ -188,16 +193,6 @@ class ChockCubit extends Cubit<ChockState> {
         ),
       );
     }
-    // List<PartsWithMaterialNumberModel> selectedParts = [];
-    // for (int i = 0; i < descControllers.length; i++) {
-    //   stepsModel.add(
-    //     AssemblyStepModel(
-    //         description: allDescriptionControllersValues[i],
-    //         imagePath:
-    //             await ImageHandler().uploadImageToImgur(imagesPathes[i]) ?? "",
-    //         notes: allNotesControllersValues[i]),
-    //   );
-    // }
 
     chockRepo.addChock(
       chock: ChockTypesModel(
@@ -212,56 +207,40 @@ class ChockCubit extends Cubit<ChockState> {
       ),
     );
     getAllChocks();
-    // emit(ChockAddedSuccessfullyState());
-
-    // } catch (e) {
-    //   debugPrint(e.toString());
-    // }
   }
-
-  // Future<void> getAllParts() async {
-  //   emit(ChocksLoadingState());
-  //   try {
-  //     chocks = await chockRepo.getAllChocks();
-  //     emit(ChocksLoadedSuccessfullyState(chocks: chocks));
-  //   } catch (e) {
-  //     emit(ChocksLoadedFailedState(error: e.toString()));
-  //   }
+  // void addOneChock({required ChockTypesModel newChock}) {
+  // Create a new list with the added chock
+  // ChockRemoteDataSource().addChock(
+  //   ChockTypesModel(
+  //     name: "Piston",
+  //     chockImagePath: "",
+  //     notes: "notes",
+  //     assemblySteps: [
+  //       AssemblyStepsModel(
+  //         description: "description",
+  //         imagesPath: [""],
+  //         notes: "notes",
+  //       ),
+  //       AssemblyStepsModel(
+  //         description: "الخطوة الاولي",
+  //         imagesPath: [""],
+  //         notes: "notes",
+  //       ),
+  //       AssemblyStepsModel(
+  //         description: "description",
+  //         imagesPath: [""],
+  //         notes: "notes",
+  //       ),
+  //       AssemblyStepsModel(
+  //         description: "description",
+  //         imagesPath: [""],
+  //         notes: "notes",
+  //       ),
+  //     ],
+  //   ),
+  // );
+  //   emit(ChockAddedSuccessfullyState());
   // }
-
-  void addOneChock({required ChockTypesModel newChock}) {
-    // Create a new list with the added chock
-    // ChockRemoteDataSource().addChock(
-    //   ChockTypesModel(
-    //     name: "Piston",
-    //     chockImagePath: "",
-    //     notes: "notes",
-    //     assemblySteps: [
-    //       AssemblyStepsModel(
-    //         description: "description",
-    //         imagesPath: [""],
-    //         notes: "notes",
-    //       ),
-    //       AssemblyStepsModel(
-    //         description: "الخطوة الاولي",
-    //         imagesPath: [""],
-    //         notes: "notes",
-    //       ),
-    //       AssemblyStepsModel(
-    //         description: "description",
-    //         imagesPath: [""],
-    //         notes: "notes",
-    //       ),
-    //       AssemblyStepsModel(
-    //         description: "description",
-    //         imagesPath: [""],
-    //         notes: "notes",
-    //       ),
-    //     ],
-    //   ),
-    // );
-    emit(ChockAddedSuccessfullyState());
-  }
   // void addOneChock({required ChockTypesModel newChock}) {
   //   // Create a new list with the added chock
   //   ChockRemoteDataSource().addChock(newChock);

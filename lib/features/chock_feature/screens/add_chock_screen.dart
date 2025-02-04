@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rollshop/components/widgets/custom_app_bar.dart';
 import 'package:rollshop/components/widgets/custom_button.dart';
+import 'package:rollshop/components/widgets/custom_drop_down_menu.dart';
 import 'package:rollshop/components/widgets/snack_bar.dart';
+import 'package:rollshop/components/widgets/translated_text_widget.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
 import 'package:rollshop/core/theme/colors.dart';
 import 'package:rollshop/core/theme/styles.dart';
@@ -61,6 +64,7 @@ class _AddChockScreenState extends State<AddChockScreen> {
     // context.read<ChockCubit>().notesControllers.clear();
     // context.read<ChockCubit>().imagesPathes.clear();
     super.dispose();
+    // context.read<ChockCubit>().clearFields();
   }
 
   @override
@@ -69,6 +73,18 @@ class _AddChockScreenState extends State<AddChockScreen> {
       bloc: context.read<ChockCubit>(),
       builder: (context, state) {
         return Scaffold(
+          appBar: CustomAppBar(
+            title: FittedBox(
+              child: TranslatedTextWidget(
+                arabicText: "اضافة عنصر جديد",
+                englishText: "Add New Item",
+                textStyle: MyTextStyles.font24Weight700(Theme.of(context)),
+              ),
+            ),
+            isCenteredTitle: true,
+            textStyle: MyTextStyles.font24Weight700(Theme.of(context)),
+            backColor: ColorsManager.orangeColor,
+          ),
           resizeToAvoidBottomInset: true,
           body: SafeArea(
             child: Padding(
@@ -130,7 +146,12 @@ class _AddChockScreenState extends State<AddChockScreen> {
                                           color: ColorsManager.orangeColor,
                                         ),
                                         Text(
-                                          "رفع صورة الكرسي",
+                                          // "رفع صورة الكرسي",
+                                          translatedText(
+                                            context: context,
+                                            arabicText: "تحميل صورة الكرسي",
+                                            englishText: "Upload chock image",
+                                          ),
                                           style: MyTextStyles.font24Weight700(
                                               Theme.of(context)),
                                         ),
@@ -142,7 +163,12 @@ class _AddChockScreenState extends State<AddChockScreen> {
                       ),
                       CustomTextFormField(
                         textFieldController: chockNameController,
-                        hintText: "أسم الكرسي",
+                        hintText: translatedText(
+                          context: context,
+                          arabicText: "اسم الكرسي",
+                          englishText: "Chock name",
+                        ),
+                        // hintText: "أسم الكرسي",
                       ),
                       CustomDropDown(
                         dropDownController: chockBearingTypeController,
@@ -158,7 +184,11 @@ class _AddChockScreenState extends State<AddChockScreen> {
                               .bearingTypes
                               .map((type) => menuEntry(type))
                         ],
-                        mainLable: "نوع حمل البلية",
+                        mainLable: TranslatedTextWidget(
+                          arabicText: "نوع حمل البلية",
+                          englishText: "Bearing Type",
+                        ),
+                        // mainLable: "نوع حمل البلية",
                         initialSelection:
                             context.read<ChockCubit>().bearingTypes.isNotEmpty
                                 ? context.read<ChockCubit>().bearingTypes.first
@@ -166,18 +196,30 @@ class _AddChockScreenState extends State<AddChockScreen> {
                       ),
                       CustomTextFormField(
                         textFieldController: chockHowToCalcShimController,
-                        hintText: "طريقة قياس الشيمز",
+                        hintText: translatedText(
+                          context: context,
+                          arabicText: "طريقة قياس الشيمز",
+                          englishText: "How to calculate bearing shim",
+                        ),
                         keyboardType: TextInputType.multiline,
                         maxLines: 2,
                       ),
                       CustomTextFormField(
                         textFieldController: chockNotesController,
-                        hintText: "ملاحظات",
+                        hintText: translatedText(
+                          context: context,
+                          arabicText: "ملاحظات",
+                          englishText: "Notes",
+                        ),
                         keyboardType: TextInputType.multiline,
                         maxLines: 5,
                       ),
                       Text(
-                        "مكونات الكرسي",
+                        translatedText(
+                          context: context,
+                          arabicText: "مكونات الكرسي",
+                          englishText: "Chock's Parts",
+                        ),
                         style: MyTextStyles.font24Weight700(Theme.of(context)),
                       ),
                       SizedBox(
@@ -221,11 +263,19 @@ class _AddChockScreenState extends State<AddChockScreen> {
                         ),
                       ),
                       Text(
-                        "خطوات التجميع",
+                        // "خطوات التجميع",
+                        translatedText(
+                            context: context,
+                            arabicText: "خطوات التجميع",
+                            englishText: "Assembly steps"),
                         style: MyTextStyles.font24Weight700(Theme.of(context)),
                       ),
                       CustomButton(
-                        buttonName: "اضافة خطوة تجميع",
+                        buttonName: translatedText(
+                            context: context,
+                            arabicText: "اضافة خطوة تجميع",
+                            englishText: "Add assembly step"),
+                        //  "اضافة خطوة تجميع",
                         onPressed: () {
                           if (context.read<ChockCubit>().imagesPathes.length <
                               context
@@ -250,7 +300,10 @@ class _AddChockScreenState extends State<AddChockScreen> {
                       if (context.read<ChockCubit>().descControllers.isNotEmpty)
                         BuildFields(),
                       CustomButton(
-                        buttonName: "حفظ",
+                        buttonName: translatedText(
+                            context: context,
+                            arabicText: "حفظ",
+                            englishText: "Save"),
                         onPressed: () {
                           // debugPrint(chockBearingTypeController.text);
                           if (chockImagePath == null) {
@@ -309,6 +362,12 @@ class _AddChockScreenState extends State<AddChockScreen> {
                                     howTocalcBearingShim:
                                         chockHowToCalcShimController.text,
                                   );
+                              showCustomSnackBar(
+                                context: context,
+                                message: "تم الحفظ بنجاح",
+                                color: ColorsManager.mainTeal,
+                              );
+                              // context.read<ChockCubit>().clearFields();
                               context.pop();
                             } else {
                               showCustomSnackBar(
@@ -332,3 +391,11 @@ class _AddChockScreenState extends State<AddChockScreen> {
     );
   }
 }
+
+DropdownMenuEntry menuEntry(
+  String lable,
+) =>
+    DropdownMenuEntry(
+      value: lable,
+      label: lable,
+    );

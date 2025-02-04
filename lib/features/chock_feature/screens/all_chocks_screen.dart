@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rollshop/components/widgets/translated_text_widget.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
 
 import 'package:rollshop/core/router/routers.dart';
@@ -9,11 +10,9 @@ import 'package:rollshop/core/theme/colors.dart';
 
 import 'package:rollshop/features/chock_feature/cubit/chock_cubit.dart';
 import 'package:rollshop/features/chock_feature/cubit/chock_state.dart';
-import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
 import 'package:rollshop/features/chock_feature/widgets/build_chock_item.dart';
 import 'package:rollshop/features/main/cubit/app_cubit.dart';
 import 'package:rollshop/features/parts_with_material_number/cubit/parts_cubit.dart';
-import 'package:rollshop/features/parts_with_material_number/screens/all_parts_screen.dart';
 
 import '../../../core/theme/styles.dart';
 
@@ -64,11 +63,17 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
             return Scaffold(
               appBar: AppBar(
                 title: FittedBox(
-                  child: Text(
-                    'معلومات عن الكراسي',
-                    style: MyTextStyles.font32Bold(Theme.of(context))
+                  child: TranslatedTextWidget(
+                    arabicText: "جميع الكراسي",
+                    englishText: "All Chocks",
+                    textStyle: MyTextStyles.font32Bold(Theme.of(context))
                         .copyWith(color: ColorsManager.whiteColor),
                   ),
+                  // Text(
+                  //   'معلومات عن الكراسي',
+                  //   style: MyTextStyles.font32Bold(Theme.of(context))
+                  //       .copyWith(color: ColorsManager.whiteColor),
+                  // ),
                 ),
                 leading: IconButton(
                   onPressed: () {
@@ -131,7 +136,14 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0.r),
                           child: Text(
-                            "لا توجد بيانات محفوظة. برجاء تسجيل بيانات الChock و حاول مرة اخري",
+                            translatedText(
+                              context: context,
+                              arabicText:
+                                  "لا توجد بيانات محفوظة. برجاء تسجيل بيانات الChock و حاول مرة اخري",
+                              englishText:
+                                  "No chocks saved yet, start save chocks to see theme",
+                            ),
+                            // "لا توجد بيانات محفوظة. برجاء تسجيل بيانات الChock و حاول مرة اخري",
                             style:
                                 MyTextStyles.font24Weight700(Theme.of(context)),
                           ),
@@ -149,7 +161,7 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
                     child: Padding(
                       padding: EdgeInsets.all(10.r),
                       child: ListView.separated(
-                        // physics: BouncingScrollPhysics(),
+                        physics: BouncingScrollPhysics(),
                         itemBuilder: (context, index) {
                           return BuildChockItem(
                               chock: context.read<ChockCubit>().chocks[index]);

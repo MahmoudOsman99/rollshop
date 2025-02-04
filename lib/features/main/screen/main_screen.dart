@@ -21,7 +21,7 @@ import 'package:rollshop/features/chock_feature/widgets/build_chock_item.dart';
 import 'package:rollshop/features/main/components/navbar_components.dart';
 import 'package:rollshop/features/main/cubit/app_cubit.dart';
 import 'package:rollshop/features/main/cubit/app_state.dart';
-import 'package:rollshop/features/main/screen/profile_screen.dart';
+import 'package:rollshop/features/main/screen/settings_screen.dart';
 import 'package:rollshop/features/parts_with_material_number/screens/all_parts_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -34,9 +34,12 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _bottomNavIndex = 0;
   final _pageController = PageController();
+
   // final _controller = PersistentTabController(initialIndex: 0);
   @override
   Widget build(BuildContext context) {
+    final locale = Localizations.localeOf(context);
+
     if (Platform.isMacOS) {
       debugPrint("In macOS");
     }
@@ -94,7 +97,7 @@ class _MainScreenState extends State<MainScreen> {
         children: <Widget>[
           AllChocksScreen(),
           AllPartsScreen(),
-          ProfileScreen(),
+          SettingsScreen(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -114,19 +117,22 @@ class _MainScreenState extends State<MainScreen> {
             icon: Icon(
               Icons.home,
             ),
-            label: "All Chocks",
+            label: locale.languageCode == 'ar' ? "كل الكراسي" : "All Chocks",
+            //  "All Chocks",
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.list,
             ),
-            label: "All Parts",
+            label: locale.languageCode == 'ar' ? "كل العناصر" : "All Parts",
+
+            // label: "All Parts",
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.settings,
             ),
-            label: "Settings",
+            label: locale.languageCode == 'ar' ? "الاعدادات" : "Settings",
           ),
         ],
       ),

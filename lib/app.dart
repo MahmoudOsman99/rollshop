@@ -20,7 +20,7 @@ class RollshopApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AppCubit>(
-          create: (context) => sl<AppCubit>()..loadTheme(),
+          create: (context) => sl<AppCubit>()..loadThemeAndLocale(),
           // create: (context) => sl<AppCubit>(),
         ),
         BlocProvider<ChockCubit>(
@@ -56,8 +56,8 @@ class RollshopApp extends StatelessWidget {
                 GlobalCupertinoLocalizations.delegate,
               ],
               supportedLocales: const [
-                Locale('en'), // English
                 Locale('ar'), // Arabic
+                Locale('en'), // English
               ],
               localeResolutionCallback: (locale, supportedLocales) {
                 // if (supportedLocales != null) {
@@ -70,7 +70,9 @@ class RollshopApp extends StatelessWidget {
                 }
                 return supportedLocales.first;
               },
-              locale: const Locale('ar'),
+              locale: context.read<AppCubit>().currentLocale,
+              // locale: const Locale('en'),
+              // locale: const Locale('ar'),
             ),
           );
         },

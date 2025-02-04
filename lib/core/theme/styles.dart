@@ -37,12 +37,12 @@ class MyTextStyles {
             ? ColorsManager.whiteText
             : ColorsManager.greyText,
       );
-  static TextStyle font13OrangeBold(ThemeData theme) => TextStyle(
-        fontSize: 13.sp,
+  static TextStyle font14OrangeOrRedBold(ThemeData theme) => TextStyle(
+        fontSize: 14.sp,
         fontWeight: FontWeight.bold,
         color: theme.brightness == Brightness.light
             ? ColorsManager.orangeColor
-            : ColorsManager.whiteColor,
+            : ColorsManager.redAccent,
       );
 
   static TextStyle font16Weight500(ThemeData theme) => TextStyle(
@@ -82,9 +82,11 @@ class MyTextStyles {
             ? ColorsManager.whiteText
             : ColorsManager.blackText,
       );
-  static TextStyle lable18OrangeBold = TextStyle(
-    fontSize: 18.sp,
-    fontWeight: FontWeight.bold,
-    color: ColorsManager.orangeColor,
-  );
+  static TextStyle lable18OrangeBold({required ThemeData theme}) => TextStyle(
+        fontSize: 18.sp,
+        fontWeight: FontWeight.bold,
+        color: theme.brightness == Brightness.light
+            ? ColorsManager.orangeColor
+            : ColorsManager.redAccent,
+      );
 }

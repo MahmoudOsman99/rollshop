@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rollshop/components/widgets/build_image_with_error_handler.dart';
 import 'package:rollshop/components/widgets/text_with_color_decoration.dart';
+import 'package:rollshop/components/widgets/translated_text_widget.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
 import 'package:rollshop/core/helpers/images_path.dart';
 import 'package:rollshop/core/theme/colors.dart';
@@ -29,7 +30,7 @@ class ChockDetailesScreen extends StatelessWidget {
   // bool isViewParts = false;
 
   // bool isViewSteps = false;
-  ChockTypesModel chock;
+  final ChockTypesModel chock;
   ChockDetailesScreen({required this.chock});
 
   @override
@@ -80,6 +81,7 @@ class ChockDetailesScreen extends StatelessWidget {
                 bottom: 10.r,
               ),
               child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   spacing: 15.h,
@@ -92,7 +94,7 @@ class ChockDetailesScreen extends StatelessWidget {
                         child: BuildImageWithErrorHandler(
                           imageType: ImageType.network,
                           path: chock.chockImagePath,
-                          boxFit: BoxFit.contain,
+                          boxFit: BoxFit.cover,
                         ),
                       ),
                     ),
@@ -103,11 +105,34 @@ class ChockDetailesScreen extends StatelessWidget {
                         style: MyTextStyles.font24Weight700(Theme.of(context)),
                       ),
                     ),
-                    TextWithColorDecoration(
-                      // backColor: ColorsManager.mainTeal,
-                      lable: "نوع البيرينج: ${chock.bearingType}",
-                      textStyle: MyTextStyles.font16Bold(Theme.of(context)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      // crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 10.sp,
+                      children: [
+                        TextWithColorDecoration(
+                            // lable: "ملاحظات",
+                            lable: translatedText(
+                              context: context,
+                              arabicText: "نوع البيرينج",
+                              englishText: "Bearing Type",
+                            ),
+                            textStyle:
+                                MyTextStyles.font16Bold(Theme.of(context))),
+                        Expanded(
+                          child: Text(
+                            chock.bearingType,
+                            style: MyTextStyles.font16Bold(Theme.of(context)),
+                          ),
+                        ),
+                      ],
                     ),
+                    // TextWithColorDecoration(
+                    //   // backColor: ColorsManager.mainTeal,
+                    //   // lable: "نوع البيرينج: ${chock.bearingType}",
+
+                    //   textStyle: MyTextStyles.font16Bold(Theme.of(context)),
+                    // ),
                     // TextWithColorDecoration(
                     //   // backColor: ColorsManager.mainTeal,
                     //   lable: "خطوات التجميع",
@@ -115,11 +140,16 @@ class ChockDetailesScreen extends StatelessWidget {
                     // ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      // crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       spacing: 10.sp,
                       children: [
                         TextWithColorDecoration(
-                            lable: "ملاحظات",
+                            // lable: "ملاحظات",
+                            lable: translatedText(
+                              context: context,
+                              arabicText: "ملاحظات",
+                              englishText: "Notes",
+                            ),
                             textStyle:
                                 MyTextStyles.font16Bold(Theme.of(context))),
                         Expanded(
@@ -136,7 +166,12 @@ class ChockDetailesScreen extends StatelessWidget {
                         spacing: 20.w,
                         children: [
                           TextWithColorDecoration(
-                            lable: "اظهار خطوات التجميع",
+                            lable: translatedText(
+                              context: context,
+                              arabicText: "اظهار خطوات التجميع",
+                              englishText: "Show assembly steps",
+                            ),
+                            // lable: "اظهار خطوات التجميع",
                             textStyle:
                                 MyTextStyles.font16Bold(Theme.of(context)),
                           ),
@@ -186,7 +221,6 @@ class ChockDetailesScreen extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: EdgeInsetsDirectional.only(
-                            // 10.sp
                             start: 10.sp,
                             end: 10.sp,
                             top: 5.sp,
@@ -194,13 +228,23 @@ class ChockDetailesScreen extends StatelessWidget {
                           ),
                           child: SizedBox(
                             height: size.height / 2,
-                            child: ListView.builder(
-                              physics: BouncingScrollPhysics(),
+                            child: ListView.separated(
                               itemCount: chock.assemblySteps.length,
+                              physics: BouncingScrollPhysics(),
+                              separatorBuilder: (context, index) {
+                                return Divider(
+                                  color: context
+                                              .read<AppCubit>()
+                                              .currentThemeMode ==
+                                          ThemeMode.dark
+                                      ? ColorsManager.redAccent
+                                      : ColorsManager.orangeColor,
+                                );
+                              },
                               itemBuilder: (context, index) {
                                 // debugPrint();
                                 return Column(
-                                  spacing: 10,
+                                  // spacing: 10,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     SizedBox(
@@ -219,9 +263,16 @@ class ChockDetailesScreen extends StatelessWidget {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                "شرح خطوة ${index + 1}",
+                                                // "شرح خطوة ${index + 1}",
+                                                translatedText(
+                                                  context: context,
+                                                  arabicText:
+                                                      "شرح خطوة ${index + 1}",
+                                                  englishText:
+                                                      "Step ${index + 1} description",
+                                                ),
                                                 style: MyTextStyles
-                                                    .font13OrangeBold(
+                                                    .font14OrangeOrRedBold(
                                                         Theme.of(context)),
                                               ),
                                               Text(
@@ -265,8 +316,14 @@ class ChockDetailesScreen extends StatelessWidget {
                                       ],
                                     ),
                                     Text(
-                                      "ملاحظات علي خطوة ${index + 1}",
-                                      style: MyTextStyles.font13OrangeBold(
+                                      // "ملاحظات علي خطوة ${index + 1}",
+                                      translatedText(
+                                        context: context,
+                                        arabicText:
+                                            "ملاحظات علي خطوة ${index + 1}",
+                                        englishText: "Step ${index + 1} notes",
+                                      ),
+                                      style: MyTextStyles.font14OrangeOrRedBold(
                                           Theme.of(context)),
                                     ),
                                     Text(
@@ -292,7 +349,12 @@ class ChockDetailesScreen extends StatelessWidget {
                         spacing: 20.w,
                         children: [
                           TextWithColorDecoration(
-                            lable: "اظهار القطع المكون منها ال Chock",
+                            // lable: "اظهار القطع المكون منها ال Chock",
+                            lable: translatedText(
+                              context: context,
+                              arabicText: "اظهار القطع المكون منها ال Chock",
+                              englishText: "Show chock parts",
+                            ),
                             textStyle:
                                 MyTextStyles.font16Bold(Theme.of(context)),
                           ),

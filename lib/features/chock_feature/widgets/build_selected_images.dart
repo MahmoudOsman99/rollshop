@@ -9,8 +9,8 @@ import 'package:rollshop/core/helpers/extensions.dart';
 import '../../../core/theme/colors.dart';
 
 class BuildSelectedImages extends StatefulWidget {
-  int itemCount;
-  List<XFile> images;
+  final int itemCount;
+  final List<XFile> images;
   // Size size;
   BuildSelectedImages({
     super.key,

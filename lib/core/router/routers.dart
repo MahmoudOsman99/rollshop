@@ -11,13 +11,12 @@ class Routes {
   static const String addChockScreen = '/addChockScreen';
   static const String chockDetailesScreen = '/chockDetailesScreen';
 
-  static const String loginScreen = '/loginScreen';
-  static const String driveOrOperatorScreen = '/driveOrOperatorScreen';
+  static const String signinScreen = '/signinScreen';
+  // static const String driveOrOperatorScreen = '/driveOrOperatorScreen';
 
   // Parts with material number routes
   static const String allPartsScreen = '/allPartsScreen';
   static const String editPartScreen = '/editPartScreen';
-  static const String addPartWithMaterialNumberScreen =
-      '/addPartWithMaterialNumberScreen';
+  static const String addNewPart = '/addNewPart';
   static const String partDetailesScreen = '/partDetailesScreen';
 }

@@ -1,13 +1,8 @@
 // select_parts_list.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:rollshop/core/helpers/extensions.dart';
 import 'package:rollshop/core/theme/colors.dart';
-import 'package:rollshop/features/main/cubit/app_cubit.dart';
 import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
-import 'package:rollshop/features/parts_with_material_number/screens/add_parts_with_material_number_screen.dart';
-import 'package:rollshop/features/parts_with_material_number/screens/all_parts_screen.dart';
 import 'package:rollshop/features/parts_with_material_number/widgets/build_part_item.dart';
 // ... other imports
 
@@ -37,7 +32,8 @@ class _SelectPartsListState extends State<SelectPartsList> {
                 part.materialNumber.toString().contains(lowerCaseQuery) ||
                 part.name.toLowerCase().contains(lowerCaseQuery) ||
                 part.areaOfUsage.toLowerCase().contains(lowerCaseQuery) ||
-                part.type.toLowerCase().contains(lowerCaseQuery),
+                part.type.toLowerCase().contains(lowerCaseQuery) ||
+                part.sizes.toLowerCase().contains(lowerCaseQuery),
           )
           .toList();
     }

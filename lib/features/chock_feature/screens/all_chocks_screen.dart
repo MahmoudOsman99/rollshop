@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rollshop/components/widgets/translated_text_widget.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
 
 import 'package:rollshop/core/router/routers.dart';
@@ -39,10 +40,10 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
           //   chocks = state.chocks;
           // }
           if (state is ChocksInitialState) {
-            context.read<ChockCubit>().getAllChocks();
+            // context.read<ChockCubit>().getAllChocks();
             return Scaffold(
               body: Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator.adaptive(),
               ),
             );
           } else if (state is ChocksLoadedFailedState) {
@@ -51,7 +52,7 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
           } else if (state is ChocksLoadingState) {
             return Scaffold(
               body: Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator.adaptive(),
               ),
             );
           }
@@ -62,11 +63,25 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
             return Scaffold(
               appBar: AppBar(
                 title: FittedBox(
-                  child: Text(
-                    'معلومات عن الكراسي',
-                    style: MyTextStyles.font32Bold(Theme.of(context))
+                  child: TranslatedTextWidget(
+                    arabicText: "جميع الكراسي",
+                    englishText: "All Chocks",
+                    textStyle: MyTextStyles.font32Bold(Theme.of(context))
                         .copyWith(color: ColorsManager.whiteColor),
                   ),
+                  // Text(
+                  //   'معلومات عن الكراسي',
+                  //   style: MyTextStyles.font32Bold(Theme.of(context))
+                  //       .copyWith(color: ColorsManager.whiteColor),
+                  // ),
+                ),
+                leading: IconButton(
+                  onPressed: () {
+                    showSearch(
+                        context: context,
+                        delegate: CustomChockSearchDelegate());
+                  },
+                  icon: Icon(Icons.search),
                 ),
                 centerTitle: true,
                 backgroundColor:
@@ -121,7 +136,14 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0.r),
                           child: Text(
-                            "لا توجد بيانات محفوظة. برجاء تسجيل بيانات الChock و حاول مرة اخري",
+                            translatedText(
+                              context: context,
+                              arabicText:
+                                  "لا توجد بيانات محفوظة. برجاء تسجيل بيانات الChock و حاول مرة اخري",
+                              englishText:
+                                  "No chocks saved yet, start save chocks to see theme",
+                            ),
+                            // "لا توجد بيانات محفوظة. برجاء تسجيل بيانات الChock و حاول مرة اخري",
                             style:
                                 MyTextStyles.font24Weight700(Theme.of(context)),
                           ),
@@ -139,7 +161,7 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
                     child: Padding(
                       padding: EdgeInsets.all(10.r),
                       child: ListView.separated(
-                        // physics: BouncingScrollPhysics(),
+                        physics: BouncingScrollPhysics(),
                         itemBuilder: (context, index) {
                           return BuildChockItem(
                               chock: context.read<ChockCubit>().chocks[index]);
@@ -304,4 +326,75 @@ class _AllChocksScreenState extends State<AllChocksScreen> {
           }
         });
   }
+}
+
+class CustomChockSearchDelegate extends SearchDelegate {
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      IconButton(
+        onPressed: () {
+          query = "";
+        },
+        icon: Icon(Icons.clear),
+      ),
+    ];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        context.pop();
+      },
+      icon: Icon(Icons.adaptive.arrow_back),
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    final lowerCaseQuery = query.toLowerCase();
+    final filteredChocks = lowerCaseQuery.isEmpty
+        ? context.read<ChockCubit>().chocks
+        : context
+            .read<ChockCubit>()
+            .chocks
+            .where((chock) => chock.name.toLowerCase().contains(lowerCaseQuery))
+            .toList();
+
+    return ListView.builder(
+      itemCount: filteredChocks.length,
+      itemBuilder: (context, index) {
+        return BuildChockItem(chock: filteredChocks[index]);
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    final String lowerCaseQuery = query.toLowerCase();
+    final filteredChocks = lowerCaseQuery.isEmpty
+        ? context.read<ChockCubit>().chocks.take(2).toList()
+        : context
+            .read<ChockCubit>()
+            .chocks
+            .where(
+              (chock) =>
+                  chock.name.toLowerCase().contains(lowerCaseQuery) ||
+                  chock.bearingType.toLowerCase().contains(lowerCaseQuery) ||
+                  chock.notes.toLowerCase().contains(lowerCaseQuery),
+            )
+            .toList();
+
+    return ListView.builder(
+      itemCount: filteredChocks.length,
+      itemBuilder: (context, index) {
+        return BuildChockItem(
+          chock: filteredChocks[index],
+        );
+      },
+    );
+  }
+
+  // _buildChockSuggestion(List<ChockTypesModel> chocks) {}
 }

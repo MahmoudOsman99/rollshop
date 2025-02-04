@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rollshop/components/widgets/build_image_with_error_handler.dart';
 import 'package:rollshop/components/widgets/custom_text_field.dart';
+import 'package:rollshop/components/widgets/translated_text_widget.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
 import 'package:rollshop/core/theme/colors.dart';
 import 'package:rollshop/core/theme/styles.dart';
@@ -121,11 +122,12 @@ class _BuildFieldsState extends State<BuildFields> {
                     // mainAxisAlignment: MainAxisAlignment.spaceAround,
                     spacing: 20,
                     children: [
-                      Text(
-                        "خطوة رقم ${index + 1}",
-                        // textAlign: TextAlign.right,
-                        style: MyTextStyles.font16Bold(Theme.of(context)),
+                      TranslatedTextWidget(
+                        arabicText: "خطوة رقم ${index + 1}",
+                        englishText: "Step number: ${index + 1}",
+                        textStyle: MyTextStyles.font16Bold(Theme.of(context)),
                       ),
+                      // textAlign: TextAlign.right,
                       index > 0
                           ? DecoratedBox(
                               decoration: BoxDecoration(
@@ -195,16 +197,22 @@ class _BuildFieldsState extends State<BuildFields> {
                   CustomTextFormField(
                     textFieldController:
                         context.read<ChockCubit>().descControllers[index],
-                    hintText:
-                        // "شرح ${context.read<ChockCubit>().descControllers.length}",
-                        "شرح",
+                    // hintText:
+                    hintText: translatedText(
+                        context: context,
+                        arabicText: "شرح",
+                        englishText: "Description"),
+                    // "شرح ${context.read<ChockCubit>().descControllers.length}",
+                    // "شرح",
                     maxLines: 3,
                   ),
                   CustomTextFormField(
-                    textFieldController:
-                        context.read<ChockCubit>().notesControllers[index],
-                    hintText: "ملاحظات",
-                  ),
+                      textFieldController:
+                          context.read<ChockCubit>().notesControllers[index],
+                      hintText: translatedText(
+                          context: context,
+                          arabicText: "ملاحظات",
+                          englishText: "Notes")),
                 ],
               );
             },

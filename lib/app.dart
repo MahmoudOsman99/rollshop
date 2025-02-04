@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rollshop/core/router/app_router.dart';
 import 'package:rollshop/core/router/routers.dart';
 import 'package:rollshop/core/theme/theme.dart';
-import 'package:rollshop/features/chock_feature/screens/all_chocks_screen.dart';
 import 'package:rollshop/features/chock_feature/cubit/chock_cubit.dart';
 import 'package:rollshop/features/main/cubit/app_cubit.dart';
 import 'package:rollshop/features/main/cubit/app_state.dart';
@@ -21,14 +20,14 @@ class RollshopApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AppCubit>(
-          create: (context) => sl<AppCubit>()..loadTheme(),
+          create: (context) => sl<AppCubit>()..loadThemeAndLocale(),
           // create: (context) => sl<AppCubit>(),
         ),
         BlocProvider<ChockCubit>(
-          create: (context) => sl<ChockCubit>(),
+          create: (context) => sl<ChockCubit>()..getAllChocks(),
         ),
         BlocProvider<PartsCubit>(
-          create: (context) => sl<PartsCubit>(),
+          create: (context) => sl<PartsCubit>()..getAllParts(),
         ),
       ],
       child: BlocBuilder<AppCubit, AppState>(
@@ -57,8 +56,8 @@ class RollshopApp extends StatelessWidget {
                 GlobalCupertinoLocalizations.delegate,
               ],
               supportedLocales: const [
-                Locale('en'), // English
                 Locale('ar'), // Arabic
+                Locale('en'), // English
               ],
               localeResolutionCallback: (locale, supportedLocales) {
                 // if (supportedLocales != null) {
@@ -71,7 +70,9 @@ class RollshopApp extends StatelessWidget {
                 }
                 return supportedLocales.first;
               },
-              locale: const Locale('ar'),
+              locale: context.read<AppCubit>().currentLocale,
+              // locale: const Locale('en'),
+              // locale: const Locale('ar'),
             ),
           );
         },

@@ -15,7 +15,7 @@ class AppTheme {
       bodyMedium: TextStyle(color: ColorsManager.whiteText),
     ),
     appBarTheme: const AppBarTheme(
-      backgroundColor: ColorsManager.darkColor,
+      // backgroundColor: ColorsManager.darkColor,
       titleTextStyle: TextStyle(color: ColorsManager.whiteText),
       iconTheme: IconThemeData(color: ColorsManager.whiteText),
     ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rollshop/components/widgets/snack_bar.dart';
+import 'package:rollshop/components/widgets/translated_text_widget.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
 import 'package:rollshop/core/router/routers.dart';
 import 'package:rollshop/core/theme/colors.dart';
@@ -25,16 +26,16 @@ class AllPartsScreen extends StatelessWidget {
       bloc: context.read<PartsCubit>(),
       builder: (context, state) {
         if (state is PartsInitialState) {
-          context.read<PartsCubit>().getAllParts();
+          // context.read<PartsCubit>().getAllParts();
           return Scaffold(
             body: Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator.adaptive(),
             ),
           );
         } else if (state is PartsLoadingState || state is PartWatingState) {
           return Scaffold(
             body: Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator.adaptive(),
             ),
           );
         }
@@ -49,12 +50,18 @@ class AllPartsScreen extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               title: FittedBox(
-                child: Text(
-                  'جميع العناصر المسجلة ${context.read<PartsCubit>().parts.length}',
-                  // 'Parts Section ${parts.length}',
-                  style: MyTextStyles.font32Bold(Theme.of(context))
+                child: TranslatedTextWidget(
+                  arabicText: "جميع العناصر المسجلة",
+                  englishText: "All Parts",
+                  textStyle: MyTextStyles.font32Bold(Theme.of(context))
                       .copyWith(color: ColorsManager.lightWhite),
                 ),
+                // Text(
+                //   'جميع العناصر المسجلة ${context.read<PartsCubit>().parts.length}',
+                //   // 'Parts Section ${parts.length}',
+                //   style: MyTextStyles.font32Bold(Theme.of(context))
+                //       .copyWith(color: ColorsManager.lightWhite),
+                // ),
               ),
               centerTitle: true,
               backgroundColor:
@@ -74,7 +81,7 @@ class AllPartsScreen extends StatelessWidget {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                context.pushNamed(Routes.addPartWithMaterialNumberScreen);
+                context.pushNamed(Routes.addNewPart);
                 // context.pushNamed(Routes.addPartsScreen);
                 //   context.read<PartsCubit>()addOneParts(newParts: null);
                 //   context.read<PartsCubit>()loadAllChocks();
@@ -189,7 +196,7 @@ class CustomSearchdelegate extends SearchDelegate {
       onPressed: () {
         close(context, null);
       },
-      icon: Icon(Icons.arrow_back),
+      icon: Icon(Icons.adaptive.arrow_back),
     );
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rollshop/components/widgets/translated_text_widget.dart';
 import 'package:rollshop/core/theme/styles.dart';
 
 import '../../core/theme/colors.dart';
@@ -13,6 +14,8 @@ class CustomTextFormField extends StatelessWidget {
   bool? autofocus;
   bool? isRequired;
   bool? isReadOnly;
+  bool isPassword;
+  // bool isMultiLine;
   // TextDirection? textDirection = TextDirection.rtl;
   CustomTextFormField({
     super.key,
@@ -25,6 +28,8 @@ class CustomTextFormField extends StatelessWidget {
     this.keyboardType,
     this.isRequired = true,
     this.isReadOnly = false,
+    this.isPassword = false,
+    // this.isMultiLine = false,
   });
 
   @override
@@ -34,12 +39,18 @@ class CustomTextFormField extends StatelessWidget {
       textDirection: TextDirection.rtl,
       textInputAction: inputAction,
       keyboardType: keyboardType,
-      maxLines: maxLines,
+      maxLines: isPassword ? 1 : maxLines,
       readOnly: isReadOnly ?? false,
+      obscureText: isPassword,
       validator: isRequired!
           ? (value) {
               if (value == null || value.isEmpty) {
-                return "برجاء ادخال $hintText";
+                return translatedText(
+                  context: context,
+                  arabicText: "برجاء ادخال $hintText",
+                  englishText: "Please enter $hintText",
+                );
+                // return "برجاء ادخال $hintText";
               }
             }
           : null,
@@ -49,8 +60,8 @@ class CustomTextFormField extends StatelessWidget {
         label: Padding(
           padding: EdgeInsets.only(top: 10.sp),
           child: Text(
-            "$hintText",
-            style: MyTextStyles.lable18OrangeBold,
+            hintText ?? "",
+            style: MyTextStyles.lable18OrangeBold(theme: Theme.of(context)),
           ),
         ),
         floatingLabelBehavior: FloatingLabelBehavior.always,

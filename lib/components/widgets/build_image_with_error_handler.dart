@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:rollshop/core/helpers/images_path.dart';
-import 'package:rollshop/core/theme/colors.dart';
 
 class BuildImageWithErrorHandler extends StatelessWidget {
   BuildImageWithErrorHandler({
@@ -12,9 +11,9 @@ class BuildImageWithErrorHandler extends StatelessWidget {
     required this.path,
     this.boxFit = BoxFit.cover,
   });
-  ImageType imageType;
-  dynamic path;
-  BoxFit boxFit;
+  final ImageType imageType;
+  final dynamic path;
+  final BoxFit boxFit;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +32,7 @@ class BuildImageWithErrorHandler extends StatelessWidget {
           fit: boxFit,
           imageUrl: path,
           placeholder: (context, url) => Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator.adaptive(),
           ),
           errorWidget: (context, url, error) {
             return errorImage();

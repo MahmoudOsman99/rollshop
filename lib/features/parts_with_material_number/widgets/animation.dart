@@ -50,7 +50,7 @@ class _InstaPayLoadingState extends State<InstaPayLoading>
                 ),
               ),
             ),
-            const CircularProgressIndicator(
+            const CircularProgressIndicator.adaptive(
               valueColor:
                   AlwaysStoppedAnimation<Color>(Colors.blue), // Indicator color
               strokeWidth: 4, // Adjust stroke width as needed

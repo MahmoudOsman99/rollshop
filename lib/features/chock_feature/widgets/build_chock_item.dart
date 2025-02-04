@@ -46,7 +46,7 @@ class BuildChockItem extends StatelessWidget {
                   flex: 1,
                   child: Column(
                     spacing: 10.h,
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
@@ -91,6 +91,7 @@ class BuildChockItem extends StatelessWidget {
                     child: BuildImageWithErrorHandler(
                       imageType: ImageType.network,
                       path: chock.chockImagePath,
+                      boxFit: BoxFit.cover,
                     ),
                   ),
                 ),

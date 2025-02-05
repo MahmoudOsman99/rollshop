@@ -106,7 +106,7 @@ class _MainScreenState extends State<MainScreen> {
         iconSize: 25.sp,
         selectedItemColor:
             context.read<AppCubit>().currentThemeMode == ThemeMode.dark
-                ? ColorsManager.redAccent
+                ? ColorsManager.lightBlue
                 : ColorsManager.orangeColor,
         backgroundColor:
             context.read<AppCubit>().currentThemeMode == ThemeMode.dark

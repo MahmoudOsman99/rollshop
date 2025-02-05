@@ -61,7 +61,7 @@ class SettingsScreen extends StatelessWidget {
                         width: 2,
                         color: context.read<AppCubit>().currentThemeMode ==
                                 ThemeMode.dark
-                            ? ColorsManager.redAccent
+                            ? ColorsManager.lightBlue
                             : ColorsManager.orangeColor,
                       )),
                   child: Padding(
@@ -95,8 +95,16 @@ class SettingsScreen extends StatelessWidget {
                           Text(
                             context.read<AppCubit>().currentThemeMode ==
                                     ThemeMode.dark
-                                ? "Light Theme"
-                                : "Dark Theme",
+                                ? translatedText(
+                                    context: context,
+                                    arabicText: "الوضع الفاتح",
+                                    englishText: "Light Theme",
+                                  )
+                                : translatedText(
+                                    context: context,
+                                    arabicText: "الوضع الليلي",
+                                    englishText: "Dark Theme",
+                                  ),
                             style: MyTextStyles.font16Bold(Theme.of(context)),
                           ),
                         ],
@@ -117,7 +125,7 @@ class SettingsScreen extends StatelessWidget {
                 },
                 borderColor:
                     context.read<AppCubit>().currentThemeMode == ThemeMode.dark
-                        ? ColorsManager.redAccent
+                        ? ColorsManager.lightBlue
                         : ColorsManager.orangeColor,
                 icon: Icon(Icons.language),
                 mainLable: TranslatedTextWidget(
@@ -137,11 +145,11 @@ class SettingsScreen extends StatelessWidget {
                   englishText: "Sign in",
                 ),
                 onPressed: () {
-                  context.pushNamed(Routes.signinScreen);
+                  context.pushNamed(Routes.loginScreen);
                 },
                 color:
                     context.read<AppCubit>().currentThemeMode == ThemeMode.dark
-                        ? ColorsManager.redAccent
+                        ? ColorsManager.lightBlue
                         : ColorsManager.orangeColor,
               ),
               // CustomDropDown(items: [], mainLable: mainLable, initialSelection: initialSelection)

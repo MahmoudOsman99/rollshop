@@ -115,7 +115,7 @@ class _AddPartWithMaterialNumberScreenState
             title: Text(
               translatedText(
                 context: context,
-                arabicText: "آضافة عنصر جديد",
+                arabicText: "اضافة عنصر جديد",
                 englishText: "Add New Part",
               ),
               style: MyTextStyles.font24Weight700(Theme.of(context)),
@@ -210,7 +210,7 @@ class _AddPartWithMaterialNumberScreenState
                             color: context.read<AppCubit>().currentThemeMode ==
                                     ThemeMode.light
                                 ? ColorsManager.orangeColor
-                                : ColorsManager.redAccent,
+                                : ColorsManager.lightBlue,
                             width: 2,
                           ),
                           borderRadius: BorderRadius.circular(10),
@@ -234,7 +234,7 @@ class _AddPartWithMaterialNumberScreenState
                                         child: Icon(
                                           Icons.upload,
                                           size: 100,
-                                          color: ColorsManager.orangeColor,
+                                          color: ColorsManager.lightBlue,
                                         ),
                                       ),
                           ),
@@ -310,7 +310,7 @@ class _AddPartWithMaterialNumberScreenState
                           ? widget.partModel!.type
                           : translatedText(
                               context: context,
-                              arabicText: "arabicText",
+                              arabicText: "قطعة",
                               englishText: "Part",
                             ),
                       width: context.width,
@@ -323,7 +323,8 @@ class _AddPartWithMaterialNumberScreenState
                             color: context.read<AppCubit>().currentThemeMode ==
                                     ThemeMode.light
                                 ? ColorsManager.orangeColor
-                                : ColorsManager.redAccent,
+                                : ColorsManager.lightBlue,
+                            width: 2,
                           ),
                         ),
                       ),
@@ -403,7 +404,7 @@ class _AddPartWithMaterialNumberScreenState
                       borderColor: context.read<AppCubit>().currentThemeMode ==
                               ThemeMode.light
                           ? ColorsManager.orangeColor
-                          : ColorsManager.redAccent,
+                          : ColorsManager.lightBlue,
                       mainLable: TranslatedTextWidget(
                         arabicText: 'اختار منطقة الشغل',
                         englishText: "Choose working area",
@@ -469,7 +470,7 @@ class _AddPartWithMaterialNumberScreenState
                               englishText: "Save",
                             ),
                             //  'حفظ',
-                            color: ColorsManager.orangeColor,
+                            color: ColorsManager.lightBlue,
                             onPressed: () async {
                               if (!_formKey.currentState!.validate()) {
                                 showCustomSnackBar(

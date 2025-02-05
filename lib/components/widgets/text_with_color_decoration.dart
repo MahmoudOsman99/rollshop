@@ -20,7 +20,7 @@ class TextWithColorDecoration extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: context.read<AppCubit>().currentThemeMode == ThemeMode.dark
-            ? ColorsManager.redAccent
+            ? ColorsManager.lightBlue
             : ColorsManager.orangeColor,
         borderRadius: BorderRadius.circular(5.r),
       ),

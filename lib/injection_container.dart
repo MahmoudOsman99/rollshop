@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:rollshop/features/auth/signin/cubit/auth_cubit.dart';
 import 'package:rollshop/features/chock_feature/models/data/remote/remote_data_source.dart';
 import 'package:rollshop/features/chock_feature/models/repository/chock_repository.dart';
 import 'package:rollshop/features/chock_feature/models/repository/chock_repository_imp.dart';
@@ -15,6 +16,10 @@ Future<void> init() async {
   //! App Cubit
   // Cubit
   sl.registerLazySingleton<AppCubit>(() => AppCubit());
+
+  //! Auth Cubit
+  // Cubit
+  sl.registerLazySingleton<AuthCubit>(() => AuthCubit());
 
   //! Features - chock-types
   // Remote

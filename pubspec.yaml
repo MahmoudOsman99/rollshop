@@ -15,6 +15,7 @@ dependencies:
   firebase_core:
   cloud_firestore:
   firebase_storage: 
+  firebase_auth: 
   flutter_bloc:
   flutter_screenutil: 
   flutter_image_slideshow:
@@ -32,6 +33,7 @@ dependencies:
   cached_network_image: 
   animated_bottom_navigation_bar:
   flutter_native_splash:
+  email_validator:
   # adaptive_theme: 
   # persistent_bottom_nav_bar: any
 

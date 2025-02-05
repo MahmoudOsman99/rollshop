@@ -11,7 +11,9 @@ class Routes {
   static const String addChockScreen = '/addChockScreen';
   static const String chockDetailesScreen = '/chockDetailesScreen';
 
-  static const String signinScreen = '/signinScreen';
+  //! Auth Routes
+  static const String loginScreen = '/loginScreen';
+  static const String registerScreen = '/registerScreen';
   // static const String driveOrOperatorScreen = '/driveOrOperatorScreen';
 
   // Parts with material number routes

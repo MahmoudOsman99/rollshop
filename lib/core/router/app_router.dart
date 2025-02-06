@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:rollshop/features/auth/signin/screens/login_screen.dart';
-import 'package:rollshop/features/auth/signin/screens/register_screen.dart';
+import 'package:rollshop/features/auth/screens/login_screen.dart';
+import 'package:rollshop/features/auth/screens/register_screen.dart';
 import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
 import 'package:rollshop/features/chock_feature/screens/add_chock_screen.dart';
 import 'package:rollshop/features/chock_feature/screens/all_chocks_screen.dart';

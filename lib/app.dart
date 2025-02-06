@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rollshop/core/router/app_router.dart';
 import 'package:rollshop/core/router/routers.dart';
 import 'package:rollshop/core/theme/theme.dart';
-import 'package:rollshop/features/auth/signin/cubit/auth_cubit.dart';
+import 'package:rollshop/features/auth/cubit/auth_cubit.dart';
 import 'package:rollshop/features/chock_feature/cubit/chock_cubit.dart';
 import 'package:rollshop/features/main/cubit/app_cubit.dart';
 import 'package:rollshop/features/main/cubit/app_state.dart';
@@ -48,6 +48,7 @@ class RollshopApp extends StatelessWidget {
             child: MaterialApp(
               onGenerateRoute: appRouter.generateRoute,
               initialRoute: Routes.mainScreenScreen,
+              // initialRoute: Routes.loginScreen,
               // routes: ,
               debugShowCheckedModeBanner: false,
               // home: AllChocksScreen(),

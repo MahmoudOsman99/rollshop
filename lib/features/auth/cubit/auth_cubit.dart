@@ -1,10 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rollshop/features/auth/signin/cubit/auth_state.dart';
+import 'package:rollshop/core/errors/failure.dart';
+import 'package:rollshop/features/auth/cubit/auth_state.dart';
+import 'package:rollshop/features/auth/model/repository/user_repository.dart';
+import 'package:rollshop/features/auth/model/user_model.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit() : super(LoginInitialState());
+  AuthCubit({required this.userRepo}) : super(LoginInitialState());
+  final UserRepository userRepo;
 
   bool showPassword = false;
 
@@ -13,25 +17,67 @@ class AuthCubit extends Cubit<AuthState> {
     emit(LoginShowPasswordState(showPassword: showPassword));
   }
 
-  void registerByEmailAndPassword({
+  Future<void> registerByEmailAndPassword({
     required String email,
     required String password,
-  }) {
-    debugPrint("email is: $email  password is: $password");
+    required String name,
+    required String phoneNumber,
+    required String userType,
+  }) async {
+    emit(UserRegisteringState());
+
+    final createUserWithEmailInFirebaseAuthResult =
+        await userRepo.registerUserByEmailAndPasswordInFirebaseAuth(
+      email: email,
+      password: password,
+    );
+
+    createUserWithEmailInFirebaseAuthResult.fold(
+      (failure) {
+        emit(UserRegisterFailedState(failure: failure));
+      },
+      (userCredential) async {
+        try {
+          final createUserResult = await userRepo.createUser(
+            user: UserModel(
+              name: name,
+              email: email,
+              password: password,
+              userType: userType,
+              phoneNumber: phoneNumber,
+            ),
+          );
+
+          createUserResult.fold(
+            (failure) {
+              emit(UserRegisterFailedState(failure: failure));
+            },
+            (_) {
+              emit(UserRegisterSuccessState());
+            },
+          );
+        } catch (e) {
+          emit(UserRegisterFailedState(failure: UnexpectedError(e.toString())));
+        }
+      },
+    );
   }
 
   Future<void> signInWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
+    emit(AuthLoginLoadingState());
     try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      final userCredential = await userRepo.signInByEmailAndPassword(
+          email: email, password: password);
+      userCredential.fold((failure) {
+        emit(AuthLoginFailureState(failure: failure));
+      }, (user) {
+        emit(AuthLoginSuccessState(user: user));
+      });
       // User is now signed in.
-      print('Signed in with email: ${userCredential.user!.email}');
+      // print('Signed in with email: ${userCredential.user!.email}');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');

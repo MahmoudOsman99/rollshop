@@ -6,7 +6,9 @@ class UserModel extends Equatable {
   final String email;
   final String password;
   final String phoneNumber;
-  final UserType userType; // Example: "admin", "user", "guest"
+  final bool? isEmailVerified;
+  final bool? isPhoneVerified;
+  final String userType; // Example: "admin", "user", "guest"
   final String? imagePath; // Optional: Image path
 
   const UserModel({
@@ -16,6 +18,8 @@ class UserModel extends Equatable {
     required this.password,
     required this.userType,
     required this.phoneNumber,
+    this.isEmailVerified,
+    this.isPhoneVerified,
     this.imagePath,
   });
 
@@ -30,9 +34,12 @@ class UserModel extends Equatable {
       name: json['name'] ?? '',
       email: json['email'] ?? '',
       password: json['password'] ?? '',
-      userType: json["userType"] != null
-          ? UserType.values.firstWhere(json['userType'])
-          : UserType.technician,
+      userType: json["userType"],
+      isEmailVerified: json["isEmailVerified"] ?? false,
+      isPhoneVerified: json["isPhoneVerified"] ?? false,
+      // userType: json["userType"] != null
+      //     ? UserType.values.firstWhere(json['userType'])
+      //     : UserType.technician,
       // json['userType'] ?? '',
       phoneNumber: json['phoneNumber'] ?? '',
       imagePath: json['imagePath'], // Handle potential null value
@@ -42,10 +49,12 @@ class UserModel extends Equatable {
   Map<String, dynamic> toJson() {
     return {
       'name': name,
-      'email': email,
+      'email': email.toLowerCase(),
       'password': password,
-      'userType': UserType.values.indexOf(userType),
+      'userType': userType,
       'phoneNumber': phoneNumber,
+      "isPhoneVerified": isPhoneVerified ?? false,
+      "isEmailVerified": isEmailVerified ?? false,
       'imagePath': imagePath,
     };
   }

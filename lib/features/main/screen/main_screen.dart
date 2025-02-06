@@ -42,6 +42,8 @@ class _MainScreenState extends State<MainScreen> {
 
     if (Platform.isMacOS) {
       debugPrint("In macOS");
+    } else if (Platform.isIOS) {
+      debugPrint("In IOS");
     }
     return Scaffold(
       // appBar: AppBar(

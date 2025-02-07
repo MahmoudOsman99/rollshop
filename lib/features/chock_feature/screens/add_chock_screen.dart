@@ -18,7 +18,6 @@ import 'package:rollshop/features/chock_feature/widgets/build_fields.dart';
 import 'package:rollshop/features/chock_feature/widgets/select_parts_list.dart';
 import 'package:rollshop/features/main/cubit/app_cubit.dart';
 import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
-import 'package:rollshop/features/parts_with_material_number/screens/add_parts_with_material_number_screen.dart';
 import 'package:rollshop/features/parts_with_material_number/cubit/parts_cubit.dart';
 
 import '../../../components/widgets/custom_text_field.dart';
@@ -83,7 +82,7 @@ class _AddChockScreenState extends State<AddChockScreen> {
             ),
             isCenteredTitle: true,
             textStyle: MyTextStyles.font24Weight700(Theme.of(context)),
-            backColor: ColorsManager.orangeColor,
+            backColor: ColorsManager.lightBlue,
           ),
           resizeToAvoidBottomInset: true,
           body: SafeArea(
@@ -172,6 +171,7 @@ class _AddChockScreenState extends State<AddChockScreen> {
                       ),
                       CustomDropDown(
                         dropDownController: chockBearingTypeController,
+                        borderColor: ColorsManager.lightBlue,
                         items: [
                           // ...context
                           //     .read<ChockCubit>()
@@ -295,15 +295,16 @@ class _AddChockScreenState extends State<AddChockScreen> {
                             context.read<ChockCubit>().addField();
                           });
                         },
-                        color: ColorsManager.orangeColor,
+                        color: ColorsManager.lightBlue,
                       ),
                       if (context.read<ChockCubit>().descControllers.isNotEmpty)
                         BuildFields(),
                       CustomButton(
                         buttonName: translatedText(
-                            context: context,
-                            arabicText: "حفظ",
-                            englishText: "Save"),
+                          context: context,
+                          arabicText: "حفظ",
+                          englishText: "Save",
+                        ),
                         onPressed: () {
                           // debugPrint(chockBearingTypeController.text);
                           if (chockImagePath == null) {
@@ -378,7 +379,7 @@ class _AddChockScreenState extends State<AddChockScreen> {
                             }
                           }
                         },
-                        color: ColorsManager.orangeColor,
+                        color: ColorsManager.lightBlue,
                       ),
                     ],
                   ),

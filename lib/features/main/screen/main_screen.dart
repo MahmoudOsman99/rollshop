@@ -42,6 +42,8 @@ class _MainScreenState extends State<MainScreen> {
 
     if (Platform.isMacOS) {
       debugPrint("In macOS");
+    } else if (Platform.isIOS) {
+      debugPrint("In IOS");
     }
     return Scaffold(
       // appBar: AppBar(
@@ -106,7 +108,7 @@ class _MainScreenState extends State<MainScreen> {
         iconSize: 25.sp,
         selectedItemColor:
             context.read<AppCubit>().currentThemeMode == ThemeMode.dark
-                ? ColorsManager.redAccent
+                ? ColorsManager.lightBlue
                 : ColorsManager.orangeColor,
         backgroundColor:
             context.read<AppCubit>().currentThemeMode == ThemeMode.dark

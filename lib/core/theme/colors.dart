@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 class ColorsManager {
   static const Color darkColor = Color(0xff2c2523);
   static const Color deepGrey = Color(0xff3D3634);
+
+  //! Text colors
+  static const Color textColorInDarkMode = Color(0xffffffff);
+  static const Color textColorInLightMode = Color(0xff000000);
+
   static const Color blackBackGround = Color(0xff000000);
   static const Color redAccent = Color(0xffff0266);
   static const Color mainBlue = Color(0xff247CFF);

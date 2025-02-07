@@ -53,7 +53,7 @@ class ChockDetailesScreen extends StatelessWidget {
               style: ButtonStyle(
                 backgroundColor: WidgetStatePropertyAll(
                   context.read<AppCubit>().currentThemeMode == ThemeMode.dark
-                      ? ColorsManager.redAccent
+                      ? ColorsManager.lightBlue
                       : ColorsManager.orangeColor,
                   // ColorsManager.redAccent
                 ),
@@ -184,7 +184,7 @@ class ChockDetailesScreen extends StatelessWidget {
                               activeColor:
                                   context.read<AppCubit>().currentThemeMode ==
                                           ThemeMode.dark
-                                      ? ColorsManager.redAccent
+                                      ? ColorsManager.lightBlue
                                       : ColorsManager.whiteColor,
                               activeTrackColor:
                                   context.read<AppCubit>().currentThemeMode ==
@@ -237,7 +237,7 @@ class ChockDetailesScreen extends StatelessWidget {
                                               .read<AppCubit>()
                                               .currentThemeMode ==
                                           ThemeMode.dark
-                                      ? ColorsManager.redAccent
+                                      ? ColorsManager.lightBlue
                                       : ColorsManager.orangeColor,
                                 );
                               },
@@ -363,7 +363,7 @@ class ChockDetailesScreen extends StatelessWidget {
                             activeColor:
                                 context.read<AppCubit>().currentThemeMode ==
                                         ThemeMode.dark
-                                    ? ColorsManager.redAccent
+                                    ? ColorsManager.lightBlue
                                     : ColorsManager.whiteColor,
                             activeTrackColor:
                                 context.read<AppCubit>().currentThemeMode ==
@@ -423,8 +423,10 @@ class ChockDetailesScreen extends StatelessWidget {
                                   itemCount: chock.parts!.length,
                                   itemBuilder: (context, index) =>
                                       BuildPartItem(
-                                          part: chock.parts![index],
-                                          allowEdit: false),
+                                    part: chock.parts![index],
+                                    allowEdit: false,
+                                    viewImage: true,
+                                  ),
                                 ),
                               ),
                             ),

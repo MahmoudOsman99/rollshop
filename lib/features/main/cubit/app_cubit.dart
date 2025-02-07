@@ -28,13 +28,13 @@ class AppCubit extends Cubit<AppState> {
 
   Future<void> loadThemeAndLocale() async {
     final prefs = await SharedPreferences.getInstance();
-    final themeIndex = prefs.getInt('themeMode') ?? 0;
+    final themeIndex = prefs.getInt('themeMode') ?? 1;
     currentThemeMode = ThemeMode.values[themeIndex];
-    if (currentThemeMode == ThemeMode.system) {
-      debugPrint("$currentThemeMode theme mode system");
-      currentThemeMode = ThemeMode.dark;
-      debugPrint("$currentThemeMode theme mode is dark");
-    }
+    // if (currentThemeMode == ThemeMode.system) {
+    //   debugPrint("$currentThemeMode theme mode system");
+    //   currentThemeMode = ThemeMode.light;
+    //   debugPrint("$currentThemeMode theme mode is dark");
+    // }
 
     final localeCode = prefs.getString('localeCode') ?? 'ar';
     currentLocale = Locale(localeCode);

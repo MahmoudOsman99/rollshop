@@ -24,9 +24,10 @@ class MyTextStyles {
     return TextStyle(
       fontSize: 32.sp,
       fontWeight: FontWeight.bold,
+      // fontFamily: "Raleway",
       color: theme.brightness == Brightness.dark
-          ? ColorsManager.whiteText
-          : ColorsManager.blackText,
+          ? ColorsManager.textColorInDarkMode
+          : ColorsManager.textColorInLightMode,
     );
   }
 
@@ -44,6 +45,14 @@ class MyTextStyles {
             ? ColorsManager.orangeColor
             : ColorsManager.redAccent,
       );
+  // static TextStyle font14OBlueBold(ThemeData theme) => TextStyle(
+  //       fontSize: 15.sp,
+  //       fontWeight: FontWeight.bold,
+  //       color: ColorsManager.textColorInDarkMode,
+  //       // color: theme.brightness == Brightness.light
+  //       //     ? ColorsManager.orangeColor
+  //       //     : ColorsManager.redAccent,
+  //     );
 
   static TextStyle font16Weight500(ThemeData theme) => TextStyle(
         fontSize: 16.sp,
@@ -87,6 +96,6 @@ class MyTextStyles {
         fontWeight: FontWeight.bold,
         color: theme.brightness == Brightness.light
             ? ColorsManager.orangeColor
-            : ColorsManager.redAccent,
+            : ColorsManager.lightWhite,
       );
 }

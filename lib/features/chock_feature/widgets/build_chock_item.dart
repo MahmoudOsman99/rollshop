@@ -15,7 +15,7 @@ class BuildChockItem extends StatelessWidget {
     super.key,
     required this.chock,
   });
-  ChockTypesModel chock;
+  final ChockTypesModel chock;
   @override
   Widget build(BuildContext context) {
     return InkWell(

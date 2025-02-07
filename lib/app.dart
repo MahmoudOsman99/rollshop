@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rollshop/core/router/app_router.dart';
 import 'package:rollshop/core/router/routers.dart';
 import 'package:rollshop/core/theme/theme.dart';
+import 'package:rollshop/features/auth/cubit/auth_cubit.dart';
 import 'package:rollshop/features/chock_feature/cubit/chock_cubit.dart';
 import 'package:rollshop/features/main/cubit/app_cubit.dart';
 import 'package:rollshop/features/main/cubit/app_state.dart';
@@ -23,6 +24,10 @@ class RollshopApp extends StatelessWidget {
           create: (context) => sl<AppCubit>()..loadThemeAndLocale(),
           // create: (context) => sl<AppCubit>(),
         ),
+        BlocProvider<AuthCubit>(
+          create: (context) => sl<AuthCubit>(),
+          // create: (context) => sl<AppCubit>(),
+        ),
         BlocProvider<ChockCubit>(
           create: (context) => sl<ChockCubit>()..getAllChocks(),
         ),
@@ -32,24 +37,26 @@ class RollshopApp extends StatelessWidget {
       ],
       child: BlocBuilder<AppCubit, AppState>(
         builder: (context, state) {
-          ThemeMode currentTheme = ThemeMode.system; // Default
-          if (state is AppChangeThemeModeState) {
-            currentTheme = state.themeMode;
-          }
+          // ThemeMode currentTheme = ThemeMode.system; // Default
+          // if (state is AppChangeThemeModeState) {
+          //   currentTheme = state.themeMode;
+          // }
           return ScreenUtilInit(
             designSize: const Size(375, 812),
             minTextAdapt: true,
             splitScreenMode: true,
             child: MaterialApp(
               onGenerateRoute: appRouter.generateRoute,
-              initialRoute: Routes.mainScreenScreen,
+              // initialRoute: Routes.mainScreenScreen,
+              initialRoute: Routes.loginScreen,
               // routes: ,
               debugShowCheckedModeBanner: false,
               // home: AllChocksScreen(),
               // theme: AppTheme.darkTheme,
               theme: AppTheme.lightTheme,
               darkTheme: AppTheme.darkTheme,
-              themeMode: currentTheme,
+              // themeMode: currentTheme,
+              themeMode: context.read<AppCubit>().currentThemeMode,
               localizationsDelegates: const [
                 GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,

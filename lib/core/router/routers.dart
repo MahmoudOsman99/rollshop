@@ -4,6 +4,7 @@ class Routes {
   // static const String mainScreenScreen = '/mainScreen';
   static const String onBoardingScreen = '/onBoardingScreen';
 //! Profile Routes
+  static const String settingsRoute = '/settingsScreen';
   static const String profileScreenRoute = '/profileScreen';
 
   // Chocks routes
@@ -11,7 +12,9 @@ class Routes {
   static const String addChockScreen = '/addChockScreen';
   static const String chockDetailesScreen = '/chockDetailesScreen';
 
-  static const String signinScreen = '/signinScreen';
+  //! Auth Routes
+  static const String loginScreen = '/loginScreen';
+  static const String registerScreen = '/registerScreen';
   // static const String driveOrOperatorScreen = '/driveOrOperatorScreen';
 
   // Parts with material number routes

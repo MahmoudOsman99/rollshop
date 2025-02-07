@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rollshop/components/widgets/build_image_with_error_handler.dart';
-import 'package:rollshop/components/widgets/snack_bar.dart';
 import 'package:rollshop/components/widgets/translated_text_widget.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
 import 'package:rollshop/core/helpers/images_path.dart';
@@ -44,7 +43,8 @@ class BuildPartItem extends StatelessWidget {
                 children: [
                   buildPartItem(
                     text: part.name,
-                    lable: TranslatedTextWidget(
+                    lable: translatedText(
+                      context: context,
                       arabicText: "الأسم:",
                       englishText: "Name:",
                     ),
@@ -52,7 +52,8 @@ class BuildPartItem extends StatelessWidget {
                   ),
                   buildPartItem(
                     text: part.materialNumber,
-                    lable: TranslatedTextWidget(
+                    lable: translatedText(
+                      context: context,
                       arabicText: "رقم ماتريال:",
                       englishText: "Material Number:",
                     ),
@@ -60,7 +61,8 @@ class BuildPartItem extends StatelessWidget {
                   ),
                   buildPartItem(
                     text: part.drawingPartNumber,
-                    lable: TranslatedTextWidget(
+                    lable: translatedText(
+                      context: context,
                       arabicText: "رقم الرسمة:",
                       englishText: "Drawing Number:",
                     ),
@@ -68,7 +70,8 @@ class BuildPartItem extends StatelessWidget {
                   ),
                   buildPartItem(
                     text: part.sizes,
-                    lable: TranslatedTextWidget(
+                    lable: translatedText(
+                      context: context,
                       arabicText: "المقاسات:",
                       englishText: "Size:",
                     ),
@@ -76,7 +79,8 @@ class BuildPartItem extends StatelessWidget {
                   ),
                   buildPartItem(
                     text: part.type,
-                    lable: TranslatedTextWidget(
+                    lable: translatedText(
+                      context: context,
                       arabicText: "النوع:",
                       englishText: "Type:",
                     ),
@@ -108,9 +112,10 @@ class BuildPartItem extends StatelessWidget {
                                 child: Text(
                                   // "No Image",
                                   translatedText(
-                                      context: context,
-                                      arabicText: "لا توجد صورة",
-                                      englishText: "No Image"),
+                                    context: context,
+                                    arabicText: "لا توجد صورة",
+                                    englishText: "No Image",
+                                  ),
                                 ),
                               ),
                             ),
@@ -140,13 +145,17 @@ class BuildPartItem extends StatelessWidget {
 Widget buildPartItem({
   required dynamic text,
   // required String lable,
-  required Widget lable,
+  required String lable,
   required BuildContext context,
 }) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      lable,
+      Text(
+        lable,
+        style: MyTextStyles.font12(Theme.of(context)),
+      ),
       Flexible(
         child: Text(
           text.toString(),

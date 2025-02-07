@@ -3,13 +3,9 @@ import 'package:rollshop/components/widgets/build_image_with_error_handler.dart'
 import 'package:rollshop/components/widgets/text_with_color_decoration.dart';
 import 'package:rollshop/components/widgets/translated_text_widget.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
-import 'package:rollshop/core/router/routers.dart';
-import 'package:rollshop/core/theme/colors.dart';
 import 'package:rollshop/core/theme/styles.dart';
-import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
-import 'package:rollshop/features/parts_with_material_number/widgets/build_part_item.dart';
 
 class PartDetailesScreen extends StatelessWidget {
   final PartsWithMaterialNumberModel part;
@@ -25,7 +21,7 @@ class PartDetailesScreen extends StatelessWidget {
         title: FittedBox(child: Text(part.name)),
         titleTextStyle: MyTextStyles.font32Bold(Theme.of(context)),
         centerTitle: true,
-        backgroundColor: ColorsManager.darkModeColor,
+        // backgroundColor: ColorsManager.darkModeColor,
       ),
       // floatingActionButton: FloatingActionButton(
       //   onPressed: () {
@@ -241,8 +237,8 @@ class BuildPartDetailes extends StatelessWidget {
               text,
               textDirection: TextDirection.ltr,
               style: MyTextStyles.font16Bold(Theme.of(context)),
-              maxLines: 6,
-              overflow: TextOverflow.ellipsis,
+              // maxLines: 6,
+              // overflow: TextOverflow.ellipsis,
             ),
           ),
         ),

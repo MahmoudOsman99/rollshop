@@ -14,7 +14,11 @@ class CustomTextFormField extends StatelessWidget {
   bool? autofocus;
   bool? isRequired;
   bool? isReadOnly;
+  // bool? showSnakBarError;
   bool isPassword;
+  String? Function(String?)? validator;
+  Widget? prefixIcon;
+  Widget? sufixIcon;
   // bool isMultiLine;
   // TextDirection? textDirection = TextDirection.rtl;
   CustomTextFormField({
@@ -29,6 +33,10 @@ class CustomTextFormField extends StatelessWidget {
     this.isRequired = true,
     this.isReadOnly = false,
     this.isPassword = false,
+    this.validator,
+    this.prefixIcon,
+    this.sufixIcon,
+    // this.showSnakBarError = true,
     // this.isMultiLine = false,
   });
 
@@ -36,27 +44,30 @@ class CustomTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: textFieldController,
-      textDirection: TextDirection.rtl,
+      // textDirection: TextDirection.rtl,
       textInputAction: inputAction,
       keyboardType: keyboardType,
       maxLines: isPassword ? 1 : maxLines,
       readOnly: isReadOnly ?? false,
       obscureText: isPassword,
-      validator: isRequired!
-          ? (value) {
-              if (value == null || value.isEmpty) {
-                return translatedText(
-                  context: context,
-                  arabicText: "برجاء ادخال $hintText",
-                  englishText: "Please enter $hintText",
-                );
-                // return "برجاء ادخال $hintText";
-              }
-            }
-          : null,
+      validator: validator ??
+          (isRequired!
+              ? (value) {
+                  if (value == null || value.isEmpty) {
+                    return translatedText(
+                      context: context,
+                      arabicText: "برجاء ادخال $hintText",
+                      englishText: "Please enter $hintText",
+                    );
+                    // return "برجاء ادخال $hintText";
+                  }
+                }
+              : null),
       autofocus: autofocus ?? false,
       decoration: InputDecoration(
         // hintText: hintText,
+        prefixIcon: prefixIcon,
+        suffixIcon: sufixIcon,
         label: Padding(
           padding: EdgeInsets.only(top: 10.sp),
           child: Text(

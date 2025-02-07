@@ -13,9 +13,7 @@ import 'package:rollshop/core/theme/styles.dart';
 import 'package:rollshop/features/chock_feature/cubit/chock_cubit.dart';
 
 class BuildFields extends StatefulWidget {
-  BuildFields({super.key});
-  final formKey = GlobalKey<FormState>();
-  bool isValidate = false;
+  const BuildFields({super.key});
 
   @override
   State<BuildFields> createState() => _BuildFieldsState();
@@ -26,11 +24,12 @@ class _BuildFieldsState extends State<BuildFields> {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(
-            width: 2,
-            color: ColorsManager.orangeColor,
-          )),
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(
+          width: 2,
+          color: ColorsManager.lightBlue,
+        ),
+      ),
       child: Padding(
         padding: EdgeInsets.all(8.0.sp),
         child: SizedBox(
@@ -207,12 +206,14 @@ class _BuildFieldsState extends State<BuildFields> {
                     maxLines: 3,
                   ),
                   CustomTextFormField(
-                      textFieldController:
-                          context.read<ChockCubit>().notesControllers[index],
-                      hintText: translatedText(
-                          context: context,
-                          arabicText: "ملاحظات",
-                          englishText: "Notes")),
+                    textFieldController:
+                        context.read<ChockCubit>().notesControllers[index],
+                    maxLines: 2,
+                    hintText: translatedText(
+                        context: context,
+                        arabicText: "ملاحظات",
+                        englishText: "Notes"),
+                  ),
                 ],
               );
             },

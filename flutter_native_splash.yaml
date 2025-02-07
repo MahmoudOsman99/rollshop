@@ -1,12 +1,12 @@
 flutter_native_splash:
   color: "#ffffff"
   color_dark: "#ffffff"
-  background_image: "assets/images/splash.png"
+  background_image: "assets/images/splash_logo.png"
 
   android_12:
     color: "#ffffff"
     color_dark: "#ffffff"
-    image: assets/images/splash.png
+    image: assets/images/splash_logo.png
 
     # Splash screen background color.
     #color: "#42a5f5"

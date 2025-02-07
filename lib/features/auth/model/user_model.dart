@@ -4,7 +4,6 @@ class UserModel extends Equatable {
   final String? id;
   final String name;
   final String email;
-  final String password;
   final String phoneNumber;
   final bool? isEmailVerified;
   final bool? isPhoneVerified;
@@ -15,7 +14,6 @@ class UserModel extends Equatable {
     this.id,
     required this.name,
     required this.email,
-    required this.password,
     required this.userType,
     required this.phoneNumber,
     this.isEmailVerified,
@@ -25,7 +23,7 @@ class UserModel extends Equatable {
 
   @override
   List<Object?> get props =>
-      [id, name, email, password, userType, phoneNumber, imagePath];
+      [id, name, email, userType, phoneNumber, imagePath];
 
   factory UserModel.fromJson(Map<String, dynamic> json,
       {required idFromFirebase}) {
@@ -33,7 +31,6 @@ class UserModel extends Equatable {
       id: idFromFirebase ?? json['id'] ?? '',
       name: json['name'] ?? '',
       email: json['email'] ?? '',
-      password: json['password'] ?? '',
       userType: json["userType"],
       isEmailVerified: json["isEmailVerified"] ?? false,
       isPhoneVerified: json["isPhoneVerified"] ?? false,
@@ -50,7 +47,6 @@ class UserModel extends Equatable {
     return {
       'name': name,
       'email': email.toLowerCase(),
-      'password': password,
       'userType': userType,
       'phoneNumber': phoneNumber,
       "isPhoneVerified": isPhoneVerified ?? false,

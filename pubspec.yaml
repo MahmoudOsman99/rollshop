@@ -34,6 +34,7 @@ dependencies:
   animated_bottom_navigation_bar:
   flutter_native_splash:
   email_validator:
+  flutter_svg:
   # adaptive_theme: 
   # persistent_bottom_nav_bar: any
 
@@ -72,6 +73,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/svgs/
     - assets/images/chock_types/
     - assets/icons/
 

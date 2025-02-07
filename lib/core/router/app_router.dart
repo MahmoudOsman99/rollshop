@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:rollshop/features/auth/model/user_model.dart';
 import 'package:rollshop/features/auth/screens/login_screen.dart';
 import 'package:rollshop/features/auth/screens/register_screen.dart';
 import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
 import 'package:rollshop/features/chock_feature/screens/add_chock_screen.dart';
 import 'package:rollshop/features/chock_feature/screens/all_chocks_screen.dart';
 import 'package:rollshop/features/main/screen/main_screen.dart';
+import 'package:rollshop/features/main/screen/profile_screen.dart';
 import 'package:rollshop/features/main/screen/settings_screen.dart';
 import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
 import 'package:rollshop/features/parts_with_material_number/screens/add_parts_with_material_number_screen.dart';
@@ -22,6 +24,12 @@ class AppRouter {
       case Routes.mainScreenScreen:
         return MaterialPageRoute(
           builder: (context) => MainScreen(),
+        );
+      case Routes.profileScreenRoute:
+        return MaterialPageRoute(
+          builder: (context) => ProfileScreen(
+              // user: settings.arguments as UserModel,
+              ),
         );
       case Routes.allPartsScreen:
         return MaterialPageRoute(
@@ -48,7 +56,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => AddChockScreen(),
         );
-      case Routes.profileScreenRoute:
+      case Routes.settingsRoute:
         return MaterialPageRoute(
           builder: (context) => SettingsScreen(),
         );
@@ -80,7 +88,7 @@ class AppRouter {
 
       default:
         return MaterialPageRoute(
-          builder: (context) => AllChocksScreen(),
+          builder: (context) => SigninScreen(),
         );
     }
   }

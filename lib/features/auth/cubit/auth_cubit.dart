@@ -9,6 +9,7 @@ import 'package:rollshop/features/auth/model/user_model.dart';
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit({required this.userRepo}) : super(LoginInitialState());
   final UserRepository userRepo;
+  UserModel? currentUser;
 
   bool showPassword = false;
 
@@ -20,47 +21,62 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> registerByEmailAndPassword({
     required String email,
     required String password,
-    required String name,
     required String phoneNumber,
+    required String name,
     required String userType,
   }) async {
     emit(UserRegisteringState());
+    try {
+      final createUserWithEmailInFirebaseAuthResult =
+          await userRepo.registerUserByEmailAndPasswordInFirebaseAuth(
+        email: email,
+        password: password,
+        phoneNumber: phoneNumber,
+      );
 
-    final createUserWithEmailInFirebaseAuthResult =
-        await userRepo.registerUserByEmailAndPasswordInFirebaseAuth(
-      email: email,
-      password: password,
-    );
-
-    createUserWithEmailInFirebaseAuthResult.fold(
-      (failure) {
-        emit(UserRegisterFailedState(failure: failure));
-      },
-      (userCredential) async {
-        try {
-          final createUserResult = await userRepo.createUser(
-            user: UserModel(
-              name: name,
-              email: email,
-              password: password,
-              userType: userType,
-              phoneNumber: phoneNumber,
-            ),
+      createUserWithEmailInFirebaseAuthResult.fold(
+        (failure) {
+          emit(UserRegisterFailedState(failure: failure));
+        },
+        (userCredential) async {
+          final user = UserModel(
+            id: userCredential.user?.uid,
+            name: name,
+            email: email,
+            userType: userType,
+            phoneNumber: phoneNumber,
           );
+          final createUser = await userRepo.setUser(user: user);
+          createUser.fold((failure) {
+            emit(UserRegisterFailedState(failure: failure));
+          }, (_) async {
+            emit(UserRegisterSuccessState());
+          });
+          // final createUserResult = await userRepo.createUser(
+          //   user: UserModel(
+          //     id: userCredential.user!.uid,
+          //     name: name,
+          //     email: email,
+          //     password: password,
+          //     userType: userType,
+          //     phoneNumber: phoneNumber,
+          //   ),
+          // );
 
-          createUserResult.fold(
-            (failure) {
-              emit(UserRegisterFailedState(failure: failure));
-            },
-            (_) {
-              emit(UserRegisterSuccessState());
-            },
-          );
-        } catch (e) {
-          emit(UserRegisterFailedState(failure: UnexpectedError(e.toString())));
-        }
-      },
-    );
+          // createUserResult.fold(
+          //   (failure) {
+          //     emit(UserRegisterFailedState(failure: failure));
+          //   },
+          //   (_) {
+          //     emit(UserRegisterSuccessState());
+          //   },
+          // );
+        },
+      );
+    } on FirebaseException catch (e) {
+      debugPrint(e.message);
+      emit(UserRegisterFailedState(failure: UnexpectedError(e.toString())));
+    }
   }
 
   Future<void> signInWithEmailAndPassword({
@@ -70,10 +86,19 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthLoginLoadingState());
     try {
       final userCredential = await userRepo.signInByEmailAndPassword(
-          email: email, password: password);
+        email: email,
+        password: password,
+      );
       userCredential.fold((failure) {
         emit(AuthLoginFailureState(failure: failure));
-      }, (user) {
+      }, (user) async {
+        final getCurrentUser =
+            await userRepo.currentUser(userId: user.user!.uid);
+        getCurrentUser.fold((failure) {
+          emit(AuthLoginFailureState(failure: failure));
+        }, (cUser) {
+          currentUser = cUser;
+        });
         emit(AuthLoginSuccessState(user: user));
       });
       // User is now signed in.
@@ -99,8 +124,8 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  void loginWithEmailAndPassword() {}
-  void loginByGoogleWithFirebase() {}
+  // void loginWithEmailAndPassword() {}
+  // void loginByGoogleWithFirebase() {}
 
   // Future<void> registerWithEmailAndPassword(
   //     {required String email, required String password}) async {

@@ -47,8 +47,8 @@ class RollshopApp extends StatelessWidget {
             splitScreenMode: true,
             child: MaterialApp(
               onGenerateRoute: appRouter.generateRoute,
-              initialRoute: Routes.mainScreenScreen,
-              // initialRoute: Routes.loginScreen,
+              // initialRoute: Routes.mainScreenScreen,
+              initialRoute: Routes.loginScreen,
               // routes: ,
               debugShowCheckedModeBanner: false,
               // home: AllChocksScreen(),

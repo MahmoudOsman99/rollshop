@@ -52,3 +52,17 @@ class LoginShowPasswordState extends AuthState {
   @override
   List<Object?> get props => [showPassword];
 }
+
+class AuthUserImageChangedSuccessState extends AuthState {
+  final String imagePath;
+  AuthUserImageChangedSuccessState({required this.imagePath});
+  @override
+  List<Object?> get props => [imagePath];
+}
+
+class AuthUserImageChangedFailedState extends AuthState {
+  final String error;
+  AuthUserImageChangedFailedState({required this.error});
+  @override
+  List<Object?> get props => [error];
+}

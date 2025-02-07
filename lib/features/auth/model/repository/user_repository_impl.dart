@@ -17,16 +17,18 @@ class UserRepositoryImpl extends UserRepository {
   // }
 
   @override
-  Future<Either<Failure, Unit>> createUser({required UserModel user}) async {
-    return userRemote.registerUser(user: user);
+  Future<Either<Failure, void>> setUser({required UserModel user}) async {
+    return userRemote.setUser(user: user);
   }
 
   @override
   Future<Either<Failure, UserCredential>>
       registerUserByEmailAndPasswordInFirebaseAuth(
-          {required String email, required String password}) async {
+          {required String email,
+          required String password,
+          required String phoneNumber}) async {
     return await userRemote.registerUserByEmailAndPasswordInFirebaseAuth(
-        email: email, password: password);
+        email: email, password: password, phoneNumber: phoneNumber);
   }
 
   @override
@@ -36,5 +38,11 @@ class UserRepositoryImpl extends UserRepository {
   }) async {
     return await userRemote.signInByEmailAndPassword(
         email: email, password: password);
+  }
+
+  @override
+  Future<Either<Failure, UserModel>> currentUser(
+      {required String userId}) async {
+    return await userRemote.getCurrentUser(userId: userId);
   }
 }

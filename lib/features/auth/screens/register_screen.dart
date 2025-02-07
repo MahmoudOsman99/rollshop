@@ -1,13 +1,14 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:rollshop/components/widgets/custom_button.dart';
 import 'package:rollshop/components/widgets/custom_text_field.dart';
 import 'package:rollshop/components/widgets/snack_bar.dart';
 import 'package:rollshop/components/widgets/translated_text_widget.dart';
 import 'package:rollshop/core/errors/failure.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
+import 'package:rollshop/core/helpers/svgs_paths.dart';
 import 'package:rollshop/core/router/routers.dart';
 import 'package:rollshop/core/theme/colors.dart';
 import 'package:rollshop/core/theme/styles.dart';
@@ -90,13 +91,32 @@ class RegisterScreen extends StatelessWidget {
                 child: SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
                   child: Column(
+                    // crossAxisAlignment: CrossAxisAlignment.start,
                     spacing: 20.h,
                     children: [
+                      // CircleAvatar(
+                      //   radius: 100.r,
+                      //   backgroundImage: CachedNetworkImageProvider(
+                      //     "https://i.imgur.com/kldXnVq.jpeg",
+                      //   ),
+                      // ),
                       CircleAvatar(
                         radius: 100.r,
-                        backgroundImage: CachedNetworkImageProvider(
-                          "https://i.imgur.com/kldXnVq.jpeg",
+                        child: SvgPicture.asset(
+                          SvgsPaths.loginSvgPath,
+                          semanticsLabel: 'Login logo',
                         ),
+                        // backgroundImage: CachedNetworkImageProvider(
+                        //   "https://i.imgur.com/kldXnVq.jpeg",
+                        // ),
+                        // NetworkImage(
+                        //   "https://i.imgur.com/kldXnVq.jpeg",
+                        // ),
+                        // child:
+                        // BuildImageWithErrorHandler(
+                        //   imageType: ImageType.network,
+                        //   path: "",
+                        // ),
                       ),
                       TranslatedTextWidget(
                         arabicText: "تسجيل مستخدم جديد",

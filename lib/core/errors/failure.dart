@@ -25,9 +25,14 @@ class UnexpectedError extends Failure {
   const UnexpectedError(super.message);
 }
 
-class UserRegisterError extends Failure {
+class UserRegisterFailure extends Failure {
   final String message;
-  const UserRegisterError({required this.message}) : super(message);
+  const UserRegisterFailure({required this.message}) : super(message);
+}
+
+class UserNotFoundFailure extends Failure {
+  final String message;
+  const UserNotFoundFailure({required this.message}) : super(message);
 }
 
 class UserSignInFailure extends Failure {

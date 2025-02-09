@@ -35,6 +35,8 @@ dependencies:
   flutter_native_splash:
   email_validator:
   flutter_svg:
+  intl: 
+  photo_view: 
   # adaptive_theme: 
   # persistent_bottom_nav_bar: any
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rollshop/components/widgets/translated_text_widget.dart';
 import 'package:rollshop/core/theme/styles.dart';
@@ -50,6 +51,11 @@ class CustomTextFormField extends StatelessWidget {
       maxLines: isPassword ? 1 : maxLines,
       readOnly: isReadOnly ?? false,
       obscureText: isPassword,
+      inputFormatters: keyboardType == TextInputType.numberWithOptions()
+          ? [
+              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+            ]
+          : null,
       validator: validator ??
           (isRequired!
               ? (value) {

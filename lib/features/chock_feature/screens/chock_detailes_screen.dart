@@ -6,6 +6,7 @@ import 'package:rollshop/components/widgets/text_with_color_decoration.dart';
 import 'package:rollshop/components/widgets/translated_text_widget.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
 import 'package:rollshop/core/helpers/images_path.dart';
+import 'package:rollshop/core/router/routers.dart';
 import 'package:rollshop/core/theme/colors.dart';
 import 'package:rollshop/core/theme/styles.dart';
 import 'package:rollshop/features/chock_feature/cubit/chock_cubit.dart';
@@ -39,39 +40,39 @@ class ChockDetailesScreen extends StatelessWidget {
     return BlocBuilder<ChockCubit, ChockState>(
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(Icons.adaptive.arrow_back,
-                  color: ColorsManager.whiteColor
-                  //  context.read<AppCubit>().currentThemeMode == ThemeMode.dark
-                  //     ? ColorsManager.whiteColor
-                  //     : ColorsManager.deepGrey,
-                  ),
-              onPressed: () {
-                context.pop();
-              },
-              style: ButtonStyle(
-                backgroundColor: WidgetStatePropertyAll(
-                  context.read<AppCubit>().currentThemeMode == ThemeMode.dark
-                      ? ColorsManager.lightBlue
-                      : ColorsManager.orangeColor,
-                  // ColorsManager.redAccent
-                ),
-                padding: WidgetStatePropertyAll(EdgeInsets.all(10.r)),
+          // appBar: AppBar(
+          //   leading: IconButton(
+          //     icon: Icon(Icons.adaptive.arrow_back,
+          //         color: ColorsManager.whiteColor
+          //         //  context.read<AppCubit>().currentThemeMode == ThemeMode.dark
+          //         //     ? ColorsManager.whiteColor
+          //         //     : ColorsManager.deepGrey,
+          //         ),
+          //     onPressed: () {
+          //       context.pop();
+          //     },
+          //     style: ButtonStyle(
+          //       backgroundColor: WidgetStatePropertyAll(
+          //         context.read<AppCubit>().currentThemeMode == ThemeMode.dark
+          //             ? ColorsManager.lightBlue
+          //             : ColorsManager.orangeColor,
+          //         // ColorsManager.redAccent
+          //       ),
+          //       padding: WidgetStatePropertyAll(EdgeInsets.all(10.r)),
 
-                // shape: WidgetStatePropertyAll(BeveledRectangleBorder(
-                //     borderRadius: BorderRadius.circular(10.r)))
-              ),
-            ),
-            // actions: [
-            //   Padding(
-            //     padding: EdgeInsets.all(20.r),
-            //     child: Icon(
-            //       Icons.arrow_back_rounded,
-            //     ),
-            //   ),
-            // ],
-          ),
+          //       // shape: WidgetStatePropertyAll(BeveledRectangleBorder(
+          //       //     borderRadius: BorderRadius.circular(10.r)))
+          //     ),
+          //   ),
+          //   // actions: [
+          //   //   Padding(
+          //   //     padding: EdgeInsets.all(20.r),
+          //   //     child: Icon(
+          //   //       Icons.arrow_back_rounded,
+          //   //     ),
+          //   //   ),
+          //   // ],
+          // ),
           body: SafeArea(
             child: Padding(
               padding: EdgeInsetsDirectional.only(
@@ -243,95 +244,100 @@ class ChockDetailesScreen extends StatelessWidget {
                               },
                               itemBuilder: (context, index) {
                                 // debugPrint();
-                                return Column(
-                                  // spacing: 10,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 40.h,
-                                    ),
-                                    Row(
-                                      spacing: 10.w,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                          child: Column(
-                                            // mainAxisAlignment:
-                                            //     MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                // "شرح خطوة ${index + 1}",
-                                                translatedText(
-                                                  context: context,
-                                                  arabicText:
-                                                      "شرح خطوة ${index + 1}",
-                                                  englishText:
-                                                      "Step ${index + 1} description",
+                                return GestureDetector(
+                                  onTap: () {
+                                    context.pushNamed(
+                                      Routes.viewAssemblyStepScreen,
+                                      arguments: chock.assemblySteps[index],
+                                    );
+                                  },
+                                  child: Column(
+                                    // spacing: 10,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: 40.h,
+                                      ),
+                                      Row(
+                                        spacing: 10.w,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  translatedText(
+                                                    context: context,
+                                                    arabicText:
+                                                        "شرح خطوة ${index + 1}",
+                                                    englishText:
+                                                        "Step ${index + 1} description",
+                                                  ),
+                                                  style: MyTextStyles
+                                                      .font14OrangeOrRedBold(
+                                                          Theme.of(context)),
                                                 ),
-                                                style: MyTextStyles
-                                                    .font14OrangeOrRedBold(
-                                                        Theme.of(context)),
-                                              ),
-                                              Text(
-                                                chock.assemblySteps[index]
-                                                    .description,
-                                                maxLines: 12,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                              // Text(
-                                              //   "الشرح:  ${chock.assemblySteps[index].description}",
-                                              //   maxLines: 4,
-                                              //   overflow: TextOverflow.ellipsis,
-                                              // ),
-                                            ],
+                                                Text(
+                                                  chock.assemblySteps[index]
+                                                      .description,
+                                                  maxLines: 12,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: SizedBox(
-                                            // width: context.width * 0.1,
-                                            // height: context.height * 0.15,
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.r),
-                                              child: CachedNetworkImage(
-                                                imageUrl: chock
-                                                    .assemblySteps[index]
-                                                    .imagePath,
-                                                fit: BoxFit.cover,
-                                                errorWidget:
-                                                    (context, url, error) {
-                                                  return BuildImageWithErrorHandler(
-                                                    imageType: ImageType.asset,
-                                                    path: ImagesPath
-                                                        .errorImagePath,
-                                                  );
-                                                },
+                                          Expanded(
+                                            child: SizedBox(
+                                              // width: context.width * 0.1,
+                                              // height: context.height * 0.15,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.r),
+                                                child: CachedNetworkImage(
+                                                  imageUrl: chock
+                                                      .assemblySteps[index]
+                                                      .imagePath,
+                                                  fit: BoxFit.cover,
+                                                  errorWidget:
+                                                      (context, url, error) {
+                                                    return BuildImageWithErrorHandler(
+                                                      imageType:
+                                                          ImageType.asset,
+                                                      path: ImagesPath
+                                                          .errorImagePath,
+                                                    );
+                                                  },
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    Text(
-                                      // "ملاحظات علي خطوة ${index + 1}",
-                                      translatedText(
-                                        context: context,
-                                        arabicText:
-                                            "ملاحظات علي خطوة ${index + 1}",
-                                        englishText: "Step ${index + 1} notes",
+                                        ],
                                       ),
-                                      style: MyTextStyles.font14OrangeOrRedBold(
-                                          Theme.of(context)),
-                                    ),
-                                    Text(
-                                      chock.assemblySteps[index].notes,
-                                      maxLines: 4,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ],
+                                      Text(
+                                        // "ملاحظات علي خطوة ${index + 1}",
+                                        translatedText(
+                                          context: context,
+                                          arabicText:
+                                              "ملاحظات علي خطوة ${index + 1}",
+                                          englishText:
+                                              "Step ${index + 1} notes",
+                                        ),
+                                        style:
+                                            MyTextStyles.font14OrangeOrRedBold(
+                                                Theme.of(context)),
+                                      ),
+                                      Text(
+                                        chock.assemblySteps[index].notes,
+                                        maxLines: 4,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  ),
                                 );
                               },
                             ),

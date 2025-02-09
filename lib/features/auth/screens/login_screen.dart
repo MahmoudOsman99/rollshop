@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,7 +16,6 @@ import 'package:rollshop/features/auth/components/custom_email_text_form_field.d
 import 'package:rollshop/features/auth/components/custom_password_text_form_field%20copy.dart';
 import 'package:rollshop/features/auth/cubit/auth_cubit.dart';
 import 'package:rollshop/features/auth/cubit/auth_state.dart';
-import 'package:rollshop/features/auth/model/user_model.dart';
 import 'package:rollshop/features/main/cubit/app_cubit.dart';
 
 class SigninScreen extends StatelessWidget {
@@ -29,7 +29,19 @@ class SigninScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state is AuthLoginSuccessState) {
+        if (state is UserNotApprovedToSigninState) {
+          showCustomSnackBar(
+            context: context,
+            message: translatedText(
+              context: context,
+              arabicText:
+                  "ليس لديك صلاحية تسجيل الدخول. انتظر حتي يتم الموافقة ",
+              englishText:
+                  "Your not authorized to sign in, please wait to be approved",
+            ),
+            color: ColorsManager.orangeColor,
+          );
+        } else if (state is AuthLoginSuccessState) {
           // final user = context.read<AuthCubit>().get
           // context.pushReplacementNamed(Routes.allChocksScreen);
           showCustomSnackBar(
@@ -64,16 +76,17 @@ class SigninScreen extends StatelessWidget {
               color: ColorsManager.redColor,
             );
             return;
-          }
-          showCustomSnackBar(
-            context: context,
-            message: translatedText(
+          } else if (state.failure is UserEmailOrPasswordFailure) {
+            showCustomSnackBar(
               context: context,
-              arabicText: "البريد الالكتروني او كلمة المرور غير صحيحة",
-              englishText: "Email or password is incorrect",
-            ),
-            color: ColorsManager.redColor,
-          );
+              message: translatedText(
+                context: context,
+                arabicText: "البريد الالكتروني او كلمة المرور غير صحيحة",
+                englishText: "Email or password is incorrect",
+              ),
+              color: ColorsManager.redColor,
+            );
+          }
         }
       },
       builder: (context, state) {
@@ -151,15 +164,66 @@ class SigninScreen extends StatelessWidget {
                                   arabicText: "دخول",
                                   englishText: "Sign in",
                                 ),
-                                onPressed: () {
+                                onPressed: () async {
+                                  if (kDebugMode) {
+                                    emailController.text =
+                                        "mahmoudosm1999@gmail.com";
+                                    passwordController.text = "249042";
+                                    // final isUserApprove = await context
+                                    //     .read<AuthCubit>()
+                                    //     .isUserApprovedToSignin(
+                                    //         email: emailController.text);
+                                    // if (isUserApprove) {
+                                    //   showCustomSnackBar(
+                                    //     context: context,
+                                    //     message: translatedText(
+                                    //       context: context,
+                                    //       arabicText:
+                                    //           "تم التحقق من صلاحية الدخول",
+                                    //       englishText: "Your approved",
+                                    //     ),
+                                    //     color: ColorsManager.greenAccent,
+                                    //   );
+                                    // } else {
+                                    //   showCustomSnackBar(
+                                    //     context: context,
+                                    //     message: translatedText(
+                                    //       context: context,
+                                    //       arabicText:
+                                    //           "ليس لديك صلاحية تسجيل الدخول. انتظر حتي يتم الموافقة ",
+                                    //       englishText:
+                                    //           "Your not authorized to sign in, please wait to be approved",
+                                    //     ),
+                                    //     color: ColorsManager.orangeColor,
+                                    //   );
+                                    //   return;
+                                    // }
+                                  }
                                   if (!formKey.currentState!.validate()) {
                                   } else {
                                     context
                                         .read<AuthCubit>()
-                                        .signInWithEmailAndPassword(
+                                        .isUserApprovedToSignin(
                                           email: emailController.text,
                                           password: passwordController.text,
                                         );
+                                    // final bool isExist = await context
+                                    //     .read<AuthCubit>()
+                                    //     .ifExists(emailController.text);
+                                    // debugPrint(isExist.toString());
+                                    // context
+                                    //     .read<AuthCubit>()
+                                    //     .isUserApprovedToSignin(
+                                    //       email: emailController.text,
+                                    //       password: passwordController.text,
+                                    //     );
+
+                                    // context
+                                    //     .read<AuthCubit>()
+                                    //     .signInWithEmailAndPassword(
+                                    //       email: emailController.text,
+                                    //       password: passwordController.text,
+                                    //     );
                                   }
                                 },
                                 color:

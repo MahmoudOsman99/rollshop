@@ -32,7 +32,9 @@ class WaitingUsersScreen extends StatelessWidget {
         builder: (context, state) {
           return ConditionalBuilder(
             condition: context.read<UserCubit>().waitingUsers.isNotEmpty,
-            fallback: (context) => CircularProgressIndicator.adaptive(),
+            fallback: (context) => Center(
+              child: CircularProgressIndicator.adaptive(),
+            ),
             builder: (context) => Scaffold(
               body: SafeArea(
                 child: Center(

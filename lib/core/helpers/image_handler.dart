@@ -68,7 +68,7 @@ class ImageHandler {
   // Client secret: fc30989e5c110b2bdff6ad8d0a2308fea86f49a3
   Future<String?> uploadImageToImgur(File imageFile) async {
     final url = Uri.parse('https://api.imgur.com/3/image');
-    final image = await _compressAndResizeImage(imageFile, 500, 700, 80);
+    final image = await _compressAndResizeImage(imageFile, 1920, 1080, 80);
     final bytes = await image?.readAsBytes();
 
     final response = await http.post(

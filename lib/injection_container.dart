@@ -1,8 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:rollshop/features/auth/cubit/auth_cubit.dart';
-import 'package:rollshop/features/auth/model/data/remote/user_remote.dart';
-import 'package:rollshop/features/auth/model/repository/user_repository.dart';
-import 'package:rollshop/features/auth/model/repository/user_repository_impl.dart';
+import 'package:rollshop/features/auth/data/data_source/remote/auth_remote.dart';
+import 'package:rollshop/features/auth/data/repository/auth_repository.dart';
+import 'package:rollshop/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:rollshop/features/chock_feature/models/data/remote/remote_data_source.dart';
 import 'package:rollshop/features/chock_feature/models/repository/chock_repository.dart';
 import 'package:rollshop/features/chock_feature/models/repository/chock_repository_imp.dart';
@@ -12,6 +12,10 @@ import 'package:rollshop/features/parts_with_material_number/model/data/remote/p
 import 'package:rollshop/features/parts_with_material_number/model/data/repository/parts_repo_implment.dart';
 import 'package:rollshop/features/parts_with_material_number/model/data/repository/parts_repository.dart';
 import 'package:rollshop/features/parts_with_material_number/cubit/parts_cubit.dart';
+import 'package:rollshop/features/users/cubit/user_cubit.dart';
+import 'package:rollshop/features/users/data/remote/user_remote_data_source.dart';
+import 'package:rollshop/features/users/data/repository/user_repository.dart';
+import 'package:rollshop/features/users/data/repository/user_repository_impl.dart';
 
 final sl = GetIt.instance;
 
@@ -22,12 +26,27 @@ Future<void> init() async {
 
   //! Auth Cubit
   // Remote
+  sl.registerLazySingleton<AuthRepository>(
+    () => AuthRepositoryImpl(authRemote: sl()),
+  );
+  sl.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSource());
+  // Cubit
+  sl.registerLazySingleton<AuthCubit>(() => AuthCubit(authRepo: sl()));
+
+  //! Users
+  // User Repository
   sl.registerLazySingleton<UserRepository>(
     () => UserRepositoryImpl(userRemote: sl()),
   );
-  sl.registerLazySingleton<UserRemoteDataSource>(() => UserRemoteDataSource());
-  // Cubit
-  sl.registerLazySingleton<AuthCubit>(() => AuthCubit(userRepo: sl()));
+  // User Remote Data Source
+
+  sl.registerLazySingleton<UserRemoteDataSource>(
+    () => UserRemoteDataSource(),
+  );
+  // User Cubit
+  sl.registerLazySingleton<UserCubit>(
+    () => UserCubit(repo: sl()),
+  );
 
   //! Features - chock-types
   // Remote

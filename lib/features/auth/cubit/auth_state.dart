@@ -6,7 +6,6 @@ abstract class AuthState extends Equatable {}
 
 class LoginInitialState extends AuthState {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
@@ -23,6 +22,11 @@ class AuthLoginLoadingState extends AuthState {
 class AuthLoginSuccessState extends AuthState {
   final UserCredential user;
   AuthLoginSuccessState({required this.user});
+  @override
+  List<Object?> get props => [];
+}
+
+class AuthSignedOutState extends AuthState {
   @override
   List<Object?> get props => [];
 }
@@ -53,11 +57,45 @@ class LoginShowPasswordState extends AuthState {
   List<Object?> get props => [showPassword];
 }
 
-class AuthUserImageChangedSuccessState extends AuthState {
-  final String imagePath;
-  AuthUserImageChangedSuccessState({required this.imagePath});
+// class AuthUserImageChangedSuccessState extends AuthState {
+//   final String imagePath;
+//   AuthUserImageChangedSuccessState({required this.imagePath});
+//   @override
+//   List<Object?> get props => [imagePath];
+// }
+
+class AuthIsSavingState extends AuthState {
+  final bool isSaving;
+  AuthIsSavingState({required this.isSaving});
   @override
-  List<Object?> get props => [imagePath];
+  List<Object?> get props => [isSaving];
+}
+
+class WaitingUserNotFoundedState extends AuthState {
+  // final String imagePath;
+  // WaitingUserNotFoundedState({
+  //   // required this.imagePath,
+  // });
+  @override
+  List<Object?> get props => [];
+}
+
+class WaitingUserErrorState extends AuthState {
+  final String error;
+  WaitingUserErrorState({
+    required this.error,
+  });
+  @override
+  List<Object?> get props => [error];
+}
+
+class WaitingUserFoundedState extends AuthState {
+  // final String imagePath;
+  // WaitingUserNotFoundedState({
+  //   // required this.imagePath,
+  // });
+  @override
+  List<Object?> get props => [];
 }
 
 class AuthUserImageChangedFailedState extends AuthState {
@@ -65,4 +103,9 @@ class AuthUserImageChangedFailedState extends AuthState {
   AuthUserImageChangedFailedState({required this.error});
   @override
   List<Object?> get props => [error];
+}
+
+class UserNotApprovedToSigninState extends AuthState {
+  @override
+  List<Object?> get props => [];
 }

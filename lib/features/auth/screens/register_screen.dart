@@ -16,7 +16,7 @@ import 'package:rollshop/features/auth/components/custom_email_text_form_field.d
 import 'package:rollshop/features/auth/components/custom_password_text_form_field%20copy.dart';
 import 'package:rollshop/features/auth/cubit/auth_cubit.dart';
 import 'package:rollshop/features/auth/cubit/auth_state.dart';
-import 'package:rollshop/features/auth/model/user_model.dart';
+import 'package:rollshop/features/users/data/models/user_model.dart';
 import 'package:rollshop/features/main/cubit/app_cubit.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -28,6 +28,7 @@ class RegisterScreen extends StatelessWidget {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   final phoneController = TextEditingController();
+  // bool isSaving = false;
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +39,25 @@ class RegisterScreen extends StatelessWidget {
             context: context,
             message: translatedText(
               context: context,
-              arabicText: "تم تسجيل المستخدم بنجاح",
-              englishText: "User successfully registered",
+              arabicText:
+                  "تم تسجيل المستخدم بنجاح، برجاء الانتظار حتي يتم السماح لك بالدخول",
+              englishText:
+                  "User successfully registered, please wait until allow you to be approved",
             ),
             color: ColorsManager.mainTeal,
           );
-          context.pushReplacementNamed(Routes.mainScreenScreen);
+          context.pushReplacementNamed(Routes.loginScreen);
+          // showCustomSnackBar(
+          //   context: context,
+          //   message: translatedText(
+          //     context: context,
+          //     arabicText: "تم تسجيل المستخدم بنجاح",
+          //     englishText: "User successfully registered",
+          //   ),
+          //   color: ColorsManager.mainTeal,
+          // );
+
+          // context.pushReplacementNamed(Routes.mainScreenScreen);
         } else if (state is UserRegisterFailedState) {
           if (state.failure is PhoneNumberExistsFailure) {
             showCustomSnackBar(
@@ -248,6 +262,7 @@ class RegisterScreen extends StatelessWidget {
                           }
                         },
                       ),
+                      // context.read<AuthCubit>().isSaving
                       state is UserRegisteringState
                           ? CircularProgressIndicator.adaptive()
                           : CustomButton(
@@ -288,6 +303,10 @@ class RegisterScreen extends StatelessWidget {
                                     return;
                                   }
                                 }
+
+                                // context
+                                //     .read<AuthCubit>()
+                                //     .isSavingProccess(true);
                                 context
                                     .read<AuthCubit>()
                                     .registerByEmailAndPassword(
@@ -297,6 +316,22 @@ class RegisterScreen extends StatelessWidget {
                                       phoneNumber: phoneController.text,
                                       userType: UserType.technician.name,
                                     );
+                                // context
+                                //     .read<AuthCubit>()
+                                //     .isSavingProccess(false);
+
+                                // context
+                                //     .read<UserCubit>()
+                                //     .addWaitingUserToApprove(
+                                //       user: WaitingUsersToApproveModel(
+                                //         isApproved: false,
+                                //         name: nameController.text,
+                                //         email: emailController.text,
+                                //         userType: UserType.technician.name,
+                                //         phoneNumber: phoneController.text,
+                                //         createdAt: DateTime.now().toString(),
+                                //       ),
+                                //     );
                               },
                               color:
                                   context.read<AppCubit>().currentThemeMode ==

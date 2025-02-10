@@ -3,14 +3,18 @@ class Routes {
   static const String mainScreenScreen = '/';
   // static const String mainScreenScreen = '/mainScreen';
   static const String onBoardingScreen = '/onBoardingScreen';
-//! Profile Routes
+
+  //! Profile Routes
   static const String settingsRoute = '/settingsScreen';
   static const String profileScreenRoute = '/profileScreen';
+  static const String waitingUsersToApproveRoute =
+      '/waitingUsersToApproveScreen';
 
-  // Chocks routes
+  //! Chocks routes
   static const String allChocksScreen = '/allChocksScreen';
   static const String addChockScreen = '/addChockScreen';
   static const String chockDetailesScreen = '/chockDetailesScreen';
+  static const String viewAssemblyStepScreen = '/viewAssemblyStep';
 
   //! Auth Routes
   static const String loginScreen = '/loginScreen';

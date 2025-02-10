@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:rollshop/components/widgets/build_image_with_error_handler.dart';
 import 'package:rollshop/components/widgets/custom_button.dart';
 import 'package:rollshop/components/widgets/custom_drop_down_menu.dart';
 import 'package:rollshop/components/widgets/translated_text_widget.dart';
@@ -10,7 +9,8 @@ import 'package:rollshop/core/helpers/extensions.dart';
 import 'package:rollshop/core/router/routers.dart';
 import 'package:rollshop/core/theme/colors.dart';
 import 'package:rollshop/core/theme/styles.dart';
-import 'package:rollshop/features/auth/model/user_model.dart';
+import 'package:rollshop/features/auth/cubit/auth_cubit.dart';
+import 'package:rollshop/features/users/data/models/user_model.dart';
 import 'package:rollshop/features/main/cubit/app_cubit.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -45,6 +45,55 @@ class SettingsScreen extends StatelessWidget {
                 //     ),
                 //   ),
                 // ),
+                context.read<AuthCubit>().currentUser != null &&
+                        context.read<AuthCubit>().currentUser!.userType ==
+                            UserType.admin.name
+                    ? CustomButton(
+                        buttonName: "Wating Users To Approve",
+                        onPressed: () {
+                          if (context.read<AuthCubit>().currentUser!.userType ==
+                              UserType.admin.name) {
+                            context.pushNamed(
+                              Routes.waitingUsersToApproveRoute,
+                              // arguments: [
+                              //   WaitingUsersToApprove(
+                              //     isApproved: true,
+                              //     name: "Ahmed",
+                              //     email: "bambo@gmail.com",
+                              //     userType: UserType.foreman.name,
+                              //     createdAt: DateTime.now(),
+                              //     phoneNumber: "01000249042",
+                              //   ),
+                              //   WaitingUsersToApprove(
+                              //     isApproved: false,
+                              //     name: "Osman",
+                              //     email: "hendy@gmail.com",
+                              //     userType: UserType.foreman.name,
+                              //     createdAt: DateTime.now(),
+                              //     phoneNumber: "01000249042",
+                              //   ),
+                              //   WaitingUsersToApprove(
+                              //     isApproved: true,
+                              //     name: "Osman",
+                              //     createdAt: DateTime.now(),
+                              //     email: "osman@gmail.com",
+                              //     userType: UserType.technician.name,
+                              //     phoneNumber: "01000249042",
+                              //   ),
+                              //   WaitingUsersToApprove(
+                              //     isApproved: false,
+                              //     createdAt: DateTime.now(),
+                              //     name: "Hendy",
+                              //     email: "osman@gmail.com",
+                              //     userType: UserType.technician.name,
+                              //     phoneNumber: "01000249042",
+                              //   ),
+                              // ],
+                            );
+                          }
+                        },
+                        color: ColorsManager.redAccent)
+                    : SizedBox(),
                 GestureDetector(
                   onTap: () {
                     context.pushNamed(
@@ -55,6 +104,7 @@ class SettingsScreen extends StatelessWidget {
                             email: "Test email",
                             userType: UserType.user.name,
                             phoneNumber: "01000249042",
+                            isApproved: false,
                           ),
                     );
                   },
@@ -186,13 +236,23 @@ class SettingsScreen extends StatelessWidget {
                 SizedBox(
                   width: context.width / 3,
                   child: CustomButton(
-                    buttonName: translatedText(
-                      context: context,
-                      arabicText: "دخول",
-                      englishText: "Sign in",
-                    ),
+                    buttonName: context.read<AuthCubit>().currentUser == null
+                        ? translatedText(
+                            context: context,
+                            arabicText: "دخول",
+                            englishText: "Sign in",
+                          )
+                        : translatedText(
+                            context: context,
+                            arabicText: "تسجيل خروج",
+                            englishText: "Sign out",
+                          ),
                     onPressed: () {
-                      context.pushNamed(Routes.loginScreen);
+                      if (context.read<AuthCubit>().currentUser != null) {
+                        context.read<AuthCubit>().signoutUser();
+                        context.pushReplacementNamed(Routes.loginScreen);
+                      }
+                      // : null;
                     },
                     color: context.read<AppCubit>().currentThemeMode ==
                             ThemeMode.dark

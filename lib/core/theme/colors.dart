@@ -10,6 +10,7 @@ class ColorsManager {
 
   static const Color blackBackGround = Color(0xff000000);
   static const Color redAccent = Color(0xffff0266);
+  static const Color greenAccent = Colors.green;
   static const Color mainBlue = Color(0xff247CFF);
   static const Color lightBlue = Color(0xff2573A1);
   static const Color orangeColor = Color(0xffED7C4C);

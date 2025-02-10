@@ -10,6 +10,7 @@ import 'package:rollshop/features/chock_feature/cubit/chock_cubit.dart';
 import 'package:rollshop/features/main/cubit/app_cubit.dart';
 import 'package:rollshop/features/main/cubit/app_state.dart';
 import 'package:rollshop/features/parts_with_material_number/cubit/parts_cubit.dart';
+import 'package:rollshop/features/users/cubit/user_cubit.dart';
 
 class RollshopApp extends StatelessWidget {
   final AppRouter appRouter;
@@ -26,6 +27,10 @@ class RollshopApp extends StatelessWidget {
         ),
         BlocProvider<AuthCubit>(
           create: (context) => sl<AuthCubit>(),
+          // create: (context) => sl<AppCubit>(),
+        ),
+        BlocProvider<UserCubit>(
+          create: (context) => sl<UserCubit>(),
           // create: (context) => sl<AppCubit>(),
         ),
         BlocProvider<ChockCubit>(

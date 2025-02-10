@@ -37,7 +37,7 @@ class UserModel extends Equatable {
       [id, name, email, userType, phoneNumber, imagePath];
 
   factory UserModel.fromJson(Map<String, dynamic> json,
-      {required idFromFirebase}) {
+      {String? idFromFirebase}) {
     // final Timestamp timestamp = json["createdAt"];
     debugPrint(json["createdAt"].toString());
     return UserModel(
@@ -64,11 +64,13 @@ class UserModel extends Equatable {
       'name': name,
       'email': email.toLowerCase(),
       'phoneNumber': phoneNumber,
+      'userType': userType,
+      'imagePath': imagePath,
+      "createdAt": createdAt,
       "isPhoneVerified": isPhoneVerified ?? false,
       "isEmailVerified": isEmailVerified ?? false,
       "isBanned": isBanned ?? false,
-      'userType': userType,
-      'imagePath': imagePath,
+      "isApproved": isApproved,
     };
   }
 }

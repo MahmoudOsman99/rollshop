@@ -29,19 +29,20 @@ class SigninScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state is UserNotApprovedToSigninState) {
-          showCustomSnackBar(
-            context: context,
-            message: translatedText(
-              context: context,
-              arabicText:
-                  "ليس لديك صلاحية تسجيل الدخول. انتظر حتي يتم الموافقة ",
-              englishText:
-                  "Your not authorized to sign in, please wait to be approved",
-            ),
-            color: ColorsManager.orangeColor,
-          );
-        } else if (state is AuthLoginSuccessState) {
+        // if (state is UserNotApprovedToSigninState) {
+        //   showCustomSnackBar(
+        //     context: context,
+        //     message: translatedText(
+        //       context: context,
+        //       arabicText:
+        //           "ليس لديك صلاحية تسجيل الدخول. انتظر حتي يتم الموافقة ",
+        //       englishText:
+        //           "Your not authorized to sign in, please wait to be approved",
+        //     ),
+        //     color: ColorsManager.orangeColor,
+        //   );
+        // } else
+        if (state is AuthLoginSuccessState) {
           // final user = context.read<AuthCubit>().get
           // context.pushReplacementNamed(Routes.allChocksScreen);
           showCustomSnackBar(
@@ -166,9 +167,9 @@ class SigninScreen extends StatelessWidget {
                                 ),
                                 onPressed: () async {
                                   if (kDebugMode) {
-                                    emailController.text =
-                                        "mahmoudosm1999@gmail.com";
-                                    passwordController.text = "249042";
+                                    // emailController.text =
+                                    //     "mahmoudosm1999@gmail.com";
+                                    // passwordController.text = "249042";
                                     // final isUserApprove = await context
                                     //     .read<AuthCubit>()
                                     //     .isUserApprovedToSignin(
@@ -207,23 +208,19 @@ class SigninScreen extends StatelessWidget {
                                           email: emailController.text,
                                           password: passwordController.text,
                                         );
-                                    // final bool isExist = await context
-                                    //     .read<AuthCubit>()
-                                    //     .ifExists(emailController.text);
-                                    // debugPrint(isExist.toString());
-                                    // context
-                                    //     .read<AuthCubit>()
-                                    //     .isUserApprovedToSignin(
-                                    //       email: emailController.text,
-                                    //       password: passwordController.text,
-                                    //     );
-
-                                    // context
-                                    //     .read<AuthCubit>()
-                                    //     .signInWithEmailAndPassword(
-                                    //       email: emailController.text,
-                                    //       password: passwordController.text,
-                                    //     );
+                                    if (state is UserNotApprovedToSigninState) {
+                                      showCustomSnackBar(
+                                        context: context,
+                                        message: translatedText(
+                                          context: context,
+                                          arabicText:
+                                              "ليس لديك صلاحية تسجيل الدخول. انتظر حتي يتم الموافقة ",
+                                          englishText:
+                                              "Your not authorized to sign in, please wait to be approved",
+                                        ),
+                                        color: ColorsManager.orangeColor,
+                                      );
+                                    }
                                   }
                                 },
                                 color:

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:rollshop/features/chock_feature/models/assembly_steps_model.dart';
 import 'package:rollshop/features/chock_feature/screens/view_assembly_step_screen.dart';
+import 'package:rollshop/features/main/screen/onboarding_screen.dart';
 import 'package:rollshop/features/users/data/models/user_model.dart';
 import 'package:rollshop/features/auth/screens/login_screen.dart';
 import 'package:rollshop/features/auth/screens/register_screen.dart';
@@ -10,7 +11,7 @@ import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
 import 'package:rollshop/features/chock_feature/screens/add_chock_screen.dart';
 import 'package:rollshop/features/chock_feature/screens/all_chocks_screen.dart';
 import 'package:rollshop/features/main/screen/main_screen.dart';
-import 'package:rollshop/features/main/screen/profile_screen.dart';
+import 'package:rollshop/features/users/screens/profile_screen.dart';
 import 'package:rollshop/features/main/screen/settings_screen.dart';
 import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
 import 'package:rollshop/features/parts_with_material_number/screens/add_parts_with_material_number_screen.dart';
@@ -33,12 +34,19 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => SettingsScreen(),
         );
+
+      case Routes.onBoardingScreen:
+        return MaterialPageRoute(
+          builder: (context) => OnboardingScreen(),
+        );
+
+      //! User route
       case Routes.waitingUsersToApproveRoute:
         return MaterialPageRoute(
           builder: (context) => WaitingUsersScreen(
             waitingUsers: settings.arguments != null
                 ? settings.arguments as List<UserModel>
-                : [],
+                : <UserModel>[],
           ),
         );
       case Routes.profileScreenRoute:

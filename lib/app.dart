@@ -15,7 +15,12 @@ import 'package:rollshop/features/users/cubit/user_cubit.dart';
 class RollshopApp extends StatelessWidget {
   final AppRouter appRouter;
 
-  const RollshopApp({super.key, required this.appRouter});
+  const RollshopApp({
+    super.key,
+    required this.appRouter,
+    required this.isShowOnboarding,
+  });
+  final bool isShowOnboarding;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +58,9 @@ class RollshopApp extends StatelessWidget {
             child: MaterialApp(
               onGenerateRoute: appRouter.generateRoute,
               // initialRoute: Routes.mainScreenScreen,
-              initialRoute: Routes.loginScreen,
+              initialRoute: isShowOnboarding
+                  ? Routes.loginScreen
+                  : Routes.onBoardingScreen,
               // routes: ,
               debugShowCheckedModeBanner: false,
               // home: AllChocksScreen(),

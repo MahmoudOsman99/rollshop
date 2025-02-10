@@ -102,7 +102,7 @@ class BuildWatingUser extends StatelessWidget {
         UserInfo(
           lable: Text("Created At:"),
           text: Text(
-            DateFormat('dd-MMM-yyyy HH:mm a').format(user.createdAt!.toDate()),
+            DateFormat('yyyy-M-dd / HH:mm a ').format(user.createdAt!.toDate()),
           ),
         ),
         DecoratedBox(

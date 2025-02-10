@@ -98,14 +98,12 @@ class WaitingUserFoundedState extends AuthState {
   List<Object?> get props => [];
 }
 
-class AuthUserImageChangedFailedState extends AuthState {
-  final String error;
-  AuthUserImageChangedFailedState({required this.error});
+class UserNotApprovedToSigninState extends AuthState {
   @override
-  List<Object?> get props => [error];
+  List<Object?> get props => [];
 }
 
-class UserNotApprovedToSigninState extends AuthState {
+class UserRefreshSuccessState extends AuthState {
   @override
   List<Object?> get props => [];
 }

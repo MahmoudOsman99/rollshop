@@ -18,6 +18,7 @@ class CustomEmailFormField extends StatelessWidget {
     return CustomTextFormField(
       textFieldController: emailController,
       inputAction: TextInputAction.next,
+      keyboardType: TextInputType.emailAddress,
       sufixIcon: Icon(
         Icons.email,
       ),

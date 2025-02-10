@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -272,6 +273,13 @@ class RegisterScreen extends StatelessWidget {
                                 englishText: "Register",
                               ),
                               onPressed: () {
+                                if (kDebugMode) {
+                                  // nameController.text =  'osman';
+                                  // emailController.text = 'osman@gmail.com';
+                                  // phoneController.text = '01000249042';
+                                  // passwordController.text = '000000';
+                                  // confirmPasswordController.text = '000000';
+                                }
                                 if (!formKey.currentState!.validate()) {
                                   return;
                                 } else {

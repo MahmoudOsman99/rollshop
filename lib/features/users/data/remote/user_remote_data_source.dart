@@ -8,6 +8,38 @@ import 'package:rollshop/features/users/data/models/user_model.dart';
 class UserRemoteDataSource {
   final db = FirebaseFirestore.instance;
 
+  Future<Either<Failure, List<UserModel>>> getWaitingUsersToApprove() async {
+    try {
+      final List<UserModel> waitingUsersList = [];
+      final wUsers = await db.collection(CollectionsPaths.usersPath).get();
+      // .where("isApproved", isEqualTo: false)
+      if (wUsers.docs.isNotEmpty) {
+        for (var u in wUsers.docs) {
+          waitingUsersList.add(UserModel.fromJson(
+            u.data(),
+            idFromFirebase: u.id,
+          ));
+        }
+      }
+      return Right(waitingUsersList);
+    } on FirebaseException catch (e) {
+      debugPrint(e.message);
+      return Left(NoWaitingUsersFailure(e.message ?? "No waiting users found"));
+    }
+  }
+
+  Future<Either<Failure, void>> setUser({required UserModel user}) async {
+    try {
+      final userUpdate = await db
+          .collection(CollectionsPaths.usersPath)
+          .doc(user.id)
+          .update(user.toJson());
+      return Right(userUpdate);
+    } on FirebaseException catch (e) {
+      debugPrint(e.code);
+      return Left(UnexpectedError("Error while updating user information"));
+    }
+  }
   // Future<Either<Failure, Unit>> addWaitingUser(
   //     {required WaitingUsersToApproveModel user}) async {
   //   final u = user.toJson();
@@ -42,24 +74,4 @@ class UserRemoteDataSource {
   //     //     e.message ?? "Error while get is user approved to sign in"));
   //   }
   // }
-
-  Future<Either<Failure, List<UserModel>>> getWaitingUsersToApprove() async {
-    try {
-      final List<UserModel> waitingUsersList = [];
-      final wUsers = await db.collection(CollectionsPaths.usersPath).get();
-      // .where("isApproved", isEqualTo: false)
-      if (wUsers.docs.isNotEmpty) {
-        for (var u in wUsers.docs) {
-          waitingUsersList.add(UserModel.fromJson(
-            u.data(),
-            idFromFirebase: u.id,
-          ));
-        }
-      }
-      return Right(waitingUsersList);
-    } on FirebaseException catch (e) {
-      debugPrint(e.message);
-      return Left(NoWaitingUsersFailure(e.message ?? "No waiting users found"));
-    }
-  }
 }

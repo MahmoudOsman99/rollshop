@@ -21,15 +21,15 @@ class AuthRepositoryImpl extends AuthRepository {
     return authRemote.setUser(user: user);
   }
 
-  @override
-  Future<Either<Failure, UserCredential>>
-      registerUserByEmailAndPasswordInFirebaseAuth(
-          {required String email,
-          required String password,
-          required String phoneNumber}) async {
-    return await authRemote.registerUserByEmailAndPasswordInFirebaseAuth(
-        email: email, password: password, phoneNumber: phoneNumber);
-  }
+  // @override
+  // Future<Either<Failure, UserCredential>>
+  //     registerUserByEmailAndPasswordInFirebaseAuth(
+  //         {required String email,
+  //         required String password,
+  //         required String phoneNumber}) async {
+  //   return await authRemote.registerUserByEmailAndPasswordInFirebaseAuth(
+  //       email: email, password: password, phoneNumber: phoneNumber);
+  // }
 
   @override
   Future<Either<Failure, UserCredential>> signInByEmailAndPassword({
@@ -50,6 +50,19 @@ class AuthRepositoryImpl extends AuthRepository {
   Future<Either<Failure, bool>> isUserApproved({required String email}) async {
     return await authRemote.isUserApprovedToSignin(email: email);
   }
+
+  @override
+  Future<Either<Failure, UserCredential>> registerUserByEmailAndSetUser(
+      {required String password, required UserModel user}) async {
+    return await authRemote.registerUserByEmailAndSetUser(
+        user: user, password: password);
+  }
+
+  // @override
+  // Future<UserModel> refreshUser({required String userId}) {
+  //   // TODO: implement refreshUser
+  //   throw UnimplementedError();
+  // }
 
   // @override
   // Future<Either<Failure, bool>> isUserExistsInWaitingUserToApproved(

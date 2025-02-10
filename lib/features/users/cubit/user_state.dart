@@ -45,3 +45,17 @@ class IsUserApprovedToSignInState extends UserState {
   @override
   List<Object?> get props => [isApproved];
 }
+
+class UserUpdatedErrorState extends UserState {
+  final String error;
+  UserUpdatedErrorState({required this.error});
+  @override
+  List<Object?> get props => [error];
+}
+
+class UserUpdatedSuccessState extends UserState {
+  // final String error;
+  // UserUpdatedSuccessState({required this.error});
+  @override
+  List<Object?> get props => [];
+}

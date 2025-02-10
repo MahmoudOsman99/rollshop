@@ -13,15 +13,20 @@ import 'package:rollshop/features/auth/cubit/auth_cubit.dart';
 import 'package:rollshop/features/users/data/models/user_model.dart';
 import 'package:rollshop/features/main/cubit/app_cubit.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({
     super.key,
-    this.user,
   });
-  final UserModel? user;
 
   @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  // final UserModel? user;
+  @override
   Widget build(BuildContext context) {
+    UserModel? user = context.read<AuthCubit>().currentUser;
     return Scaffold(
       body: SafeArea(
         child: SizedBox(

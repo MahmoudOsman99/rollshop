@@ -10,12 +10,14 @@ class CustomButton extends StatelessWidget {
   Color textColor = ColorsManager.whiteColor;
   VoidCallback onPressed;
   bool allowEdit;
+  double? raduis;
   CustomButton({
     super.key,
     required this.buttonName,
     required this.onPressed,
     required this.color,
     this.allowEdit = true,
+    this.raduis,
   });
 
   @override
@@ -25,7 +27,7 @@ class CustomButton extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.circular(10.r),
+          borderRadius: BorderRadius.circular(raduis ?? 10.r),
         ),
         child: TextButton(
           onPressed: onPressed,

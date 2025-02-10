@@ -21,7 +21,7 @@ class Routes {
   static const String registerScreen = '/registerScreen';
   // static const String driveOrOperatorScreen = '/driveOrOperatorScreen';
 
-  // Parts with material number routes
+  //! Parts with material number routes
   static const String allPartsScreen = '/allPartsScreen';
   static const String editPartScreen = '/editPartScreen';
   static const String addNewPart = '/addNewPart';

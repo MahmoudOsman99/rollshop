@@ -55,6 +55,11 @@ class UserRepositoryImpl extends UserRepository {
     return await userRemote.setUser(user: user);
   }
 
+  @override
+  Future<Either<Failure, void>> approveUser({required String userId}) async {
+    return await userRemote.approveUser(userId: userId);
+  }
+
   // @override
   // Future<Either<Failure, Unit>> addWaitingUser(
   //     {required WaitingUsersToApproveModel user}) async {

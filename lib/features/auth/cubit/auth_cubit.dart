@@ -28,6 +28,16 @@ class AuthCubit extends Cubit<AuthState> {
     });
   }
 
+  Future<void> sendEmailVerification() async {
+    await FirebaseAuth.instance.currentUser!
+        .sendEmailVerification()
+        .then((onValue) {
+      emit(UserEmailVerifySuccessState());
+    }).catchError((onError) {
+      emit(UserEmailVerifyFailedState());
+    });
+  }
+
   Future<void> registerByEmailAndPassword({
     required String email,
     required String password,

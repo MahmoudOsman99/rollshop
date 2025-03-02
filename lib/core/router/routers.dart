@@ -4,6 +4,9 @@ class Routes {
   // static const String mainScreenScreen = '/mainScreen';
   static const String onBoardingScreen = '/onBoardingScreen';
 
+  //! Users route
+  static const String verifyEmail = "verifyEmail";
+
   //! Profile Routes
   static const String settingsRoute = '/settingsScreen';
   static const String profileScreenRoute = '/profileScreen';

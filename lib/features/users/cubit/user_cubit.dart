@@ -12,6 +12,16 @@ class UserCubit extends Cubit<UserState> {
 
   List<UserModel> waitingUsers = [];
 
+  Future<void> approvUser({required String userId}) async {
+    emit(UserLoadingState());
+    final approvingUser = await repo.approveUser(userId: userId);
+    approvingUser.fold((failure) {
+      emit(UserUpdatedErrorState(error: failure.message));
+    }, (value) {
+      emit(UserApprovedSuccessState());
+    });
+  }
+
   Future<void> getWaitingUsersToApproved() async {
     final getWaitingUsers = await repo.getWaitingUsersToApprove();
 

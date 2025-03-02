@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rollshop/components/widgets/custom_button.dart';
 import 'package:rollshop/components/widgets/translated_text_widget.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
+import 'package:rollshop/core/helpers/shared_pref_helper.dart';
 import 'package:rollshop/core/router/routers.dart';
 import 'package:rollshop/core/theme/colors.dart';
 import 'package:rollshop/core/theme/styles.dart';
@@ -35,10 +36,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 raduis: 0,
                 buttonName: "Get Started",
                 onPressed: () async {
-                  // await SharedPreferencesHelper.setBoolValue(
-                  //   "onBoarding",
-                  //   true,
-                  // );
+                  await SharedPreferencesHelper.setBoolValue(
+                    "onBoarding",
+                    true,
+                  );
                   context.pushReplacementNamed(Routes.registerScreen);
                 },
                 color: ColorsManager.lightBlue,

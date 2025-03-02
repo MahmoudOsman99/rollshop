@@ -20,7 +20,7 @@ import 'package:rollshop/features/users/cubit/user_state.dart';
 
 class ProfileScreen extends StatefulWidget {
   // final UserModel user;
-  ProfileScreen({
+  const ProfileScreen({
     super.key,
     // required this.user,
   });
@@ -85,10 +85,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           },
           builder: (context, state) {
             return Scaffold(
-              // appBar: AppBar(
-              //   backgroundColor: Colors.transparent,
-              //   elevation: 0,
-              // ),
               appBar: AppBar(
                 leading: GestureDetector(
                   onTap: () {
@@ -122,7 +118,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   )
                 ],
-                // elevation: 0,
                 backgroundColor:
                     context.read<AppCubit>().currentThemeMode == ThemeMode.dark
                         ? ColorsManager.darkColor
@@ -136,103 +131,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       spacing: 20.r,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        // ConditionalBuilder(
-                        //   condition: !currentUser!.isEmailVerified!,
-                        //   fallback: (context) => SizedBox(),
-                        //   builder: (context) => SizedBox(
-                        //     width: context.width,
-                        //     child: SafeArea(
-                        //       child: DecoratedBox(
-                        //         decoration: BoxDecoration(
-                        //           color: Colors.amber,
-                        //         ),
-                        //         child: Padding(
-                        //           padding: EdgeInsets.symmetric(
-                        //               horizontal: 20.w, vertical: 10.h),
-                        //           child: Row(
-                        //             spacing: 20.w,
-                        //             children: [
-                        //               Expanded(
-                        //                 child: Row(
-                        //                   spacing: 20.w,
-                        //                   children: [
-                        //                     Icon(Icons.info),
-                        //                     Text(
-                        //                       translatedText(
-                        //                         context: context,
-                        //                         arabicText:
-                        //                             "برجاء تفعيل بريدك الالكتروني",
-                        //                         englishText:
-                        //                             "Please verify your email",
-                        //                       ),
-                        //                     ),
-                        //                   ],
-                        //                 ),
-                        //               ),
-                        //               TextButton(
-                        //                 onPressed: () async {
-                        //                   debugPrint("Verify pressed");
-                        //                 },
-                        //                 style: ButtonStyle(
-                        //                   backgroundColor: WidgetStatePropertyAll(
-                        //                       ColorsManager.lightBlue),
-                        //                 ),
-                        //                 child: Text(
-                        //                   translatedText(
-                        //                     context: context,
-                        //                     arabicText: "تفعيل",
-                        //                     englishText: "Verify",
-                        //                   ),
-                        //                   style: TextStyle(
-                        //                     color: Colors.white,
-                        //                   ),
-                        //                 ),
-                        //               ),
-                        //             ],
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                        // currentUser != null
-                        //     ? Text(
-                        //         context.read<AuthCubit>().currentUser!.name,
-                        //       )
-                        //     : Text("User not signed in"),
-                        // currentUser!.imagePath != null
-                        //     ?
-                        // ClipRRect(
-                        //   borderRadius: BorderRadius.circular(10.r),
-                        //   child: SizedBox(
-                        //     width: context.width,
-                        //     height: context.height / 3,
-                        //     child: DecoratedBox(
-                        //       decoration: BoxDecoration(
-                        //         image: DecorationImage(
-                        //           image: CachedNetworkImageProvider(
-                        //             currentUser!.imagePath ??
-                        //                 "https://i.imgur.com/kldXnVq.jpeg",
-                        //           ),
-                        //           fit: BoxFit.cover,
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                        // : SizedBox(
-                        //     child: GestureDetector(
-                        //       onTap: () {},
-                        //       child: Icon(Icons.upload),
-                        //     ),
-                        //   ),
-
                         Align(
                           // alignment: AlignmentDirectional.center,
                           child: Stack(
                             alignment: Alignment.center,
                             children: [
                               CircleAvatar(
+                                //  "https://i.imgur.com/kldXnVq.jpeg"
                                 radius: 100.r,
                                 backgroundImage: (isEdit == false &&
                                         currentUser!.imagePath != null)
@@ -274,23 +179,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ],
                           ),
                         ),
-                        // : GestureDetector(
-                        //     onTap: () async {
-                        //       final path = await picker.pickImage(
-                        //         source: ImageSource.gallery,
-                        //       );
-                        //       if (path != null) {
-                        //         setState(() {
-                        //           imagePath = File(path.path);
-                        //         });
-                        //       }
-                        //     },
-                        //     child: CircleAvatar(
-                        //       backgroundImage: FileImage(imagePath!),
-                        //       radius: 100.r,
-                        //     ),
-                        //   ),
-
                         Padding(
                           padding: EdgeInsetsDirectional.only(
                             start: 20.r,
@@ -301,26 +189,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             spacing: 20.h,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // currentUser!.imagePath != null
-                              //     ? Align(
-                              //         alignment: AlignmentDirectional.center,
-                              //         child: CircleAvatar(
-                              //           radius: 75.r,
-                              //           backgroundImage: CachedNetworkImageProvider(
-                              //             currentUser.imagePath!,
-                              //           ),
-                              //         ),
-                              //       )
-                              //     : Align(
-                              //         alignment: AlignmentDirectional.center,
-                              //         child: CircleAvatar(
-                              //           radius: 75.r,
-                              //           child: Icon(
-                              //             Icons.upload,
-                              //             size: 50.r,
-                              //           ),
-                              //         ),
-                              //       ),
                               BuildProfileInfo(
                                 lable: Text(translatedText(
                                   context: context,
@@ -344,11 +212,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     GestureDetector(
                                       onTap: currentUser.isEmailVerified!
                                           ? null
-                                          : () {
+                                          : () async {
+                                              // context.pushNamed(
+                                              //   Routes.verifyEmail,
+                                              //   arguments: currentUser,
+                                              // );
+                                              // await context
+                                              //     .read<AuthCubit>()
+                                              //     .sendEmailVerification();
+
                                               debugPrint("Email not verified");
                                             },
                                       child: Text(
-                                        currentUser.isPhoneVerified!
+                                        currentUser.isEmailVerified!
                                             ? translatedText(
                                                 context: context,
                                                 arabicText: "تم التفعيل",
@@ -384,7 +260,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ),
                                     ),
                                     GestureDetector(
-                                      onTap: currentUser.isEmailVerified!
+                                      onTap: currentUser.isPhoneVerified!
                                           ? null
                                           : () {
                                               debugPrint("Not verified phone");
@@ -413,36 +289,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 info: currentUser.phoneNumber,
                               ),
-                              // currentUser.isEmailVerified != null
-                              //     ? BuildProfileInfo(
-                              //         lable: translatedText(
-                              //           context: context,
-                              //           arabicText: "حالة البريد الالكتروني",
-                              //           englishText: "Is email virefied?",
-                              //         ),
-                              //         info: currentUser.isEmailVerified! == true
-                              //             ? translatedText(
-                              //                 context: context,
-                              //                 arabicText: "تم التفعيل",
-                              //                 englishText: "Verified",
-                              //               )
-                              //             : translatedText(
-                              //                 context: context,
-                              //                 arabicText: "غير مفعل",
-                              //                 englishText: "Not Verified",
-                              //               ),
-                              //       )
-                              //     : SizedBox(),
-                              // BuildProfileInfo(
-                              //   lable: Text(
-                              //     translatedText(
-                              //       context: context,
-                              //       arabicText: "رقم الموبايل",
-                              //       englishText: "Phone Number",
-                              //     ),
-                              //   ),
-                              //   info: currentUser.phoneNumber,
-                              // ),
                               BuildProfileInfo(
                                 lable: Text(translatedText(
                                   context: context,
@@ -457,13 +303,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   arabicText: "تاريخ التسجيل",
                                   englishText: "Date of registered",
                                 )),
-                                info: DateFormat('yyyy-MMMM-dd')
+                                info: DateFormat('hh:mm  -  yyyy-MMMM-dd')
                                     .format(currentUser.createdAt!.toDate()),
                               ),
                             ],
                           ),
                         ),
-
                         isEdit
                             ? ConditionalBuilder(
                                 condition: state is UserLoadingState,

@@ -5,6 +5,7 @@ import 'package:rollshop/features/users/data/models/user_model.dart';
 abstract class UserRepository {
   Future<Either<Failure, List<UserModel>>> getWaitingUsersToApprove();
   Future<Either<Failure, void>> setUser({required UserModel user});
+  Future<Either<Failure, void>> approveUser({required String userId});
   // Future<Either<Failure, Unit>> addWaitingUser(
   //     {required WaitingUsersToApproveModel user});
 

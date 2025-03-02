@@ -6,6 +6,7 @@ import 'package:rollshop/features/main/screen/onboarding_screen.dart';
 import 'package:rollshop/features/users/data/models/user_model.dart';
 import 'package:rollshop/features/auth/screens/login_screen.dart';
 import 'package:rollshop/features/auth/screens/register_screen.dart';
+import 'package:rollshop/features/users/screens/verify_email_screen.dart';
 import 'package:rollshop/features/users/screens/waiting_users_screen.dart';
 import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
 import 'package:rollshop/features/chock_feature/screens/add_chock_screen.dart';
@@ -47,6 +48,12 @@ class AppRouter {
             waitingUsers: settings.arguments != null
                 ? settings.arguments as List<UserModel>
                 : <UserModel>[],
+          ),
+        );
+      case Routes.verifyEmail:
+        return MaterialPageRoute(
+          builder: (context) => VerifyEmailScreen(
+            userModel: settings.arguments as UserModel,
           ),
         );
       case Routes.profileScreenRoute:

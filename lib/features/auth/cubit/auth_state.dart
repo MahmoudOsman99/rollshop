@@ -107,3 +107,13 @@ class UserRefreshSuccessState extends AuthState {
   @override
   List<Object?> get props => [];
 }
+
+class UserEmailVerifySuccessState extends AuthState {
+  @override
+  List<Object?> get props => [];
+}
+
+class UserEmailVerifyFailedState extends AuthState {
+  @override
+  List<Object?> get props => [];
+}

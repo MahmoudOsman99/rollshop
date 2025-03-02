@@ -27,22 +27,42 @@ class SigninScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future<bool> onWillPop() async {
+      return (await showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text('Are you sure?'),
+              content: Text('Do you want to exit an App'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: Text('No'),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: Text('Yes'),
+                ),
+              ],
+            ),
+          )) ??
+          false;
+    }
+
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
-        // if (state is UserNotApprovedToSigninState) {
-        //   showCustomSnackBar(
-        //     context: context,
-        //     message: translatedText(
-        //       context: context,
-        //       arabicText:
-        //           "ليس لديك صلاحية تسجيل الدخول. انتظر حتي يتم الموافقة ",
-        //       englishText:
-        //           "Your not authorized to sign in, please wait to be approved",
-        //     ),
-        //     color: ColorsManager.orangeColor,
-        //   );
-        // } else
-        if (state is AuthLoginSuccessState) {
+        if (state is UserNotApprovedToSigninState) {
+          showCustomSnackBar(
+            context: context,
+            message: translatedText(
+              context: context,
+              arabicText:
+                  "ليس لديك صلاحية تسجيل الدخول. انتظر حتي يتم الموافقة ",
+              englishText:
+                  "Your not authorized to sign in, please wait to be approved",
+            ),
+            color: ColorsManager.orangeColor,
+          );
+        } else if (state is AuthLoginSuccessState) {
           // final user = context.read<AuthCubit>().get
           // context.pushReplacementNamed(Routes.allChocksScreen);
           showCustomSnackBar(
@@ -91,171 +111,178 @@ class SigninScreen extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        return Scaffold(
-          body: SafeArea(
-            child: Padding(
-              padding: EdgeInsets.all(20.r),
-              child: Form(
-                key: formKey,
-                child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    spacing: 20.h,
-                    children: [
-                      Align(
-                        alignment: AlignmentDirectional.topStart,
-                        child: TranslatedTextWidget(
-                          arabicText: "تسجيل دخول",
-                          englishText: "Sign in",
-                          textStyle: MyTextStyles.font32Bold(Theme.of(context)),
+        return WillPopScope(
+          onWillPop: onWillPop,
+          child: Scaffold(
+            body: SafeArea(
+              child: Padding(
+                padding: EdgeInsets.all(20.r),
+                child: Form(
+                  key: formKey,
+                  child: SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      spacing: 20.h,
+                      children: [
+                        Align(
+                          alignment: AlignmentDirectional.topStart,
+                          child: TranslatedTextWidget(
+                            arabicText: "تسجيل دخول",
+                            englishText: "Sign in",
+                            textStyle:
+                                MyTextStyles.font32Bold(Theme.of(context)),
+                          ),
                         ),
-                      ),
-                      Align(
-                        alignment: AlignmentDirectional.topStart,
-                        child: TranslatedTextWidget(
-                          arabicText: "اهلا بيك",
-                          englishText: "Welcome back",
-                          textStyle: MyTextStyles.font16Bold(Theme.of(context)),
+                        Align(
+                          alignment: AlignmentDirectional.topStart,
+                          child: TranslatedTextWidget(
+                            arabicText: "اهلا بيك",
+                            englishText: "Welcome back",
+                            textStyle:
+                                MyTextStyles.font16Bold(Theme.of(context)),
+                          ),
                         ),
-                      ),
-                      CircleAvatar(
-                        radius: 150.r,
-                        child: SvgPicture.asset(
-                          SvgsPaths.loginSvgPath,
-                          semanticsLabel: 'Login logo',
+                        CircleAvatar(
+                          radius: 150.r,
+                          child: SvgPicture.asset(
+                            SvgsPaths.loginSvgPath,
+                            semanticsLabel: 'Login logo',
+                          ),
                         ),
-                      ),
-                      CustomEmailFormField(
-                        emailController: emailController,
-                      ),
-                      CustomPasswordFormField(
-                        passwordController: passwordController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return translatedText(
-                              context: context,
-                              arabicText: "يجب ادخال كلمة المرور",
-                              englishText: "Password is required",
-                            );
-                          } else if (value.length < 6) {
-                            return translatedText(
-                              context: context,
-                              arabicText: "كلمة المرور اقل من ٦ حروف",
-                              englishText:
-                                  "Password must be 6 digits or hiegher",
-                            );
-                          } else {
-                            return null;
-                          }
-                        },
-                        hintText: translatedText(
-                          context: context,
-                          arabicText: "كلمة المرور",
-                          englishText: "Password",
+                        CustomEmailFormField(
+                          emailController: emailController,
                         ),
-                      ),
-                      state is AuthLoginLoadingState
-                          ? CircularProgressIndicator.adaptive()
-                          : SizedBox(
-                              width: context.width,
-                              child: CustomButton(
-                                buttonName: translatedText(
-                                  context: context,
-                                  arabicText: "دخول",
-                                  englishText: "Sign in",
-                                ),
-                                onPressed: () async {
-                                  if (kDebugMode) {
-                                    // emailController.text =
-                                    //     "mahmoudosm1999@gmail.com";
-                                    // passwordController.text = "249042";
-                                    // final isUserApprove = await context
-                                    //     .read<AuthCubit>()
-                                    //     .isUserApprovedToSignin(
-                                    //         email: emailController.text);
-                                    // if (isUserApprove) {
-                                    //   showCustomSnackBar(
-                                    //     context: context,
-                                    //     message: translatedText(
-                                    //       context: context,
-                                    //       arabicText:
-                                    //           "تم التحقق من صلاحية الدخول",
-                                    //       englishText: "Your approved",
-                                    //     ),
-                                    //     color: ColorsManager.greenAccent,
-                                    //   );
-                                    // } else {
-                                    //   showCustomSnackBar(
-                                    //     context: context,
-                                    //     message: translatedText(
-                                    //       context: context,
-                                    //       arabicText:
-                                    //           "ليس لديك صلاحية تسجيل الدخول. انتظر حتي يتم الموافقة ",
-                                    //       englishText:
-                                    //           "Your not authorized to sign in, please wait to be approved",
-                                    //     ),
-                                    //     color: ColorsManager.orangeColor,
-                                    //   );
-                                    //   return;
-                                    // }
-                                  }
-                                  if (!formKey.currentState!.validate()) {
-                                  } else {
-                                    context
-                                        .read<AuthCubit>()
-                                        .isUserApprovedToSignin(
-                                          email: emailController.text,
-                                          password: passwordController.text,
-                                        );
-                                    if (state is UserNotApprovedToSigninState) {
-                                      showCustomSnackBar(
-                                        context: context,
-                                        message: translatedText(
-                                          context: context,
-                                          arabicText:
-                                              "ليس لديك صلاحية تسجيل الدخول. انتظر حتي يتم الموافقة ",
-                                          englishText:
-                                              "Your not authorized to sign in, please wait to be approved",
-                                        ),
-                                        color: ColorsManager.orangeColor,
-                                      );
+                        CustomPasswordFormField(
+                          passwordController: passwordController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return translatedText(
+                                context: context,
+                                arabicText: "يجب ادخال كلمة المرور",
+                                englishText: "Password is required",
+                              );
+                            } else if (value.length < 6) {
+                              return translatedText(
+                                context: context,
+                                arabicText: "كلمة المرور اقل من ٦ حروف",
+                                englishText:
+                                    "Password must be 6 digits or hiegher",
+                              );
+                            } else {
+                              return null;
+                            }
+                          },
+                          hintText: translatedText(
+                            context: context,
+                            arabicText: "كلمة المرور",
+                            englishText: "Password",
+                          ),
+                        ),
+                        state is AuthLoginLoadingState
+                            ? CircularProgressIndicator.adaptive()
+                            : SizedBox(
+                                width: context.width,
+                                child: CustomButton(
+                                  buttonName: translatedText(
+                                    context: context,
+                                    arabicText: "دخول",
+                                    englishText: "Sign in",
+                                  ),
+                                  onPressed: () async {
+                                    if (kDebugMode) {
+                                      // emailController.text =
+                                      //     "mahmoudosm1999@gmail.com";
+                                      // passwordController.text = "249042";
+                                      // final isUserApprove = await context
+                                      //     .read<AuthCubit>()
+                                      //     .isUserApprovedToSignin(
+                                      //         email: emailController.text);
+                                      // if (isUserApprove) {
+                                      //   showCustomSnackBar(
+                                      //     context: context,
+                                      //     message: translatedText(
+                                      //       context: context,
+                                      //       arabicText:
+                                      //           "تم التحقق من صلاحية الدخول",
+                                      //       englishText: "Your approved",
+                                      //     ),
+                                      //     color: ColorsManager.greenAccent,
+                                      //   );
+                                      // } else {
+                                      //   showCustomSnackBar(
+                                      //     context: context,
+                                      //     message: translatedText(
+                                      //       context: context,
+                                      //       arabicText:
+                                      //           "ليس لديك صلاحية تسجيل الدخول. انتظر حتي يتم الموافقة ",
+                                      //       englishText:
+                                      //           "Your not authorized to sign in, please wait to be approved",
+                                      //     ),
+                                      //     color: ColorsManager.orangeColor,
+                                      //   );
+                                      //   return;
+                                      // }
                                     }
-                                  }
-                                },
-                                color:
-                                    context.read<AppCubit>().currentThemeMode ==
-                                            ThemeMode.dark
-                                        ? ColorsManager.lightBlue
-                                        : ColorsManager.orangeColor,
+                                    if (!formKey.currentState!.validate()) {
+                                    } else {
+                                      context
+                                          .read<AuthCubit>()
+                                          .isUserApprovedToSignin(
+                                            email: emailController.text,
+                                            password: passwordController.text,
+                                          );
+                                      if (state
+                                          is UserNotApprovedToSigninState) {
+                                        showCustomSnackBar(
+                                          context: context,
+                                          message: translatedText(
+                                            context: context,
+                                            arabicText:
+                                                "ليس لديك صلاحية تسجيل الدخول. انتظر حتي يتم الموافقة ",
+                                            englishText:
+                                                "Your not authorized to sign in, please wait to be approved",
+                                          ),
+                                          color: ColorsManager.orangeColor,
+                                        );
+                                      }
+                                    }
+                                  },
+                                  color: context
+                                              .read<AppCubit>()
+                                              .currentThemeMode ==
+                                          ThemeMode.dark
+                                      ? ColorsManager.lightBlue
+                                      : ColorsManager.orangeColor,
+                                ),
+                              ),
+                        Row(
+                          spacing: 10.w,
+                          children: [
+                            TranslatedTextWidget(
+                              arabicText: "ليس لديك حساب؟",
+                              englishText: "Don't have an account?",
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                debugPrint("Register button");
+                                context.pushReplacementNamed(
+                                    Routes.registerScreen);
+                              },
+                              child: TranslatedTextWidget(
+                                arabicText: "انشاء حساب",
+                                englishText: "Register",
+                                textStyle:
+                                    MyTextStyles.font16Bold(Theme.of(context))
+                                        .copyWith(
+                                  color: ColorsManager.lightBlue,
+                                ),
                               ),
                             ),
-                      Row(
-                        spacing: 10.w,
-                        children: [
-                          TranslatedTextWidget(
-                            arabicText: "ليس لديك حساب؟",
-                            englishText: "Don't have an account?",
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              debugPrint("Register button");
-                              context
-                                  .pushReplacementNamed(Routes.registerScreen);
-                            },
-                            child: TranslatedTextWidget(
-                              arabicText: "انشاء حساب",
-                              englishText: "Register",
-                              textStyle:
-                                  MyTextStyles.font16Bold(Theme.of(context))
-                                      .copyWith(
-                                color: ColorsManager.lightBlue,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

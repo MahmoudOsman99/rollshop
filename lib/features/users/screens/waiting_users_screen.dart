@@ -1,4 +1,5 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -84,23 +85,23 @@ class BuildWatingUser extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         UserInfo(
-          lable: Text("Name:"),
+          lable: Text("Name"),
           text: Text(user.name),
         ),
         UserInfo(
-          lable: Text("Email:"),
+          lable: Text("Email"),
           text: Text(user.email),
         ),
         UserInfo(
-          lable: Text("Phone Number:"),
+          lable: Text("Phone Number"),
           text: Text(user.phoneNumber),
         ),
         UserInfo(
-          lable: Text("Position:"),
+          lable: Text("Position"),
           text: Text(user.userType),
         ),
         UserInfo(
-          lable: Text("Created At:"),
+          lable: Text("Created At"),
           text: Text(
             DateFormat('yyyy-M-dd / HH:mm a ').format(user.createdAt!.toDate()),
           ),
@@ -123,10 +124,12 @@ class UserInfo extends StatelessWidget {
     super.key,
     required this.lable,
     required this.text,
+    // required this.userId,
   });
 
   final Widget lable;
   final Widget text;
+  // final String userId;
 
   @override
   Widget build(BuildContext context) {
@@ -134,8 +137,8 @@ class UserInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        lable,
         text,
+        lable,
       ],
     );
   }

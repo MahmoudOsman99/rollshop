@@ -40,6 +40,21 @@ class UserRemoteDataSource {
       return Left(UnexpectedError("Error while updating user information"));
     }
   }
+
+  Future<Either<Failure, void>> approveUser({
+    required String userId,
+  }) async {
+    try {
+      final approvedUser = await db
+          .collection(CollectionsPaths.usersPath)
+          .doc(userId)
+          .update({"isApproved": true});
+      return Right(approvedUser);
+    } on FirebaseException catch (e) {
+      debugPrint(e.code);
+      return Left(UnexpectedError("Error while approving user "));
+    }
+  }
   // Future<Either<Failure, Unit>> addWaitingUser(
   //     {required WaitingUsersToApproveModel user}) async {
   //   final u = user.toJson();

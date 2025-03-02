@@ -59,3 +59,8 @@ class UserUpdatedSuccessState extends UserState {
   @override
   List<Object?> get props => [];
 }
+
+class UserApprovedSuccessState extends UserState {
+  @override
+  List<Object?> get props => [];
+}

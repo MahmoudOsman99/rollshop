@@ -74,7 +74,10 @@ class SigninScreen extends StatelessWidget {
             ),
             color: ColorsManager.mainTeal,
           );
-          context.pushReplacementNamed(Routes.mainScreenScreen);
+          context.pushNamedAndRemoveUnit(
+            Routes.mainScreenScreen,
+            predicate: (route) => false,
+          );
 
           // context.pushReplacementNamed(
           //   Routes.profileScreenRoute,

@@ -276,25 +276,26 @@ class _AddChockScreenState extends State<AddChockScreen> {
                             arabicText: "اضافة خطوة تجميع",
                             englishText: "Add assembly step"),
                         //  "اضافة خطوة تجميع",
-                        onPressed: () {
-                          if (context.read<ChockCubit>().imagesPathes.length <
-                              context
-                                  .read<ChockCubit>()
-                                  .descControllers
-                                  .length) {
-                            //  debugPrint("print not accessed");
-                            showCustomSnackBar(
-                              context: context,
-                              color: ColorsManager.redColor,
-                              message:
-                                  "يجب اختيار صورة خطوة التجميع رقم ${context.read<ChockCubit>().descControllers.length}",
-                            );
-                            return;
-                          }
-                          setState(() {
-                            context.read<ChockCubit>().addField();
-                          });
-                        },
+                        onPressed: onAddStepPressed,
+                        // onPressed: () {
+                        //   if (context.read<ChockCubit>().imagesPathes.length <
+                        //       context
+                        //           .read<ChockCubit>()
+                        //           .descControllers
+                        //           .length) {
+                        //     //  debugPrint("print not accessed");
+                        //     showCustomSnackBar(
+                        //       context: context,
+                        //       color: ColorsManager.redColor,
+                        //       message:
+                        //           "يجب اختيار صورة خطوة التجميع رقم ${context.read<ChockCubit>().descControllers.length}",
+                        //     );
+                        //     return;
+                        //   }
+                        //   setState(() {
+                        //     context.read<ChockCubit>().addField();
+                        //   });
+                        // },
                         color: ColorsManager.lightBlue,
                       ),
                       if (context.read<ChockCubit>().descControllers.isNotEmpty)
@@ -390,6 +391,23 @@ class _AddChockScreenState extends State<AddChockScreen> {
         );
       },
     );
+  }
+
+  void onAddStepPressed() {
+    if (context.read<ChockCubit>().imagesPathes.length <
+        context.read<ChockCubit>().descControllers.length) {
+      //  debugPrint("print not accessed");
+      showCustomSnackBar(
+        context: context,
+        color: ColorsManager.redColor,
+        message:
+            "يجب اختيار صورة خطوة التجميع رقم ${context.read<ChockCubit>().descControllers.length}",
+      );
+      return;
+    }
+    setState(() {
+      context.read<ChockCubit>().addField();
+    });
   }
 }
 

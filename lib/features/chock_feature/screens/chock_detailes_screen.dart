@@ -139,6 +139,29 @@ class ChockDetailesScreen extends StatelessWidget {
                     //   lable: "خطوات التجميع",
                     //   textStyle: MyTextStyles.font16Bold(Theme.of(context)),
                     // ),
+                    if (chock.howTocalcBearingShim != null)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        spacing: 10.sp,
+                        children: [
+                          TextWithColorDecoration(
+                              // lable: "ملاحظات",
+                              lable: translatedText(
+                                context: context,
+                                arabicText: "طريقة قياس الشيم",
+                                englishText: "How to calc shim",
+                              ),
+                              textStyle:
+                                  MyTextStyles.font16Bold(Theme.of(context))),
+                          Expanded(
+                            child: Text(
+                              chock.howTocalcBearingShim!,
+                              style: MyTextStyles.font16Bold(Theme.of(context)),
+                            ),
+                          ),
+                        ],
+                      ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.start,

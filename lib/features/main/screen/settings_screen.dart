@@ -37,19 +37,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               spacing: 20.h,
               children: [
-                // Center(
-                //   child: SizedBox(
-                //     width: 150.w,
-                //     height: 150.h,
-                //     child: ClipRRect(
-                //       borderRadius: BorderRadius.circular(75.r),
-                //       child: BuildImageWithErrorHandler(
-                //         imageType: ImageType.network,
-                //         path: "https://i.imgur.com/kldXnVq.jpeg",
-                //       ),
-                //     ),
-                //   ),
-                // ),
                 context.read<AuthCubit>().currentUser != null &&
                         context.read<AuthCubit>().currentUser!.userType ==
                             UserType.admin.name
@@ -60,40 +47,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               UserType.admin.name) {
                             context.pushNamed(
                               Routes.waitingUsersToApproveRoute,
-                              // arguments: [
-                              //   WaitingUsersToApprove(
-                              //     isApproved: true,
-                              //     name: "Ahmed",
-                              //     email: "bambo@gmail.com",
-                              //     userType: UserType.foreman.name,
-                              //     createdAt: DateTime.now(),
-                              //     phoneNumber: "01000249042",
-                              //   ),
-                              //   WaitingUsersToApprove(
-                              //     isApproved: false,
-                              //     name: "Osman",
-                              //     email: "hendy@gmail.com",
-                              //     userType: UserType.foreman.name,
-                              //     createdAt: DateTime.now(),
-                              //     phoneNumber: "01000249042",
-                              //   ),
-                              //   WaitingUsersToApprove(
-                              //     isApproved: true,
-                              //     name: "Osman",
-                              //     createdAt: DateTime.now(),
-                              //     email: "osman@gmail.com",
-                              //     userType: UserType.technician.name,
-                              //     phoneNumber: "01000249042",
-                              //   ),
-                              //   WaitingUsersToApprove(
-                              //     isApproved: false,
-                              //     createdAt: DateTime.now(),
-                              //     name: "Hendy",
-                              //     email: "osman@gmail.com",
-                              //     userType: UserType.technician.name,
-                              //     phoneNumber: "01000249042",
-                              //   ),
-                              // ],
                             );
                           }
                         },
@@ -129,20 +82,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                   style: MyTextStyles.font16Bold(Theme.of(context)),
                 ),
-
-                // TranslatedTextWidget(
-                //   arabicText: "محمود عثمان",
-                //   englishText: "Mahmoud Osman",
-                //   textStyle: MyTextStyles.font24Weight700(Theme.of(context)),
-                // ),
-                // Text(
-                //   "Mahmoud Osman",
-                //   style: MyTextStyles.font24Weight700(Theme.of(context)),
-                // ),
-                // Text(
-                //   "Theme",
-                //   style: MyTextStyles.font16Bold(Theme.of(context)),
-                // ),
                 SizedBox(
                   width: context.width / 2,
                   child: GestureDetector(
@@ -237,7 +176,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         context.read<AppCubit>().currentLocale.languageCode,
                   ),
                 ),
-
                 SizedBox(
                   width: context.width / 3,
                   child: CustomButton(
@@ -265,63 +203,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         : ColorsManager.orangeColor,
                   ),
                 ),
-                // CustomDropDown(items: [], mainLable: mainLable, initialSelection: initialSelection)
-                // GestureDetector(
-                //   onTap: () {
-                //     context.read<AppCubit>().changeAppLocale("ar");
-                //   },
-                //   child: DecoratedBox(
-                //     decoration: BoxDecoration(
-                //         borderRadius: BorderRadius.circular(10.r),
-                //         border: Border.all(
-                //           width: 2,
-                //           color: context.read<AppCubit>().currentThemeMode ==
-                //                   ThemeMode.dark
-                //               ? ColorsManager.redAccent
-                //               : ColorsManager.orangeColor,
-                //         )),
-                //     child: Padding(
-                //       padding: EdgeInsetsDirectional.only(
-                //         top: 20.r,
-                //         bottom: 20.r,
-                //       ),
-                //       child: AnimatedSwitcher(
-                //         duration: const Duration(milliseconds: 500),
-                //         transitionBuilder:
-                //             (Widget child, Animation<double> animation) {
-                //           return ScaleTransition(
-                //             scale: animation,
-                //             child: child,
-                //           );
-                //         },
-                //         child: Row(
-                //           mainAxisAlignment: MainAxisAlignment.spaceAround,
-                //           // spacing: 20.w,
-                //           children: [
-                //             Icon(
-                //               // context.read<AppCubit>().currentThemeMode ==
-                //               //         ThemeMode.dark
-                //                   // ?
-                //                    Icons.language,
-                //                   // : Icons.brightness_2,
-                //               key: ValueKey<bool>(
-                //                 context.read<AppCubit>().currentThemeMode ==
-                //                     ThemeMode.dark,
-                //               ), // Key for animation
-                //             ),
-                //             Text(
-                //               context.read<AppCubit>().currentLocale ==
-                //                       Locale('ar')
-                //                   ? "اللغة العربية"
-                //                   : "English",
-                //               style: MyTextStyles.font16Bold(Theme.of(context)),
-                //             ),
-                //           ],
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),

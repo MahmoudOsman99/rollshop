@@ -210,9 +210,10 @@ class _BuildFieldsState extends State<BuildFields> {
                         context.read<ChockCubit>().notesControllers[index],
                     maxLines: 2,
                     hintText: translatedText(
-                        context: context,
-                        arabicText: "ملاحظات",
-                        englishText: "Notes"),
+                      context: context,
+                      arabicText: "ملاحظات",
+                      englishText: "Notes",
+                    ),
                   ),
                 ],
               );

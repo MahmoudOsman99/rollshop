@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rollshop/components/widgets/build_image_with_error_handler.dart';
 import 'package:rollshop/components/widgets/custom_button.dart';
+import 'package:rollshop/components/widgets/translated_text_widget.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
 import 'package:rollshop/core/helpers/images_path.dart';
 import 'package:rollshop/core/router/app_router.dart';
@@ -44,6 +45,127 @@ class _MainScreenState extends State<MainScreen> {
       debugPrint("In IOS");
     }
     return Scaffold(
+      drawer: SafeArea(
+        child: Drawer(
+          child: SettingsScreen(),
+          // child: Column(
+          //   children: [
+          //     TranslatedTextWidget(
+          //       arabicText: "arabicText",
+          //       englishText: "englishText",
+          //     ),
+          //   ],
+          // ),
+        ),
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: 20.r,
+          ),
+          child: Column(
+            spacing: 20.h,
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            // mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                // spacing: 20,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      context.pushNamed(Routes.allPartsScreen);
+                    },
+                    child: Column(
+                      spacing: 10.h,
+                      children: [
+                        SizedBox(
+                          width: 150.w,
+                          height: 150.h,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10.r),
+                            child: BuildImageWithErrorHandler(
+                              imageType: ImageType.asset,
+                              path: ImagesPath.listImagePath,
+                            ),
+                          ),
+                        ),
+                        TranslatedTextWidget(
+                          arabicText: "العناصر المسجلة",
+                          englishText: "All Parts",
+                          textStyle: MyTextStyles.font16Bold(Theme.of(context)),
+                        ),
+                      ],
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      context.pushNamed(Routes.allChocksScreen);
+                    },
+                    child: Column(
+                      spacing: 10.h,
+                      children: [
+                        SizedBox(
+                          width: 150.w,
+                          height: 150.h,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10.r),
+                            child: BuildImageWithErrorHandler(
+                              imageType: ImageType.asset,
+                              path: ImagesPath.bdmChockImagePath,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: context.width * 0.4,
+                          child: TranslatedTextWidget(
+                            arabicText: "خطوات تجميع الكراسي",
+                            englishText: "Chocks assymbly steps",
+                            textStyle:
+                                MyTextStyles.font16Bold(Theme.of(context)),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      context.pushNamed(Routes.settingsRoute);
+                    },
+                    child: Column(
+                      spacing: 10.h,
+                      children: [
+                        SizedBox(
+                          width: 150.w,
+                          height: 150.h,
+                          child: Icon(Icons.settings),
+                          // child: ClipRRect(
+                          //   borderRadius: BorderRadius.circular(10.r),
+                          //   child: BuildImageWithErrorHandler(
+                          //     imageType: ImageType.asset,
+                          //     path: ImagesPath.bdmChockImagePath,
+                          //   ),
+                          // ),
+                        ),
+                        TranslatedTextWidget(
+                          arabicText: "الاعدادات",
+                          englishText: "Settings",
+                          textStyle: MyTextStyles.font16Bold(Theme.of(context)),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
       // appBar: AppBar(
       //   actions: [],
       //   leading: IconButton(
@@ -87,55 +209,55 @@ class _MainScreenState extends State<MainScreen> {
       //   selectedItemColor: Colors.orange,
       //   currentIndex: _bottomNavIndex,
       // ),
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: (value) {
-          setState(() {
-            _bottomNavIndex = value;
-          });
-        },
-        children: <Widget>[
-          AllChocksScreen(),
-          AllPartsScreen(),
-          SettingsScreen(),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _bottomNavIndex,
-        onTap: onTappedBar,
-        iconSize: 25.sp,
-        selectedItemColor:
-            context.read<AppCubit>().currentThemeMode == ThemeMode.dark
-                ? ColorsManager.lightBlue
-                : ColorsManager.orangeColor,
-        backgroundColor:
-            context.read<AppCubit>().currentThemeMode == ThemeMode.dark
-                ? ColorsManager.blackBackGround
-                : ColorsManager.lightWhite,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-            ),
-            label: locale.languageCode == 'ar' ? "كل الكراسي" : "All Chocks",
-            //  "All Chocks",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.list,
-            ),
-            label: locale.languageCode == 'ar' ? "كل العناصر" : "All Parts",
+      // body: PageView(
+      //   controller: _pageController,
+      //   onPageChanged: (value) {
+      //     setState(() {
+      //       _bottomNavIndex = value;
+      //     });
+      //   },
+      //   children: <Widget>[
+      //     AllChocksScreen(),
+      //     AllPartsScreen(),
+      //     SettingsScreen(),
+      //   ],
+      // ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   currentIndex: _bottomNavIndex,
+      //   onTap: onTappedBar,
+      //   iconSize: 25.sp,
+      //   selectedItemColor:
+      //       context.read<AppCubit>().currentThemeMode == ThemeMode.dark
+      //           ? ColorsManager.lightBlue
+      //           : ColorsManager.orangeColor,
+      //   backgroundColor:
+      //       context.read<AppCubit>().currentThemeMode == ThemeMode.dark
+      //           ? ColorsManager.blackBackGround
+      //           : ColorsManager.lightWhite,
+      //   items: [
+      //     BottomNavigationBarItem(
+      //       icon: Icon(
+      //         Icons.home,
+      //       ),
+      //       label: locale.languageCode == 'ar' ? "كل الكراسي" : "All Chocks",
+      //       //  "All Chocks",
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(
+      //         Icons.list,
+      //       ),
+      //       label: locale.languageCode == 'ar' ? "كل العناصر" : "All Parts",
 
-            // label: "All Parts",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.settings,
-            ),
-            label: locale.languageCode == 'ar' ? "الاعدادات" : "Settings",
-          ),
-        ],
-      ),
+      //       // label: "All Parts",
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(
+      //         Icons.settings,
+      //       ),
+      //       label: locale.languageCode == 'ar' ? "الاعدادات" : "Settings",
+      //     ),
+      //   ],
+      // ),
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       // floatingActionButton: FloatingActionButton(
       //   backgroundColor: ColorsManager.orangeColor,

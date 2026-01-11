@@ -12,7 +12,7 @@ class PartsRemoteDataSource {
     try {
       final remoteParts = await db
           .collection(CollectionsPaths.partsWithMaterialNumber)
-          .orderBy("name")
+          .orderBy("name").limit(4)
           .get();
       if (remoteParts.docs.isNotEmpty) {
         for (var p in remoteParts.docs) {

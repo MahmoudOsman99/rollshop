@@ -25,25 +25,33 @@ class ProfileScreen extends StatelessWidget {
       condition: currentUser != null,
       fallback: (context) {
         return Scaffold(
-          body: Center(
-            child: Column(
-              children: [
-                TranslatedTextWidget(
-                  arabicText: "برجاء تسجيل الدخول لرؤية ملفك الشخصي",
-                  englishText: "Please sign in to see your profile",
-                ),
-                CustomButton(
-                  buttonName: translatedText(
-                    context: context,
-                    arabicText: "تسجيل دخول",
-                    englishText: "Sign in",
+          body: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                spacing: 50,
+                children: [
+                  TranslatedTextWidget(
+                    arabicText: "برجاء تسجيل الدخول لرؤية ملفك الشخصي",
+                    englishText: "Please sign in to see your profile",
+                    textStyle: MyTextStyles.font24Weight700(Theme.of(context)),
                   ),
-                  onPressed: () {
-                    context.pushNamed(Routes.loginScreen);
-                  },
-                  color: ColorsManager.orangeColor,
-                ),
-              ],
+                  SizedBox(
+                    width: context.width / 2,
+                    child: CustomButton(
+                      buttonName: translatedText(
+                        context: context,
+                        arabicText: "تسجيل دخول",
+                        englishText: "Sign in",
+                      ),
+                      onPressed: () {
+                        context.pushNamed(Routes.loginScreen);
+                      },
+                      color: ColorsManager.greenAccent,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         );

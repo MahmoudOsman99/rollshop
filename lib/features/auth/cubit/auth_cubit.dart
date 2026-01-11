@@ -5,6 +5,7 @@ import 'package:rollshop/core/errors/failure.dart';
 import 'package:rollshop/features/auth/cubit/auth_state.dart';
 import 'package:rollshop/features/auth/data/repository/auth_repository.dart';
 import 'package:rollshop/features/users/data/models/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit({required this.authRepo}) : super(LoginInitialState());
@@ -18,6 +19,24 @@ class AuthCubit extends Cubit<AuthState> {
     showPassword = !showPassword;
     emit(LoginShowPasswordState(showPassword: showPassword));
   }
+
+  // Future<bool> isUserAuthenticated() async {
+  //   return await authRepo.isAuthenticated();
+  // }
+  // Future<UserModel?> getCurrentUser() async {
+  //   final user = FirebaseAuth.instance.currentUser;
+  //   if (user != null) {
+  //     final currentUserResult =
+  //         await authRepo.currentUser(userId: user.uid);
+  //     return currentUserResult.fold((failure) {
+  //       return null;
+  //     }, (cUser) {
+  //       return cUser;
+  //     });
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
   // void isSavingProccess(bool value) {
   //   isSaving = value;
@@ -220,15 +239,16 @@ class AuthCubit extends Cubit<AuthState> {
         }, (cUser) {
           currentUser = cUser;
         });
+        // sl<SharedPreferences>.
         emit(AuthLoginSuccessState(user: user));
       });
       // User is now signed in.
       // print('Signed in with email: ${userCredential.user!.email}');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        debugPrint('No user found for that email.');
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+        debugPrint('Wrong password provided for that user.');
       }
     }
   }

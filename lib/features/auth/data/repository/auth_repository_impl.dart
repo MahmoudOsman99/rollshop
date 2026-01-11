@@ -7,13 +7,22 @@ import 'package:rollshop/features/users/data/models/user_model.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
   final AuthRemoteDataSource authRemote;
+  // final FirebaseAuth firebaseAuth;
   AuthRepositoryImpl({
     required this.authRemote,
+    // required this.firebaseAuth,
   });
 
   // @override
   // Future<UserModel> getUser() async {
   //   return Future.value(unit);
+  // }
+  
+
+  // @override
+  // Future<bool> isAuthenticated() async {
+  //   final user = firebaseAuth.currentUser;
+  //   return user != null;
   // }
 
   @override

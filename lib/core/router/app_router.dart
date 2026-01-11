@@ -9,7 +9,7 @@ import 'package:rollshop/features/users/screens/waiting_users_screen.dart';
 import 'package:rollshop/features/chock_feature/models/chock_type_model.dart';
 import 'package:rollshop/features/chock_feature/screens/add_chock_screen.dart';
 import 'package:rollshop/features/chock_feature/screens/all_chocks_screen.dart';
-import 'package:rollshop/features/main/screen/main_screen.dart';
+import 'package:rollshop/features/main/screen/home_screen.dart';
 import 'package:rollshop/features/main/screen/profile_screen.dart';
 import 'package:rollshop/features/main/screen/settings_screen.dart';
 import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
@@ -25,9 +25,9 @@ class AppRouter {
   Route generateRoute(RouteSettings settings) {
     switch (settings.name) {
       //! main Screen
-      case Routes.mainScreenScreen:
+      case Routes.homeScreen:
         return MaterialPageRoute(
-          builder: (context) => MainScreen(),
+          builder: (context) => HomeScreen(),
         );
       case Routes.settingsRoute:
         return MaterialPageRoute(
@@ -103,7 +103,7 @@ class AppRouter {
       //! Auth route
       case Routes.loginScreen:
         return MaterialPageRoute(
-          builder: (context) => SigninScreen(),
+          builder: (context) => LoginScreen(),
         );
       case Routes.registerScreen:
         return MaterialPageRoute(
@@ -112,7 +112,7 @@ class AppRouter {
 
       default:
         return MaterialPageRoute(
-          builder: (context) => SigninScreen(),
+          builder: (context) => LoginScreen(),
         );
     }
   }

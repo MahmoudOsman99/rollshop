@@ -22,4 +22,9 @@ class ColorsManager {
   static const Color blackText = Colors.black;
   static const Color whiteText = Colors.white;
   static const Color lightWhite = Color(0xffEAE9E5);
+
+  static const Color lightGreenAccentBackButtonColor = Color(0xffDCFFDD);
+  static const Color lightBlueAccentBackButtonColor = Color(0xffEEF8FE);
+  static const Color lightPurpleAccentBackButtonColor = Color(0xffE5D0FF);
+  static const Color lightOrangeAccentBackButtonColor = Color(0xffFFF8D7);
 }

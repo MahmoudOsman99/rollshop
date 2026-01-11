@@ -13,7 +13,7 @@ class ChockRemoteDataSource {
 
   Future<List<ChockTypesModel>> getAllChocks() async {
     final chocksFromDB =
-        await db.collection(CollectionsPaths.chockPath).orderBy("name").get();
+        await db.collection(CollectionsPaths.chockPath).orderBy("name").limit(20).get();
     final List<ChockTypesModel> chocks = [];
     // return [];
     if (chocksFromDB.docs.isNotEmpty) {

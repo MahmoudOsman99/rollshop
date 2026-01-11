@@ -4,6 +4,7 @@ import 'package:rollshop/core/errors/failure.dart';
 import 'package:rollshop/features/users/data/models/user_model.dart';
 
 abstract class AuthRepository {
+  // Future<bool> isAuthenticated();
   Future<Either<Failure, UserModel>> currentUser({required String userId});
   Future<Either<Failure, UserCredential>> signInByEmailAndPassword(
       {required String email, required String password});

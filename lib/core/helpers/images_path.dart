@@ -4,6 +4,7 @@ class ImagesPath {
   static String errorImagePath = "assets/images/error.jpg";
   static String listImagePath = "assets/images/list.jpg";
   static String bdmChockImagePath = "assets/images/bdm.jpg";
+  static String osmanImagePath = "assets/images/osman.jpg";
   // static String topDriveSideImagePath =
   //     "assets/images/chock_types/eccentricPinGuides.jpg";
   // static String topDriveSideImagePath =

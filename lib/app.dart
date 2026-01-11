@@ -25,20 +25,20 @@ class RollshopApp extends StatelessWidget {
           create: (context) => sl<AppCubit>()..loadThemeAndLocale(),
           // create: (context) => sl<AppCubit>(),
         ),
-        BlocProvider<AuthCubit>(
-          create: (context) => sl<AuthCubit>(),
-          // create: (context) => sl<AppCubit>(),
-        ),
-        BlocProvider<UserCubit>(
-          create: (context) => sl<UserCubit>(),
-          // create: (context) => sl<AppCubit>(),
-        ),
-        BlocProvider<ChockCubit>(
-          create: (context) => sl<ChockCubit>()..getAllChocks(),
-        ),
-        BlocProvider<PartsCubit>(
-          create: (context) => sl<PartsCubit>()..getAllParts(),
-        ),
+        // BlocProvider<AuthCubit>(
+        //   create: (context) => sl<AuthCubit>(),
+        //   // create: (context) => sl<AppCubit>(),
+        // ),
+        // BlocProvider<UserCubit>(
+        //   create: (context) => sl<UserCubit>(),
+        //   // create: (context) => sl<AppCubit>(),
+        // ),
+        // BlocProvider<ChockCubit>(
+        //   create: (context) => sl<ChockCubit>()..getAllChocks(),
+        // ),
+        // BlocProvider<PartsCubit>(
+        //   create: (context) => sl<PartsCubit>()..getAllParts(),
+        // ),
       ],
       child: BlocBuilder<AppCubit, AppState>(
         builder: (context, state) {
@@ -53,7 +53,7 @@ class RollshopApp extends StatelessWidget {
             child: MaterialApp(
               onGenerateRoute: appRouter.generateRoute,
               // initialRoute: Routes.mainScreenScreen,
-              initialRoute: Routes.loginScreen,
+              initialRoute: Routes.homeScreen,
               // routes: ,
               debugShowCheckedModeBanner: false,
               // home: AllChocksScreen(),

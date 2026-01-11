@@ -18,8 +18,8 @@ import 'package:rollshop/features/auth/cubit/auth_cubit.dart';
 import 'package:rollshop/features/auth/cubit/auth_state.dart';
 import 'package:rollshop/features/main/cubit/app_cubit.dart';
 
-class SigninScreen extends StatelessWidget {
-  SigninScreen({super.key});
+class LoginScreen extends StatelessWidget {
+  LoginScreen({super.key});
   final formKey = GlobalKey<FormState>();
 
   final emailController = TextEditingController();
@@ -53,7 +53,7 @@ class SigninScreen extends StatelessWidget {
             ),
             color: ColorsManager.mainTeal,
           );
-          context.pushReplacementNamed(Routes.mainScreenScreen);
+          context.pushReplacementNamed(Routes.homeScreen);
 
           // context.pushReplacementNamed(
           //   Routes.profileScreenRoute,
@@ -165,10 +165,10 @@ class SigninScreen extends StatelessWidget {
                                   englishText: "Sign in",
                                 ),
                                 onPressed: () async {
-                                  if (kDebugMode) {
-                                    emailController.text =
-                                        "mahmoudosm1999@gmail.com";
-                                    passwordController.text = "249042";
+                                  // if (kDebugMode) {
+                                    // emailController.text =
+                                    //     "mahmoudosm1999@gmail.com";
+                                    // passwordController.text = "140180";
                                     // final isUserApprove = await context
                                     //     .read<AuthCubit>()
                                     //     .isUserApprovedToSignin(
@@ -198,7 +198,7 @@ class SigninScreen extends StatelessWidget {
                                     //   );
                                     //   return;
                                     // }
-                                  }
+                                  // }
                                   if (!formKey.currentState!.validate()) {
                                   } else {
                                     context

@@ -27,7 +27,9 @@ Future<void> init() async {
   //! Auth Cubit
   // Remote
   sl.registerLazySingleton<AuthRepository>(
-    () => AuthRepositoryImpl(authRemote: sl()),
+    () => AuthRepositoryImpl(authRemote: sl(),
+    //  firebaseAuth: sl()
+     ),
   );
   sl.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSource());
   // Cubit
@@ -49,6 +51,8 @@ Future<void> init() async {
   );
 
   //! Features - chock-types
+  // Cubit
+  sl.registerLazySingleton<ChockCubit>(() => ChockCubit(chockRepo: sl()));
   // Remote
   sl.registerLazySingleton<ChockRemoteDataSource>(
     () => ChockRemoteDataSource(),
@@ -56,8 +60,6 @@ Future<void> init() async {
   sl.registerLazySingleton<ChockRepository>(
     () => ChockRepositoryImp(remote: sl()),
   );
-  // Cubit
-  sl.registerLazySingleton<ChockCubit>(() => ChockCubit(chockRepo: sl()));
 
   //! Features - parts
 
@@ -73,4 +75,10 @@ Future<void> init() async {
   sl.registerLazySingleton<PartsCubit>(() => PartsCubit(
         sl<PartsRepository>(),
       ));
+
+      // Register shared preferences instance
+      // sl.registerLazySingleton<SharedPreferences>(() async {
+      //   final prefs = await SharedPreferences.getInstance();
+      //   return prefs;
+      // } as FactoryFunc<SharedPreferences>);
 }

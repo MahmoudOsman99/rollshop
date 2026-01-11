@@ -1,6 +1,6 @@
 class Routes {
   //! Main Screen
-  static const String mainScreenScreen = '/';
+  static const String homeScreen = '/';
   // static const String mainScreenScreen = '/mainScreen';
   static const String onBoardingScreen = '/onBoardingScreen';
 

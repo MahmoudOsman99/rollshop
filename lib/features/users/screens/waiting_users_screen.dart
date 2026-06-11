@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
-import 'package:rollshop/core/router/app_router.dart';
 import 'package:rollshop/core/theme/colors.dart';
 import 'package:rollshop/features/users/cubit/user_cubit.dart';
 import 'package:rollshop/features/users/cubit/user_state.dart';
 import 'package:rollshop/features/users/data/models/user_model.dart';
+import 'package:rollshop/injection_container.dart';
 
 class WaitingUsersScreen extends StatelessWidget {
   const WaitingUsersScreen({

@@ -37,6 +37,7 @@ dependencies:
   flutter_svg:
   intl: 
   photo_view: 
+  go_router: 
   # adaptive_theme: 
   # persistent_bottom_nav_bar: any
 

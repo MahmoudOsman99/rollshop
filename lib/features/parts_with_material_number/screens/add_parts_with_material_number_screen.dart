@@ -11,12 +11,12 @@ import 'package:rollshop/components/widgets/snack_bar.dart';
 import 'package:rollshop/components/widgets/translated_text_widget.dart';
 import 'package:rollshop/core/helpers/extensions.dart';
 import 'package:rollshop/core/helpers/image_handler.dart';
-import 'package:rollshop/core/router/app_router.dart';
 import 'package:rollshop/core/theme/styles.dart';
 import 'package:rollshop/features/main/cubit/app_cubit.dart';
 import 'package:rollshop/features/parts_with_material_number/model/parts_with_material_number_model.dart';
 import 'package:rollshop/features/parts_with_material_number/cubit/parts_cubit.dart';
 import 'package:rollshop/features/parts_with_material_number/cubit/parts_state.dart';
+import 'package:rollshop/injection_container.dart';
 
 import '../../../components/widgets/custom_text_field.dart';
 import '../../../core/theme/colors.dart';
